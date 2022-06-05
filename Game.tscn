@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://Character.gd" type="Script" id=1]
 [ext_resource path="res://media/character.png" type="Texture" id=2]
-[ext_resource path="res://Vape.gd" type="Script" id=3]
-[ext_resource path="res://Directive.gd" type="Script" id=4]
+[ext_resource path="res://VapeLabel.gd" type="Script" id=3]
+[ext_resource path="res://VapeNeed.gd" type="Script" id=4]
 [ext_resource path="res://VapeDirective.gd" type="Script" id=5]
-[ext_resource path="res://Character.gd" type="Script" id=6]
 
 [sub_resource type="Theme" id=1]
 
@@ -14,11 +13,11 @@
 [node name="TileMap" type="TileMap" parent="."]
 format = 1
 
-[node name="Player" type="Position2D" parent="."]
+[node name="Character" type="Position2D" parent="."]
 position = Vector2( 32, 32 )
 script = ExtResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="Player"]
+[node name="Sprite" type="Sprite" parent="Character"]
 position = Vector2( 7, 0 )
 texture = ExtResource( 2 )
 
@@ -42,10 +41,11 @@ script = ExtResource( 3 )
 [node name="Scripts" type="Node" parent="."]
 
 [node name="Directives" type="Node" parent="Scripts"]
-script = ExtResource( 4 )
 
 [node name="VapeDirective" type="Node" parent="Scripts/Directives"]
 script = ExtResource( 5 )
 
-[node name="Character" type="Node" parent="Scripts"]
-script = ExtResource( 6 )
+[node name="Needs" type="Node" parent="Scripts"]
+
+[node name="VapeNeed" type="Node" parent="Scripts/Needs"]
+script = ExtResource( 4 )

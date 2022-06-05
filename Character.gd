@@ -1,33 +1,33 @@
 extends Node
 
-const Directive = preload("Directive.gd")
-const VapeDirective = preload("VapeDirective.gd")
+const VapeNeed = preload("res://VapeNeed.gd")
+const VapeDirective = preload("res://VapeDirective.gd")
 
-# Needs
-export(float) var vape = 0.0
+var needs = Array()
 
-# Increments
-export(float) var vapeIncrement = 1.0
-
-var directive : Directive = Directive.new();
+var directive = null;
 
 func _ready():
-	print("ready");
+	needs.append(VapeNeed.new());
 	directive = VapeDirective.new();
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	increment_needs();
+	increment_needs(delta);
 	handle_directives();
 
-func increment_needs():
-	vape += vapeIncrement * get_process_delta_time();
-	if vape > 100:
-		vape = 100;
+func increment_needs(delta):
+	for need in needs:
+		need.handle(self, delta);
+
+func get_need(type):
+	for need in needs:
+		if typeof(need) == type:
+			return need;
 
 func handle_directives():
 	if directive != null:
-		directive.handle();
+		directive.handle(self);
 	else:
 		select_next_directive();
 

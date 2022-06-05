@@ -10,18 +10,18 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
-"class": "Directive",
-"language": "GDScript",
-"path": "res://Directive.gd"
-}, {
-"base": "Directive",
 "class": "VapeDirective",
 "language": "GDScript",
 "path": "res://VapeDirective.gd"
+}, {
+"base": "Node",
+"class": "VapeNeed",
+"language": "GDScript",
+"path": "res://VapeNeed.gd"
 } ]
 _global_script_class_icons={
-"Directive": "",
-"VapeDirective": ""
+"VapeDirective": "",
+"VapeNeed": ""
 }
 
 [application]
