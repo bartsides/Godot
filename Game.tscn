@@ -1,12 +1,33 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Character.gd" type="Script" id=1]
 [ext_resource path="res://media/character.png" type="Texture" id=2]
 [ext_resource path="res://VapeLabel.gd" type="Script" id=3]
 [ext_resource path="res://VapeNeed.gd" type="Script" id=4]
 [ext_resource path="res://VapeDirective.gd" type="Script" id=5]
+[ext_resource path="res://media/Frames/Vape/Vape1.png" type="Texture" id=6]
+[ext_resource path="res://media/Frames/Clouds/Cloud4.png" type="Texture" id=7]
+[ext_resource path="res://media/Frames/Clouds/Cloud3.png" type="Texture" id=8]
+[ext_resource path="res://media/Frames/Clouds/Cloud.png" type="Texture" id=9]
+[ext_resource path="res://media/Frames/Vape/Vape0.png" type="Texture" id=10]
 
 [sub_resource type="Theme" id=1]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 9 ), ExtResource( 8 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 10 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Game" type="Node2D"]
 
@@ -49,3 +70,13 @@ script = ExtResource( 5 )
 
 [node name="VapeNeed" type="Node" parent="Scripts/Needs"]
 script = ExtResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 163.331, 0.593933 )
+frames = SubResource( 2 )
+playing = true
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
+position = Vector2( 166.301, 62.0659 )
+frames = SubResource( 3 )
+playing = true
