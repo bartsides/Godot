@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Vape0.png-bb3913fae4b7450976725b4c553e07e7.stex"
+path="res://.import/Vape3.png-a7a998ae8bc5f1ed8269737b087aadc9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://media/Frames/Vape/Vape0.png"
-dest_files=[ "res://.import/Vape0.png-bb3913fae4b7450976725b4c553e07e7.stex" ]
+source_file="res://media/Vape/Vape3.png"
+dest_files=[ "res://.import/Vape3.png-a7a998ae8bc5f1ed8269737b087aadc9.stex" ]
 
 [params]
 

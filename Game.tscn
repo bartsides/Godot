@@ -1,15 +1,19 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Character.gd" type="Script" id=1]
 [ext_resource path="res://media/character.png" type="Texture" id=2]
 [ext_resource path="res://VapeLabel.gd" type="Script" id=3]
 [ext_resource path="res://VapeNeed.gd" type="Script" id=4]
 [ext_resource path="res://VapeDirective.gd" type="Script" id=5]
-[ext_resource path="res://media/Frames/Vape/Vape1.png" type="Texture" id=6]
+[ext_resource path="res://media/Vape/Vape1.png" type="Texture" id=6]
 [ext_resource path="res://media/Frames/Clouds/Cloud4.png" type="Texture" id=7]
 [ext_resource path="res://media/Frames/Clouds/Cloud3.png" type="Texture" id=8]
 [ext_resource path="res://media/Frames/Clouds/Cloud.png" type="Texture" id=9]
-[ext_resource path="res://media/Frames/Vape/Vape0.png" type="Texture" id=10]
+[ext_resource path="res://media/Vape/Vape0.png" type="Texture" id=10]
+[ext_resource path="res://media/Frames/Man/Man1.png" type="Texture" id=11]
+[ext_resource path="res://media/Frames/Man/Man2.png" type="Texture" id=12]
+[ext_resource path="res://media/Frames/Man/Man0.png" type="Texture" id=13]
+[ext_resource path="res://media/Frames/Man/Man3.png" type="Texture" id=14]
 
 [sub_resource type="Theme" id=1]
 
@@ -24,6 +28,14 @@ animations = [ {
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 10 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 13 ), ExtResource( 13 ), ExtResource( 11 ), ExtResource( 11 ), ExtResource( 14 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -79,4 +91,10 @@ playing = true
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 position = Vector2( 166.301, 62.0659 )
 frames = SubResource( 3 )
+playing = true
+
+[node name="AnimatedSprite3" type="AnimatedSprite" parent="."]
+position = Vector2( 0.353165, 0 )
+frames = SubResource( 4 )
+frame = 2
 playing = true

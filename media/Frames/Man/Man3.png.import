@@ -2,19 +2,19 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Vape3.png-cb219a21c378794bd3b7d86a0868a6a9.stex"
+path="res://.import/Man3.png-5d8665709662318f8a145296a2a02542.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://media/Frames/Vape/Vape3.png"
-dest_files=[ "res://.import/Vape3.png-cb219a21c378794bd3b7d86a0868a6a9.stex" ]
+source_file="res://media/Frames/Man/Man3.png"
+dest_files=[ "res://.import/Man3.png-5d8665709662318f8a145296a2a02542.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=3
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
@@ -23,7 +23,7 @@ flags/repeat=0
 flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=2
+flags/srgb=0
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
