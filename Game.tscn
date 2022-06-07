@@ -1,21 +1,38 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scripts/Character.gd" type="Script" id=1]
 [ext_resource path="res://media/Frames/Man/Man0.png" type="Texture" id=2]
 [ext_resource path="res://scripts/VapeLabel.gd" type="Script" id=3]
 [ext_resource path="res://scripts/VapeNeed.gd" type="Script" id=4]
 [ext_resource path="res://scripts/VapeDirective.gd" type="Script" id=5]
-[ext_resource path="res://media/Vape/Vape1.png" type="Texture" id=6]
+[ext_resource path="res://media/Frames/Vape/Vape1.png" type="Texture" id=6]
 [ext_resource path="res://media/Frames/Clouds/Cloud4.png" type="Texture" id=7]
 [ext_resource path="res://media/Frames/Clouds/Cloud3.png" type="Texture" id=8]
 [ext_resource path="res://media/Frames/Clouds/Cloud.png" type="Texture" id=9]
-[ext_resource path="res://media/Vape/Vape0.png" type="Texture" id=10]
+[ext_resource path="res://media/Frames/Vape/Vape0.png" type="Texture" id=10]
 [ext_resource path="res://scripts/TileMap.gd" type="Script" id=11]
 [ext_resource path="res://TileSet.tres" type="TileSet" id=12]
 [ext_resource path="res://scripts/Directive.gd" type="Script" id=13]
 [ext_resource path="res://scripts/Need.gd" type="Script" id=14]
 [ext_resource path="res://media/Frames/Man/Man2.png" type="Texture" id=15]
 [ext_resource path="res://media/Frames/Man/Man3.png" type="Texture" id=16]
+[ext_resource path="res://media/Frames/UFO/Frame5.svg" type="Texture" id=17]
+[ext_resource path="res://media/Frames/Skull/Frame0.svg" type="Texture" id=18]
+[ext_resource path="res://media/Frames/Skull/Frame6.svg" type="Texture" id=19]
+[ext_resource path="res://media/Frames/Skull/Frame8.svg" type="Texture" id=20]
+[ext_resource path="res://media/Frames/UFO/Frame7.svg" type="Texture" id=21]
+[ext_resource path="res://media/Frames/UFO/Frame3.svg" type="Texture" id=22]
+[ext_resource path="res://media/Frames/UFO/Frame1.svg" type="Texture" id=23]
+[ext_resource path="res://media/Frames/UFO/Frame6.svg" type="Texture" id=24]
+[ext_resource path="res://media/Frames/UFO/Frame4.svg" type="Texture" id=25]
+[ext_resource path="res://media/Frames/Skull/Frame3.svg" type="Texture" id=26]
+[ext_resource path="res://media/Frames/Skull/Frame5.svg" type="Texture" id=27]
+[ext_resource path="res://media/Frames/Skull/Frame4.svg" type="Texture" id=28]
+[ext_resource path="res://media/Frames/Skull/Frame1.svg" type="Texture" id=29]
+[ext_resource path="res://media/Frames/Skull/Frame7.svg" type="Texture" id=30]
+[ext_resource path="res://media/Frames/Skull/Frame2.svg" type="Texture" id=31]
+[ext_resource path="res://media/Frames/UFO/Frame2.svg" type="Texture" id=32]
+[ext_resource path="res://media/Frames/UFO/Frame0.svg" type="Texture" id=33]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -43,6 +60,22 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 33 ), ExtResource( 23 ), ExtResource( 22 ), ExtResource( 32 ), ExtResource( 25 ), ExtResource( 17 ), ExtResource( 24 ), ExtResource( 21 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 17 ), ExtResource( 17 ), ExtResource( 21 ), ExtResource( 21 ), ExtResource( 24 ), ExtResource( 21 ), ExtResource( 24 ), ExtResource( 21 ), ExtResource( 24 ), ExtResource( 24 ), ExtResource( 21 ), ExtResource( 24 ), ExtResource( 24 ), ExtResource( 21 ), ExtResource( 24 ), ExtResource( 21 ), ExtResource( 17 ), ExtResource( 25 ), ExtResource( 22 ), ExtResource( 32 ), ExtResource( 23 ), ExtResource( 32 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ ExtResource( 18 ), ExtResource( 29 ), ExtResource( 31 ), ExtResource( 31 ), ExtResource( 26 ), ExtResource( 28 ), ExtResource( 19 ), ExtResource( 26 ), ExtResource( 28 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 31 ), ExtResource( 27 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource( 30 ), ExtResource( 30 ), ExtResource( 30 ), ExtResource( 20 ), ExtResource( 27 ), ExtResource( 27 ), ExtResource( 26 ), ExtResource( 19 ) ],
+"loop": true,
+"name": "default",
+"speed": 12.0
+} ]
+
 [node name="Game" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -58,6 +91,7 @@ script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Character"]
 frames = SubResource( 1 )
+frame = 3
 playing = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -94,10 +128,22 @@ script = ExtResource( 4 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 328, -129 )
 frames = SubResource( 3 )
-frame = 2
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 position = Vector2( 318, -48 )
 frames = SubResource( 4 )
+frame = 1
+playing = true
+
+[node name="LargerSprites (128px)" type="AnimatedSprite" parent="."]
+position = Vector2( 472.667, -60.6667 )
+frames = SubResource( 5 )
+frame = 6
+playing = true
+
+[node name="Skull(128px)" type="AnimatedSprite" parent="."]
+position = Vector2( 187.878, -91.8202 )
+frames = SubResource( 6 )
+frame = 16
 playing = true
