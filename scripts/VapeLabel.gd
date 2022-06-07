@@ -1,6 +1,6 @@
 extends Label
 
-const VapeNeed = preload("res://VapeNeed.gd")
+const VapeNeed = preload("res://scripts/VapeNeed.gd")
 
 var vape = 0.0;
 
@@ -9,7 +9,7 @@ func _ready():
 	get_vape();
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	get_vape();
 
 func get_vape():
