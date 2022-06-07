@@ -146,11 +146,11 @@ playing = true
 [node name="LargerSprites (128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 472.667, -60.6667 )
 frames = SubResource( 5 )
-frame = 22
+frame = 2
 playing = true
 
 [node name="Skull(128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 187.878, -91.8202 )
 frames = SubResource( 6 )
-frame = 6
+frame = 13
 playing = true

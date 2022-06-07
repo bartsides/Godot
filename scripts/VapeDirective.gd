@@ -1,21 +1,26 @@
 extends Directive
-
 class_name VapeDirective
 
-func _init():
-	name = "Vape";
+var cloud_shown = false
 
-func handle(character : Character):
-	if (character.get_state() == character.States.FOLLOW):
-		return
-	var tilemap : TileMap = character.get_parent().get_node("TileMap")
-	var cells : Array = tilemap.get_used_cells_by_id(1)
-	if cells.size() < 1:
-		return
-	# TODO: find closest cell based on path length
-	var cell = cells.front()
-	
-	var pointPath = tilemap.get_point_path(Vector2(0,0), cell)
-	if pointPath && pointPath.size() > 1:
-		var dest = pointPath[-2]
-		character.set_target_position(tilemap.get_cell_pos(Vector2(dest.x, dest.y)))
+func _init(_need):
+	need = _need
+	name = "Vape"
+
+func handle(character : Character, delta):
+	var States = character.States
+	match character.get_state():
+		States.FOLLOW:
+			return
+		States.IDLE:
+			character.go_to_closest(1)
+		States.INTERACTING:
+			if not cloud_shown:
+				# display cloud
+				cloud_shown = true
+				pass
+				
+			need.value = max(need.value - 10 * delta, 0)
+			if need.value < 1:
+				character.clear_directive()
+			

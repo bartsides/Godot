@@ -1,32 +1,31 @@
 extends Node2D
-
 class_name Character
 
 var VapeNeed = load("res://scripts/VapeNeed.gd")
 var VapeDirective = load("res://scripts/VapeDirective.gd")
 
 ###### Movement ######
-enum States { IDLE, FOLLOW }
+enum States { IDLE, FOLLOW, INTERACTING }
 const MASS = 5.0
 const ARRIVE_DISTANCE = 10.0
 export(float) var speed = 200.0
-var _state = States.IDLE
 var _path = []
 var _target_point_world = Vector2()
 var _target_position = Vector2()
 var _velocity = Vector2()
 
-var needs = Array()
-var directive = null
+var _state = States.IDLE
+func get_state(): return _state
 
-func _ready():
-	needs.append(VapeNeed.new())
-	directive = VapeDirective.new()
+var needs = [ VapeNeed.new() ]
+var moving_to_directive = false
+
+var directive = null
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	increment_needs(delta)
-	handle_directives()
+	handle_directives(delta)
 	
 	if _state != States.FOLLOW:
 		return
@@ -34,16 +33,20 @@ func _process(delta):
 	if _arrived_to_next_point:
 		_path.remove(0)
 		if len(_path) == 0:
-			_change_state(States.IDLE)
-			print("clear")
+			if moving_to_directive:
+				_change_state(States.INTERACTING)
+			else:
+				_change_state(States.IDLE)
+				moving_to_directive = false
 			get_parent().get_node("TileMap").clear_previous_path_drawing()
 			return
 		_target_point_world = _path[0]
 
 func _unhandled_input(event):
 	if event.is_action_pressed("click"):
-		var global_mouse_pos = get_global_mouse_position()
-		set_target_position(global_mouse_pos)
+		clear_directive()
+		# TODO: Find nearest valid neighbor if click is an obstacle
+		set_target_position(get_global_mouse_position())
 		
 func _move_to(world_position):
 	var desired_velocity = (world_position - position).normalized() * speed
@@ -73,23 +76,51 @@ func get_need(type):
 		if typeof(need) == type:
 			return need;
 
-func handle_directives():
+func handle_directives(delta):
 	if directive != null:
-		directive.handle(self)
+		directive.handle(self, delta)
 	else:
 		set_next_directive()
 
-func set_directive(next_directive):
-	directive = next_directive
-
 func set_next_directive():
-	# directive ranking logic here
-	pass
+	# rank needs
+	var next_need
+	for need in needs:
+		if need.value > need.minimum && (not next_need || need.value > next_need.value):
+			next_need = need
+	if next_need:
+		directive = next_need.get_directive()
 
+func clear_directive():
+	directive = null
+	moving_to_directive = false
+	
 func set_target_position(position : Vector2):
 	_target_position = position
 	_change_state(States.FOLLOW)
 
-func get_state():
-	return _state
+func go_to_closest(id):
+	var tilemap : TileMap = get_parent().get_node("TileMap")
+	var cells : Array = tilemap.get_used_cells_by_id(id)
+	if cells.size() < 1:
+		return
 	
+	var char_pos = tilemap.world_to_map(tilemap.to_local(global_position))
+	var closest_cell
+	var shortest_path = []
+	
+	for cell in cells:
+		var point_path = tilemap.get_point_path(char_pos, cell)
+		if point_path && (not shortest_path || shortest_path.size() > point_path.size()):
+			closest_cell = cell
+			shortest_path = point_path
+	
+	if shortest_path.size() > 0:
+		var dest = shortest_path[-1]
+		if Vector2(dest.x, dest.y) == closest_cell:
+			dest = shortest_path[-2]
+		else:
+			dest = shortest_path[-1]
+		
+		set_target_position(tilemap.get_cell_pos(Vector2(dest.x, dest.y)))
+		moving_to_directive = true
