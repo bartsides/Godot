@@ -91,7 +91,7 @@ script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Character"]
 frames = SubResource( 1 )
-frame = 3
+frame = 1
 playing = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -139,11 +139,11 @@ playing = true
 [node name="LargerSprites (128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 472.667, -60.6667 )
 frames = SubResource( 5 )
-frame = 6
+frame = 4
 playing = true
 
 [node name="Skull(128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 187.878, -91.8202 )
 frames = SubResource( 6 )
-frame = 16
+frame = 22
 playing = true
