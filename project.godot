@@ -9,17 +9,35 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
-"class": "VapeDirective",
+"base": "Node2D",
+"class": "Character",
 "language": "GDScript",
-"path": "res://VapeDirective.gd"
+"path": "res://scripts/Character.gd"
 }, {
 "base": "Node",
+"class": "Directive",
+"language": "GDScript",
+"path": "res://scripts/Directive.gd"
+}, {
+"base": "Node",
+"class": "Need",
+"language": "GDScript",
+"path": "res://scripts/Need.gd"
+}, {
+"base": "Directive",
+"class": "VapeDirective",
+"language": "GDScript",
+"path": "res://scripts/VapeDirective.gd"
+}, {
+"base": "Need",
 "class": "VapeNeed",
 "language": "GDScript",
-"path": "res://VapeNeed.gd"
+"path": "res://scripts/VapeNeed.gd"
 } ]
 _global_script_class_icons={
+"Character": "",
+"Directive": "",
+"Need": "",
 "VapeDirective": "",
 "VapeNeed": ""
 }
@@ -29,6 +47,14 @@ _global_script_class_icons={
 config/name="Not Rimworld"
 run/main_scene="res://Game.tscn"
 config/icon="res://icon.png"
+
+[input]
+
+click={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
 
 [physics]
 
