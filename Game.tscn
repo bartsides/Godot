@@ -102,6 +102,9 @@ margin_left = 965.0
 margin_top = 585.0
 margin_right = 1022.0
 margin_bottom = 603.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Vape" type="Label" parent="Panel"]
 margin_top = 1.0
@@ -110,6 +113,9 @@ margin_bottom = 32.0
 theme = SubResource( 2 )
 text = "Vape "
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Scripts" type="Node" parent="."]
 
@@ -128,6 +134,7 @@ script = ExtResource( 4 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 328, -129 )
 frames = SubResource( 3 )
+frame = 1
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
@@ -139,11 +146,11 @@ playing = true
 [node name="LargerSprites (128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 472.667, -60.6667 )
 frames = SubResource( 5 )
-frame = 6
+frame = 22
 playing = true
 
 [node name="Skull(128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 187.878, -91.8202 )
 frames = SubResource( 6 )
-frame = 16
+frame = 6
 playing = true
