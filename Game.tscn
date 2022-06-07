@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://scripts/Character.gd" type="Script" id=1]
 [ext_resource path="res://media/Frames/Man/Man0.png" type="Texture" id=2]
@@ -33,6 +33,7 @@
 [ext_resource path="res://media/Frames/Skull/Frame2.svg" type="Texture" id=31]
 [ext_resource path="res://media/Frames/UFO/Frame2.svg" type="Texture" id=32]
 [ext_resource path="res://media/Frames/UFO/Frame0.svg" type="Texture" id=33]
+[ext_resource path="res://media/Tilemaps/64px Autotilekey.png" type="Texture" id=34]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -76,6 +77,77 @@ animations = [ {
 "speed": 12.0
 } ]
 
+[sub_resource type="TileSet" id=7]
+0/name = "64px Autotilekey.png 0"
+0/texture = ExtResource( 34 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 256, 256 )
+0/tile_mode = 1
+0/autotile/bitmask_mode = 1
+0/autotile/bitmask_flags = [ Vector2( 0, 0 ), 144, Vector2( 0, 1 ), 146, Vector2( 0, 2 ), 18, Vector2( 0, 3 ), 16, Vector2( 1, 0 ), 16777392, Vector2( 1, 1 ), 17039538, Vector2( 1, 2 ), 262194, Vector2( 1, 3 ), 48, Vector2( 2, 0 ), 20971704, Vector2( 2, 1 ), 21299386, Vector2( 2, 2 ), 327738, Vector2( 2, 3 ), 56, Vector2( 3, 0 ), 4194456, Vector2( 3, 1 ), 4259994, Vector2( 3, 2 ), 65562, Vector2( 3, 3 ), 24 ]
+0/autotile/icon_coordinate = Vector2( 0, 0 )
+0/autotile/tile_size = Vector2( 64, 64 )
+0/autotile/spacing = 0
+0/autotile/occluder_map = [  ]
+0/autotile/navpoly_map = [  ]
+0/autotile/priority_map = [  ]
+0/autotile/z_index_map = [  ]
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "64px Autotilekey.png 1"
+1/texture = ExtResource( 34 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 0, 0, 256, 256 )
+1/tile_mode = 1
+1/autotile/bitmask_mode = 1
+1/autotile/bitmask_flags = [ Vector2( 0, 0 ), 144, Vector2( 0, 1 ), 146, Vector2( 0, 2 ), 18, Vector2( 0, 3 ), 16, Vector2( 1, 0 ), 16777392, Vector2( 1, 1 ), 17039538, Vector2( 1, 2 ), 262194, Vector2( 1, 3 ), 48, Vector2( 2, 0 ), 20971576, Vector2( 2, 1 ), 21299256, Vector2( 2, 2 ), 327736, Vector2( 2, 3 ), 56, Vector2( 3, 0 ), 4194456, Vector2( 3, 1 ), 4259994, Vector2( 3, 2 ), 65562, Vector2( 3, 3 ), 24 ]
+1/autotile/icon_coordinate = Vector2( 0, 0 )
+1/autotile/tile_size = Vector2( 64, 64 )
+1/autotile/spacing = 0
+1/autotile/occluder_map = [  ]
+1/autotile/navpoly_map = [  ]
+1/autotile/priority_map = [  ]
+1/autotile/z_index_map = [  ]
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+2/name = "64px Autotilekey.png 2"
+2/texture = ExtResource( 34 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 0, 0, 768, 256 )
+2/tile_mode = 1
+2/autotile/bitmask_mode = 1
+2/autotile/bitmask_flags = [ Vector2( 0, 0 ), 144, Vector2( 0, 1 ), 146, Vector2( 0, 2 ), 18, Vector2( 0, 3 ), 16, Vector2( 1, 0 ), 16777392, Vector2( 1, 1 ), 17039538, Vector2( 1, 2 ), 262194, Vector2( 1, 3 ), 48, Vector2( 2, 0 ), 20971704, Vector2( 2, 1 ), 21299386, Vector2( 2, 2 ), 327738, Vector2( 2, 3 ), 56, Vector2( 3, 0 ), 4194456, Vector2( 3, 1 ), 4259994, Vector2( 3, 2 ), 65562, Vector2( 3, 3 ), 24, Vector2( 4, 0 ), 21233851, Vector2( 4, 1 ), 4522418, Vector2( 4, 2 ), 17301686, Vector2( 4, 3 ), 17105146, Vector2( 5, 0 ), 4653496, Vector2( 5, 1 ), 510, Vector2( 5, 2 ), 4194751, Vector2( 5, 3 ), 29425726, Vector2( 6, 0 ), 17236216, Vector2( 6, 1 ), 262651, Vector2( 6, 2 ), 16777471, Vector2( 6, 3 ), 29622331, Vector2( 7, 0 ), 21037246, Vector2( 7, 1 ), 19202266, Vector2( 7, 2 ), 23330971, Vector2( 7, 3 ), 4522426, Vector2( 8, 0 ), 432, Vector2( 8, 1 ), 438, Vector2( 8, 2 ), 447, Vector2( 8, 3 ), 54, Vector2( 9, 0 ), 506, Vector2( 9, 1 ), 16777470, Vector2( 9, 2 ), 511, Vector2( 9, 3 ), 63, Vector2( 10, 0 ), 504, Vector2( 10, 2 ), 262587, Vector2( 10, 3 ), 191, Vector2( 11, 0 ), 216, Vector2( 11, 1 ), 251, Vector2( 11, 2 ), 219, Vector2( 11, 3 ), 27 ]
+2/autotile/icon_coordinate = Vector2( 0, 0 )
+2/autotile/tile_size = Vector2( 64, 64 )
+2/autotile/spacing = 0
+2/autotile/occluder_map = [  ]
+2/autotile/navpoly_map = [  ]
+2/autotile/priority_map = [  ]
+2/autotile/z_index_map = [  ]
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape_one_way = false
+2/shape_one_way_margin = 0.0
+2/shapes = [  ]
+2/z_index = 0
+
 [node name="Game" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -91,7 +163,6 @@ script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Character"]
 frames = SubResource( 1 )
-frame = 1
 playing = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -134,23 +205,27 @@ script = ExtResource( 4 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 328, -129 )
 frames = SubResource( 3 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 position = Vector2( 318, -48 )
 frames = SubResource( 4 )
-frame = 1
 playing = true
 
 [node name="LargerSprites (128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 472.667, -60.6667 )
 frames = SubResource( 5 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="Skull(128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 187.878, -91.8202 )
 frames = SubResource( 6 )
-frame = 13
+frame = 8
 playing = true
+
+[node name="TileMap2" type="TileMap" parent="."]
+tile_set = SubResource( 7 )
+format = 1
+tile_data = PoolIntArray( -262133, 2, 8, -262132, 2, 2, -262131, 2, 6, -262130, 2, 196610, -262129, 2, 196610, -262128, 2, 2, -262127, 2, 6, -262126, 2, 196610, -262125, 2, 196610, -262124, 2, 196611, -262121, 2, 0, -196597, 2, 131073, -196596, 2, 196617, -196595, 2, 131075, -196592, 2, 196616, -196591, 2, 131079, -196585, 2, 65536, -131055, 2, 65540, -131054, 2, 2, -131053, 2, 11, -131049, 2, 65536, -65519, 2, 131076, -65518, 2, 196613, -65517, 2, 196619, -65513, 2, 131072, 9, 0, 196608, 17, 2, 65536, 65541, 0, 0, 65543, 0, 0, 65553, 2, 131073, 65554, 2, 196610, 65555, 2, 196611, 65557, 2, 0, 65559, 2, 0, 131077, 0, 65537, 131078, 0, 196610, 131079, 0, 65539, 131081, 0, 0, 131093, 2, 131072, 131095, 2, 65536, 196613, 0, 131072, 196615, 0, 131072, 196617, 0, 131072, 196627, 2, 0, 196631, 2, 65536, 262162, 2, 8, 262163, 2, 65543, 262165, 2, 8, 262166, 2, 6, 262167, 2, 65539, 327698, 2, 196616, 327699, 2, 5, 327700, 2, 2, 327701, 2, 131074, 327702, 2, 196614, 327703, 2, 196619, 393235, 2, 131073, 393236, 2, 196619, 524290, 0, 1, 524291, 0, 196610, 524292, 0, 196610, 524293, 0, 3, 589826, 0, 65536, 589829, 0, 65536, 589835, 0, 196609, 589836, 0, 2, 589837, 0, 196610, 589838, 0, 3, 589841, 0, 196609, 589842, 0, 2, 589843, 0, 196611, 655362, 0, 65536, 655365, 0, 65536, 655372, 0, 65536, 655374, 0, 65536, 655378, 0, 65536, 720898, 0, 65537, 720899, 0, 196610, 720900, 0, 196610, 720901, 0, 65539, 720903, 0, 1, 720904, 0, 196610, 720905, 0, 196610, 720906, 0, 2, 720907, 0, 196610, 720908, 0, 65538, 720909, 0, 196610, 720910, 0, 65539, 720914, 0, 65536, 786434, 0, 65536, 786437, 0, 65536, 786439, 0, 65536, 786442, 0, 65536, 786444, 0, 65536, 786446, 0, 65536, 786450, 0, 65536, 851970, 0, 65536, 851973, 0, 65536, 851975, 0, 65537, 851976, 0, 196610, 851977, 0, 196610, 851978, 0, 65539, 851980, 0, 65536, 851982, 0, 65536, 851986, 0, 65536, 917506, 0, 131073, 917507, 0, 196610, 917508, 0, 196610, 917509, 0, 131075, 917511, 0, 131072, 917514, 0, 131072, 917516, 0, 131072, 917518, 0, 131073, 917519, 0, 196611, 917522, 0, 131072 )
