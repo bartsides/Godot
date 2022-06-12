@@ -16,7 +16,7 @@ func handle(character : Character, delta):
 			character.go_to_closest(1)
 		States.INTERACTING:
 			if not cloud_shown:
-				# display cloud
+				# TODO: display cloud
 				cloud_shown = true
 				pass
 				

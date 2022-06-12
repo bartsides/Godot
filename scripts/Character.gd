@@ -38,15 +38,21 @@ func _process(delta):
 			else:
 				_change_state(States.IDLE)
 				moving_to_directive = false
-			get_parent().get_node("TileMap").clear_previous_path_drawing()
+			get_tilemap().clear_previous_path_drawing()
 			return
 		_target_point_world = _path[0]
 
 func _unhandled_input(event):
 	if event.is_action_pressed("click"):
-		clear_directive()
-		# TODO: Find nearest valid neighbor if click is an obstacle
-		set_target_position(get_global_mouse_position())
+		var tilemap : TileMap = get_tilemap();
+		var position = tilemap.get_safe_position(
+			tilemap.world_to_map(tilemap.to_local(global_position)),
+			tilemap.world_to_map(tilemap.to_local(get_global_mouse_position()))
+		)
+		
+		if position:
+			clear_directive()
+			set_target_position(tilemap.map_to_world(position))
 		
 func _move_to(world_position):
 	var desired_velocity = (world_position - position).normalized() * speed
@@ -58,7 +64,7 @@ func _move_to(world_position):
 
 func _change_state(new_state):
 	if new_state == States.FOLLOW:
-		_path = get_parent().get_node("TileMap").get_astar_path(position, _target_position)
+		_path = get_tilemap().get_astar_path(position, _target_position)
 		if not _path or len(_path) == 1:
 			_change_state(States.IDLE)
 			return
@@ -100,7 +106,7 @@ func set_target_position(position : Vector2):
 	_change_state(States.FOLLOW)
 
 func go_to_closest(id):
-	var tilemap : TileMap = get_parent().get_node("TileMap")
+	var tilemap : TileMap = get_tilemap()
 	var cells : Array = tilemap.get_used_cells_by_id(id)
 	if cells.size() < 1:
 		return
@@ -124,3 +130,6 @@ func go_to_closest(id):
 		
 		set_target_position(tilemap.get_cell_pos(Vector2(dest.x, dest.y)))
 		moving_to_directive = true
+
+func get_tilemap():
+	return get_parent().get_node("WorldMap")
