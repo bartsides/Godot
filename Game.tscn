@@ -283,78 +283,78 @@ animations = [ {
 [sub_resource type="AtlasTexture" id=22]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 63, 0, 63, 60 )
+region = Rect2( 252, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=23]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 126, 0, 63, 60 )
+region = Rect2( 315, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=24]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 252, 0, 63, 60 )
+region = Rect2( 378, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=25]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 315, 0, 63, 60 )
+region = Rect2( 441, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=26]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 378, 0, 63, 60 )
+region = Rect2( 567, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=27]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 441, 0, 63, 60 )
+region = Rect2( 630, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=28]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 252, 0, 63, 60 )
+region = Rect2( 63, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=29]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 315, 0, 63, 60 )
+region = Rect2( 126, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=30]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 378, 0, 63, 60 )
+region = Rect2( 252, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=31]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 441, 0, 63, 60 )
+region = Rect2( 315, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=32]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 567, 0, 63, 60 )
+region = Rect2( 378, 0, 63, 60 )
 
 [sub_resource type="AtlasTexture" id=33]
 flags = 4
 atlas = ExtResource( 37 )
-region = Rect2( 630, 0, 63, 60 )
+region = Rect2( 441, 0, 63, 60 )
 
 [sub_resource type="SpriteFrames" id=34]
 animations = [ {
-"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 27 ) ],
-"loop": true,
-"name": "Ignite",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
+"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ) ],
 "loop": true,
 "name": "StayLit ",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 32 ), SubResource( 33 ) ],
+"frames": [ SubResource( 26 ), SubResource( 27 ) ],
 "loop": true,
 "name": "Full Fire",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 33 ) ],
+"loop": true,
+"name": "Ignite",
 "speed": 5.0
 } ]
 
@@ -547,13 +547,13 @@ playing = true
 [node name="LargerSprites (128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 472.667, -60.6667 )
 frames = SubResource( 5 )
-frame = 11
+frame = 27
 playing = true
 
 [node name="Skull(128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 224.702, -296.133 )
 frames = SubResource( 6 )
-frame = 12
+frame = 15
 playing = true
 
 [node name="TileMap2" type="TileMap" parent="."]
@@ -599,7 +599,7 @@ playing = true
 position = Vector2( -351.587, -531.616 )
 scale = Vector2( 4.94491, 4.00302 )
 frames = SubResource( 45 )
-frame = 1
+frame = 6
 playing = true
 flip_v = true
 
@@ -607,23 +607,23 @@ flip_v = true
 material = SubResource( 47 )
 position = Vector2( -352.611, -568.514 )
 frames = SubResource( 48 )
-frame = 2
+frame = 3
 playing = true
 
 [node name="Water" type="AnimatedSprite" parent="."]
 position = Vector2( 576.775, -828.825 )
 frames = SubResource( 49 )
-frame = 5
+frame = 6
 playing = true
 
 [node name="Exclamation" type="AnimatedSprite" parent="."]
 position = Vector2( -263.706, -648.574 )
 frames = SubResource( 50 )
-frame = 12
+frame = 6
 playing = true
 
 [node name="AnimatedSprite4" type="AnimatedSprite" parent="."]
 position = Vector2( -289.673, -423.521 )
 frames = SubResource( 51 )
-frame = 2
+frame = 4
 playing = true
