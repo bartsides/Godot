@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Not Rimworld", "Not Rimworld.csproj", "{DED5A6EC-C9CD-49AC-A0F3-E05951A63AEB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DED5A6EC-C9CD-49AC-A0F3-E05951A63AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DED5A6EC-C9CD-49AC-A0F3-E05951A63AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DED5A6EC-C9CD-49AC-A0F3-E05951A63AEB}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{DED5A6EC-C9CD-49AC-A0F3-E05951A63AEB}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{DED5A6EC-C9CD-49AC-A0F3-E05951A63AEB}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{DED5A6EC-C9CD-49AC-A0F3-E05951A63AEB}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal

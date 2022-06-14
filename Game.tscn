@@ -1,19 +1,14 @@
-[gd_scene load_steps=133 format=2]
+[gd_scene load_steps=128 format=2]
 
-[ext_resource path="res://scripts/Character.gd" type="Script" id=1]
+[ext_resource path="res://Character.cs" type="Script" id=1]
 [ext_resource path="res://media/Frames/Man/Man0.png" type="Texture" id=2]
-[ext_resource path="res://scripts/VapeLabel.gd" type="Script" id=3]
-[ext_resource path="res://scripts/VapeNeed.gd" type="Script" id=4]
-[ext_resource path="res://scripts/VapeDirective.gd" type="Script" id=5]
+[ext_resource path="res://TileMap.cs" type="Script" id=3]
 [ext_resource path="res://media/Frames/Vape/Vape1.png" type="Texture" id=6]
 [ext_resource path="res://media/Frames/Clouds/Cloud4.png" type="Texture" id=7]
 [ext_resource path="res://media/Frames/Clouds/Cloud3.png" type="Texture" id=8]
 [ext_resource path="res://media/Frames/Clouds/Cloud.png" type="Texture" id=9]
 [ext_resource path="res://media/Frames/Vape/Vape0.png" type="Texture" id=10]
-[ext_resource path="res://scripts/TileMap.gd" type="Script" id=11]
 [ext_resource path="res://TileSet.tres" type="TileSet" id=12]
-[ext_resource path="res://scripts/Directive.gd" type="Script" id=13]
-[ext_resource path="res://scripts/Need.gd" type="Script" id=14]
 [ext_resource path="res://media/Frames/Man/Man2.png" type="Texture" id=15]
 [ext_resource path="res://media/Frames/Man/Man3.png" type="Texture" id=16]
 [ext_resource path="res://media/Frames/UFO/Frame5.svg" type="Texture" id=17]
@@ -301,6 +296,16 @@ flags = 4
 atlas = ExtResource( 37 )
 region = Rect2( 441, 0, 63, 60 )
 
+[sub_resource type="AtlasTexture" id=32]
+flags = 4
+atlas = ExtResource( 37 )
+region = Rect2( 567, 0, 63, 60 )
+
+[sub_resource type="AtlasTexture" id=33]
+flags = 4
+atlas = ExtResource( 37 )
+region = Rect2( 630, 0, 63, 60 )
+
 [sub_resource type="AtlasTexture" id=26]
 flags = 4
 atlas = ExtResource( 37 )
@@ -331,16 +336,6 @@ flags = 4
 atlas = ExtResource( 37 )
 region = Rect2( 441, 0, 63, 60 )
 
-[sub_resource type="AtlasTexture" id=32]
-flags = 4
-atlas = ExtResource( 37 )
-region = Rect2( 567, 0, 63, 60 )
-
-[sub_resource type="AtlasTexture" id=33]
-flags = 4
-atlas = ExtResource( 37 )
-region = Rect2( 630, 0, 63, 60 )
-
 [sub_resource type="SpriteFrames" id=34]
 animations = [ {
 "frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ) ],
@@ -348,14 +343,14 @@ animations = [ {
 "name": "StayLit ",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 31 ) ],
-"loop": true,
-"name": "Ignite",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 32 ), SubResource( 33 ) ],
 "loop": true,
 "name": "Full Fire",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 31 ) ],
+"loop": true,
+"name": "Ignite",
 "speed": 5.0
 } ]
 
@@ -469,14 +464,14 @@ animations = [ {
 
 [node name="World Map" type="Node2D"]
 
-[node name="WorldMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 12 )
 cell_size = Vector2( 128, 128 )
 cell_custom_transform = Transform2D( 128, 0, 0, 128, 0, 0 )
 centered_textures = true
 format = 1
 tile_data = PoolIntArray( -524285, -1610612719, 0, -524284, -1610612719, 0, -524283, -1610612719, 0, -458749, -1610612719, 0, -458747, -1610612719, 0, -393213, -1610612719, 0, -393212, -1610612719, 0, -393211, -1610612719, 0, 1, 0, 0, 65538, 0, 0, 131074, 0, 0, 196610, 0, 0, 262147, 0, 0, 327684, 0, 0, 327685, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 458759, 0, 0, 458760, 1, 0 )
-script = ExtResource( 11 )
+script = ExtResource( 3 )
 
 [node name="Character" type="Position2D" parent="."]
 position = Vector2( 32, 32 )
@@ -485,7 +480,7 @@ script = ExtResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Character"]
 position = Vector2( -2.82849, -1.88562 )
 frames = SubResource( 1 )
-frame = 3
+frame = 2
 playing = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -506,24 +501,6 @@ margin_right = 67.0
 margin_bottom = 32.0
 theme = SubResource( 2 )
 text = "Vape "
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Scripts" type="Node" parent="."]
-
-[node name="Directives" type="Node" parent="Scripts"]
-script = ExtResource( 13 )
-
-[node name="VapeDirective" type="Node" parent="Scripts/Directives"]
-script = ExtResource( 5 )
-
-[node name="Needs" type="Node" parent="Scripts"]
-script = ExtResource( 14 )
-
-[node name="VapeNeed" type="Node" parent="Scripts/Needs"]
-script = ExtResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 328, -129 )
@@ -543,18 +520,19 @@ flip_h = true
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 position = Vector2( 318, -48 )
 frames = SubResource( 4 )
+frame = 1
 playing = true
 
 [node name="LargerSprites (128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 472.667, -60.6667 )
 frames = SubResource( 5 )
-frame = 7
+frame = 30
 playing = true
 
 [node name="Skull(128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 224.702, -296.133 )
 frames = SubResource( 6 )
-frame = 9
+frame = 16
 playing = true
 
 [node name="TileMap2" type="TileMap" parent="."]
@@ -566,14 +544,14 @@ tile_data = PoolIntArray( -524251, 0, 196608, -524245, 0, 196609, -524244, 0, 19
 position = Vector2( 471.861, -197.463 )
 frames = SubResource( 16 )
 animation = "walk forward"
-frame = 4
+frame = 3
 playing = true
 flip_h = true
 
 [node name="RockMeMama" type="AnimatedSprite" parent="."]
 position = Vector2( 469.89, -138.884 )
 frames = SubResource( 21 )
-frame = 3
+frame = 1
 playing = true
 flip_h = true
 
@@ -581,27 +559,26 @@ flip_h = true
 position = Vector2( 599.793, 16.973 )
 frames = SubResource( 34 )
 animation = "StayLit "
-frame = 1
 playing = true
 
 [node name="Man LR ForwardBack" type="AnimatedSprite" parent="."]
 position = Vector2( -1291.61, 666.903 )
 frames = SubResource( 44 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="Lady LR ForwardBack" type="AnimatedSprite" parent="."]
 position = Vector2( -1294.68, 429.653 )
 frames = SubResource( 44 )
 animation = "Lady"
-frame = 3
+frame = 2
 playing = true
 
 [node name="Timer" type="AnimatedSprite" parent="."]
 position = Vector2( -98.7134, -143.56 )
 scale = Vector2( 1.51057, 1.38985 )
 frames = SubResource( 45 )
-frame = 4
+frame = 5
 playing = true
 flip_v = true
 
@@ -614,19 +591,18 @@ playing = true
 [node name="Water" type="AnimatedSprite" parent="."]
 position = Vector2( 576.775, -828.825 )
 frames = SubResource( 49 )
-frame = 2
+frame = 4
 playing = true
 
 [node name="Exclamation" type="AnimatedSprite" parent="."]
 position = Vector2( -1323.72, 236.731 )
 frames = SubResource( 50 )
-frame = 1
 playing = true
 
 [node name="AnimatedSprite4" type="AnimatedSprite" parent="."]
 position = Vector2( -823.006, 401.812 )
 frames = SubResource( 51 )
-frame = 3
+frame = 2
 playing = true
 
 [node name="Iso Map" type="Sprite" parent="."]
