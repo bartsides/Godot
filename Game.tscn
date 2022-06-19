@@ -212,16 +212,6 @@ flags = 4
 atlas = ExtResource( 35 )
 region = Rect2( 126, 0, 63, 64 )
 
-[sub_resource type="AtlasTexture" id=14]
-flags = 4
-atlas = ExtResource( 35 )
-region = Rect2( 63, 64, 63, 64 )
-
-[sub_resource type="AtlasTexture" id=15]
-flags = 4
-atlas = ExtResource( 35 )
-region = Rect2( 189, 64, 63, 64 )
-
 [sub_resource type="AtlasTexture" id=8]
 flags = 4
 atlas = ExtResource( 35 )
@@ -232,6 +222,16 @@ flags = 4
 atlas = ExtResource( 35 )
 region = Rect2( 126, 64, 63, 64 )
 
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 35 )
+region = Rect2( 63, 64, 63, 64 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 4
+atlas = ExtResource( 35 )
+region = Rect2( 189, 64, 63, 64 )
+
 [sub_resource type="SpriteFrames" id=16]
 animations = [ {
 "frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 11 ), SubResource( 13 ), SubResource( 11 ), SubResource( 12 ), SubResource( 11 ) ],
@@ -239,14 +239,14 @@ animations = [ {
 "name": "walk forward",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 14 ), SubResource( 15 ) ],
-"loop": true,
-"name": "walk left",
-"speed": 3.0
-}, {
 "frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 8 ), SubResource( 9 ) ],
 "loop": true,
 "name": "walk right",
+"speed": 3.0
+}, {
+"frames": [ SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "walk left",
 "speed": 3.0
 } ]
 
@@ -298,16 +298,6 @@ flags = 4
 atlas = ExtResource( 37 )
 region = Rect2( 441, 0, 63, 60 )
 
-[sub_resource type="AtlasTexture" id=22]
-flags = 4
-atlas = ExtResource( 37 )
-region = Rect2( 567, 0, 63, 60 )
-
-[sub_resource type="AtlasTexture" id=23]
-flags = 4
-atlas = ExtResource( 37 )
-region = Rect2( 630, 0, 63, 60 )
-
 [sub_resource type="AtlasTexture" id=28]
 flags = 4
 atlas = ExtResource( 37 )
@@ -338,6 +328,16 @@ flags = 4
 atlas = ExtResource( 37 )
 region = Rect2( 441, 0, 63, 60 )
 
+[sub_resource type="AtlasTexture" id=22]
+flags = 4
+atlas = ExtResource( 37 )
+region = Rect2( 567, 0, 63, 60 )
+
+[sub_resource type="AtlasTexture" id=23]
+flags = 4
+atlas = ExtResource( 37 )
+region = Rect2( 630, 0, 63, 60 )
+
 [sub_resource type="SpriteFrames" id=34]
 animations = [ {
 "frames": [ SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
@@ -345,14 +345,14 @@ animations = [ {
 "name": "StayLit ",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 22 ), SubResource( 23 ) ],
-"loop": true,
-"name": "Full Fire",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 33 ) ],
 "loop": true,
 "name": "Ignite",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 22 ), SubResource( 23 ) ],
+"loop": true,
+"name": "Full Fire",
 "speed": 5.0
 } ]
 
@@ -376,6 +376,11 @@ flags = 4
 atlas = ExtResource( 38 )
 region = Rect2( 441, 126, 63, 63 )
 
+[sub_resource type="AtlasTexture" id=39]
+flags = 4
+atlas = ExtResource( 38 )
+region = Rect2( 0, 504, 67, 63 )
+
 [sub_resource type="AtlasTexture" id=40]
 flags = 4
 atlas = ExtResource( 38 )
@@ -396,11 +401,6 @@ flags = 4
 atlas = ExtResource( 38 )
 region = Rect2( 441, 63, 63, 63 )
 
-[sub_resource type="AtlasTexture" id=39]
-flags = 4
-atlas = ExtResource( 38 )
-region = Rect2( 0, 504, 67, 63 )
-
 [sub_resource type="SpriteFrames" id=44]
 animations = [ {
 "frames": [ SubResource( 35 ), SubResource( 36 ), SubResource( 35 ), SubResource( 37 ), SubResource( 36 ), SubResource( 37 ), SubResource( 35 ), SubResource( 38 ) ],
@@ -408,14 +408,14 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ) ],
-"loop": true,
-"name": "Lady",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 39 ) ],
 "loop": true,
 "name": "New Anim",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ) ],
+"loop": true,
+"name": "Lady",
 "speed": 5.0
 } ]
 
@@ -590,7 +590,7 @@ uv = PoolVector2Array( 5977.63, 1496.3, 6188.74, 2637.04, 6948, 2733.33, 7399.86
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 328, -129 )
 frames = SubResource( 3 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="AnimatedSprite3" type="AnimatedSprite" parent="."]
@@ -598,7 +598,7 @@ light_mask = 0
 position = Vector2( 617.666, -54.6242 )
 scale = Vector2( 1.456, 1.63138 )
 frames = SubResource( 3 )
-frame = 2
+frame = 1
 playing = true
 flip_h = true
 
@@ -611,12 +611,13 @@ playing = true
 [node name="LargerSprites (128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 472.667, -60.6667 )
 frames = SubResource( 5 )
+frame = 20
 playing = true
 
 [node name="Skull(128px)" type="AnimatedSprite" parent="."]
 position = Vector2( 224.702, -296.133 )
 frames = SubResource( 6 )
-frame = 14
+frame = 20
 playing = true
 
 [node name="TileMap2" type="TileMap" parent="."]
@@ -628,13 +629,14 @@ tile_data = PoolIntArray( -524251, 0, 196608, -524245, 0, 196609, -524244, 0, 19
 position = Vector2( 471.861, -197.463 )
 frames = SubResource( 16 )
 animation = "walk forward"
-frame = 5
+frame = 1
 playing = true
 flip_h = true
 
 [node name="RockMeMama" type="AnimatedSprite" parent="."]
 position = Vector2( 469.89, -138.884 )
 frames = SubResource( 21 )
+frame = 1
 playing = true
 flip_h = true
 
@@ -648,7 +650,7 @@ playing = true
 [node name="Man LR ForwardBack" type="AnimatedSprite" parent="."]
 position = Vector2( -1291.61, 666.903 )
 frames = SubResource( 44 )
-frame = 3
+frame = 7
 playing = true
 
 [node name="Lady LR ForwardBack" type="AnimatedSprite" parent="."]
@@ -661,6 +663,7 @@ playing = true
 position = Vector2( -98.7134, -143.56 )
 scale = Vector2( 1.51057, 1.38985 )
 frames = SubResource( 45 )
+frame = 1
 playing = true
 flip_v = true
 
@@ -668,13 +671,13 @@ flip_v = true
 material = SubResource( 47 )
 position = Vector2( -1396.61, 360.819 )
 frames = SubResource( 48 )
-frame = 4
+frame = 6
 playing = true
 
 [node name="Water" type="AnimatedSprite" parent="."]
 position = Vector2( 576.775, -828.825 )
 frames = SubResource( 49 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="Exclamation" type="AnimatedSprite" parent="."]
