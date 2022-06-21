@@ -10,7 +10,7 @@ namespace NotRimworld
 {
 	public class Character : Position2D
 	{
-		public CharacterState State { get; private set; }
+		public PlayerState State { get; private set; }
 
 		public IDirective Directive { get; private set; }
 		private bool _movingToDirective = false;
@@ -49,7 +49,7 @@ namespace NotRimworld
 
 			_needs = new List<INeed> {new VapeNeed()};
 
-			ChangeState(CharacterState.Idle);
+			ChangeState(PlayerState.Idle);
         }
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -72,17 +72,17 @@ namespace NotRimworld
 		private void SetTargetPosition(Vector2 position)
 		{
 			_targetPosition = position;
-			ChangeState(CharacterState.Follow);
+			ChangeState(PlayerState.Follow);
 		}
 
-		private void ChangeState(CharacterState state)
+		private void ChangeState(PlayerState state)
 		{
-			if (state == CharacterState.Follow)
+			if (state == PlayerState.Follow)
 			{
                 _path = TileMap.GetPath(Position, _targetPosition);
                 if (_path == null || _path.Count <= 1)
                 {
-					ChangeState(CharacterState.Idle);
+					ChangeState(PlayerState.Idle);
                     return;
                 }
 
@@ -96,7 +96,7 @@ namespace NotRimworld
 		{
 			foreach (var need in _needs)
 			{
-				need.Handle(this, delta);
+				//need.Handle(this, delta);
 			}
 		}
 
@@ -107,10 +107,10 @@ namespace NotRimworld
 
 		private void HandleDirectives(float delta)
 		{
-			if (Directive != null)
-				Directive.Handle(this, delta);
-			else
-				SetNextDirective();
+			//if (Directive != null)
+			//	Directive.Handle(this, delta);
+			//else
+			//	SetNextDirective();
 		}
 
 		private void SetNextDirective()
@@ -128,7 +128,7 @@ namespace NotRimworld
 
 		private void HandleMove(float delta)
 		{
-			if (State != CharacterState.Follow) return;
+			if (State != PlayerState.Follow) return;
 
 			MoveTo(_targetPointWorld);
 
@@ -137,7 +137,7 @@ namespace NotRimworld
 			_path.RemoveAt(0);
             if (_path.Count == 0)
             {
-				ChangeState(CharacterState.Idle);
+				ChangeState(PlayerState.Idle);
                 return;
             }
 
@@ -150,7 +150,7 @@ namespace NotRimworld
             var steering = desiredVelocity - _velocity;
             _velocity += steering / Mass;
             Position += _velocity * GetProcessDeltaTime();
-            Rotation = _velocity.Angle();
+            //Rotation = _velocity.Angle();
         }
 
         private bool ArrivedTo(Vector2 destination)

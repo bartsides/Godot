@@ -1,4 +1,5 @@
-﻿using NotRimworld.Needs;
+﻿using NotRimworld.code;
+using NotRimworld.Needs;
 
 namespace NotRimworld.Directives
 {
@@ -6,6 +7,6 @@ namespace NotRimworld.Directives
     {
         INeed Need { get; set; }
         string Name { get; set; }
-        void Handle(Character character, float delta);
+        void Handle(Player player, float delta);
     }
 }

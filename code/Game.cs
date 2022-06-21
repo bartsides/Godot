@@ -1,62 +1,186 @@
-using Godot;
 using System.Collections.Generic;
+using Godot;
+using Godot.Collections;
 
-public class Game : Node2D
+namespace NotRimworld.code
 {
-    public static int Width = 200;
-    public static int Height = 200;
-
-    private readonly int[] _obstacleIds = {0};
-    private const float BaseLineWidth = 3.0f;
-    private readonly Color _drawColor = new Color(0, 0, 0);
-
-    [Export]
-    private Vector2 _mapSize;
-
-    private Vector2 _halfCellSize;
-    private Vector2 _pathStartPosition;
-    private Vector2 _pathEndPosition;
-    private AStar2D _aStarNode;
-    private List<Vector2> _cellPath;
-    private List<Vector2> _obstacles;
-
-    #region Getters
-    private Godot.TileMap _baseMap;
-    private Godot.TileMap BaseMap
+    public class Game : Node2D
     {
-        get
+        public static int Width = 200;
+        public static int Height = 200;
+
+        private readonly int[] _obstacleIds = {3,5,6,7,8,9,10,11,12,13,14,15,16};
+        private const float BaseLineWidth = 3.0f;
+        private readonly Color _drawColor = new Color(0, 0, 0);
+
+        [Export]
+        private Vector2 _mapSize;
+
+        private Vector2 _halfCellSize;
+        private Vector2 _pathStartPosition;
+        private Vector2 _pathEndPosition;
+        private AStar2D _aStarNode;
+        private List<Vector2> _cellPath;
+        private List<Vector2> _obstacles;
+
+        #region Getters
+        private Godot.TileMap _baseMap;
+        private Godot.TileMap BaseMap
         {
-            if (_baseMap != null) return _baseMap;
-            _baseMap = GetNode<Godot.TileMap>("BaseMap");
-            return _baseMap;
+            get
+            {
+                if (_baseMap != null) return _baseMap;
+                _baseMap = GetNode<Godot.TileMap>("Nav/TileMap");
+                return _baseMap;
+            }
         }
-    }
-
-    private Godot.TileMap _itemsMap;
-    private Godot.TileMap ItemsMap
-    {
-        get
+        #endregion
+    
+        public override void _Ready()
         {
-            if (_itemsMap != null) return _itemsMap;
-            _itemsMap = GetNode<Godot.TileMap>("ItemsMap");
-            return _itemsMap;
+            _halfCellSize = BaseMap.CellSize / 2;
+            _mapSize = new Vector2(16, 16);
+            _aStarNode = new AStar2D();
+            _cellPath = new List<Vector2>();
+            _obstacles = new List<Vector2>();
+
+            // TODO: Generate map
+
+            SetObstacles();
+            AddPlayers();
         }
-    }
-    #endregion
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        this._halfCellSize = BaseMap.CellSize / 2;
-        this._mapSize = new Vector2(16, 16);
-        this._aStarNode = new AStar2D();
-        this._cellPath = new List<Vector2>();
-        this._obstacles = new List<Vector2>();
-    }
+        private void AddPlayers()
+        {
+            var players = GetNode("Nav/Players");
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+            var playerScene = GD.Load<PackedScene>("res://Player.tscn");
+
+            for (var i = 0; i < 4; i++)
+            {
+                var player = playerScene.Instance() as Player;
+                player.Position = new Vector2(0, i * 64);
+                players.AddChild(player);
+            }
+        }
+
+        private void SetObstacles()
+        {
+            _obstacles = new List<Vector2>();
+
+            foreach (var obstacleId in _obstacleIds)
+            {
+                foreach (Vector2 cell in BaseMap.GetUsedCellsById(obstacleId))
+                    _obstacles.Add(cell);
+            }
+
+            ConnectAStarWalkableCells(CalculateAStarWalkableCells(_obstacles));
+        }
+
+        public List<Vector2> GetPath(Vector2 start, Vector2 end)
+        {
+            // TODO: if point is obstacle, find nearest accessible neighbor
+            return CalculatePath(start, end);
+        }
+
+        public List<Vector2> CalculatePath(Vector2 start, Vector2 end)
+        {
+            RecalculatePath();
+
+            var pathWorld = new List<Vector2>();
+            foreach (var cell in _cellPath)
+            {
+                var cellWorld = BaseMap.MapToWorld(new Vector2(cell.x, cell.y)) + _halfCellSize;
+                pathWorld.Add(cellWorld);
+            }
+
+            return pathWorld;
+        }
+
+        private List<Vector2> CalculateAStarWalkableCells(List<Vector2> obstacleCells)
+        {
+            var walkableCells = new List<Vector2>();
+            for (var y = 0; y < _mapSize.y; y++)
+            {
+                for (var x = 0; x < _mapSize.x; x++)
+                {
+                    var cell = new Vector2(x, y);
+
+                    if (!obstacleCells.Contains(cell))
+                    {
+                        walkableCells.Add(cell);
+
+                        var cellIndex = CalculateCellIndex(cell);
+                        _aStarNode.AddPoint(cellIndex, new Vector2(cell.x, cell.y));
+                    }
+                }
+            }
+
+            return walkableCells;
+        }
+
+        private void ConnectAStarWalkableCells(List<Vector2> walkableCells)
+        {
+            foreach (var cell in walkableCells)
+            {
+                var cellIndex = CalculateCellIndex(cell);
+
+                var neighborCells = new[]
+                {
+                    new Vector2(cell.x + 1, cell.y),
+                    new Vector2(cell.x - 1, cell.y),
+                    new Vector2(cell.x, cell.y + 1),
+                    new Vector2(cell.x, cell.y - 1)
+                };
+
+                foreach (var neighborCell in neighborCells)
+                {
+                    var neighborCellIndex = CalculateCellIndex(neighborCell);
+
+                    if (!IsCellOutsideMapBounds(neighborCell) && _aStarNode.HasPoint(neighborCellIndex))
+                    {
+                        _aStarNode.ConnectPoints(cellIndex, neighborCellIndex, false);
+                    }
+                }
+            }
+        }
+
+        private void ClearPreviousPathDrawing()
+        {
+            if (_cellPath != null && _cellPath.Count != 0)
+            {
+                // TODO: Path drawing
+            }
+        }
+
+        private void RecalculatePath()
+        {
+            ClearPreviousPathDrawing();
+            var startCellIndex = CalculateCellIndex(_pathStartPosition);
+            var endCellIndex = CalculateCellIndex(_pathEndPosition);
+
+            _cellPath.Clear();
+            _cellPath.AddRange(_aStarNode.GetPointPath(startCellIndex, endCellIndex));
+
+            Update();
+        }
+
+        private int CalculateCellIndex(Vector2 cell)
+        {
+            return (int)(cell.x + _mapSize.x * cell.y);
+        }
+
+        private bool IsCellOutsideMapBounds(Vector2 cell)
+        {
+            return cell.x < 0 || cell.y < 0 || cell.x >= _mapSize.x || cell.y >= _mapSize.y;
+        }
+
+        public Vector2 GetCellPosition(Vector2 cell)
+        {
+            return BaseMap.MapToWorld(cell) + _halfCellSize;
+        }
+
+        public Array GetUsedCellsById(int id) => BaseMap.GetUsedCellsById(id);
+        public Vector2 WorldToMap(Vector2 position) => BaseMap.WorldToMap(position);
+    }
 }

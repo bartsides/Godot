@@ -1,4 +1,5 @@
-﻿using NotRimworld.Directives;
+﻿using NotRimworld.code;
+using NotRimworld.Directives;
 
 namespace NotRimworld.Needs
 {
@@ -8,7 +9,7 @@ namespace NotRimworld.Needs
         float Minimum { get; set; }
         float Increment { get; set; }
 
-        void Handle(Character character, float delta);
+        void Handle(Player player, float delta);
         IDirective GetDirective();
     }
 }

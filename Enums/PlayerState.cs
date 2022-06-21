@@ -1,6 +1,6 @@
 ﻿namespace NotRimworld.Enums
 {
-    public enum CharacterState
+    public enum PlayerState
     {
         Idle,
         Follow,

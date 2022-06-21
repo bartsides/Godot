@@ -1,6 +1,7 @@
 ﻿using NotRimworld.Enums;
 using NotRimworld.Needs;
 using System;
+using NotRimworld.code;
 
 namespace NotRimworld.Directives
 {
@@ -14,23 +15,23 @@ namespace NotRimworld.Directives
             Need = need;
         }
 
-        public void Handle(Character character, float delta)
+        public void Handle(Player player, float delta)
         {
             if (Need == null) return;
 
-            switch (character.State)
+            switch (player.State)
             {
-                case CharacterState.Follow:
+                case PlayerState.Follow:
                     return;
-                case CharacterState.Idle:
-                    character.GoToClosest(1);
+                case PlayerState.Idle:
+                    player.GoToClosest(1);
                     return;
-                case CharacterState.Interacting:
+                case PlayerState.Interacting:
                     // TODO: Show cloud
                     Need.Value = Math.Max(Need.Value - 10 * delta, 0);
                     if (Need.Value < 1)
                     {
-                        character.ClearDirective();
+                        player.ClearDirective();
                     }
                     return;
             }
