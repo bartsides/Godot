@@ -23,6 +23,9 @@ namespace NotRimworld.code
         private List<Vector2> _cellPath;
         private List<Vector2> _obstacles;
 
+        private List<Player> _selectingPlayers = new List<Player>();
+        private List<Player> _selectedPlayers = new List<Player>();
+
         #region Getters
         private Godot.TileMap _baseMap;
         private Godot.TileMap BaseMap
@@ -62,6 +65,39 @@ namespace NotRimworld.code
                 player.Position = new Vector2(0, i * 64);
                 players.AddChild(player);
             }
+        }
+
+        public void SelectPlayer(Player player, bool selected)
+        {
+            player.Highlight(selected);
+            if (selected) 
+                _selectingPlayers.Add(player);
+            else 
+                _selectingPlayers.Remove(player);
+        }
+
+        public void SelectionEnded(Player[] players)
+        {
+            ResetSelection();
+
+            _selectedPlayers.ForEach(p => p.Highlight(false));
+            _selectedPlayers = new List<Player>();
+
+            foreach (var player in players)
+            {
+                player.Highlight(true);
+                _selectedPlayers.Add(player);
+            }
+        }
+
+        public void ResetSelection()
+        {
+            foreach (var player in _selectingPlayers)
+            {
+                player.Highlight(false);
+            }
+
+            _selectingPlayers = new List<Player>();
         }
 
         private void SetObstacles()

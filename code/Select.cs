@@ -8,14 +8,14 @@ namespace NotRimworld.code
     public class Select : Control
     {
         private bool _isSelecting;
-        private Node _scene;
+        private Game _game;
         private List<Player> _selectedPlayers = new List<Player>();
         private CollisionShape2D _collisionShape;
         private Panel _panel;
 
         public override void _Ready()
         {
-            _scene = GetTree().CurrentScene;
+            _game = GetTree().CurrentScene as Game;
             _panel = GetNode<Panel>("Panel");
 
             var area = GetNode<Area2D>("Area2D");
@@ -30,36 +30,28 @@ namespace NotRimworld.code
         {
             if (@event is InputEventMouseMotion && _isSelecting)
             {
+                GD.Print(1);
                 var mouse = GetGlobalMousePosition();
                 var pos = GetPoints()[0];
-                DrawSelection(new []
-                {
-                    pos,
-                    new Vector2(mouse.x, pos.y),
-                    mouse,
-                    new Vector2(pos.x, mouse.y),
-                });
+                DrawSelection(new[] {pos, new Vector2(mouse.x, pos.y), mouse, new Vector2(pos.x, mouse.y),});
             }
 
             if (@event.IsActionReleased("mouse_click") && _isSelecting)
             {
-                GD.Print("End selection");
-                // main.selection_ended(unit_selected)
+                GD.Print(2);
+                _game.SelectionEnded(_selectedPlayers.ToArray());
                 EndSelection();
             }
 
             if (@event.IsActionPressed("mouse_click"))
             {
+                GD.Print(3);
                 if (!_isSelecting)
-                {
                     _isSelecting = true;
-                    // main.reset_selection()
-                }
                 else
-                {
-                    GD.Print("End selection 2");
                     EndSelection();
-                }
+
+                _game.SelectionEnded(System.Array.Empty<Player>());
 
                 if (_isSelecting)
                 {
@@ -72,7 +64,7 @@ namespace NotRimworld.code
         private void EndSelection()
         {
             _isSelecting = false;
-            DrawSelection(new[] {Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero});
+            DrawSelection(new[] {Vector2.Inf, Vector2.Inf, Vector2.Inf, Vector2.Inf});
             _selectedPlayers = new List<Player>();
         }
 
@@ -92,9 +84,13 @@ namespace NotRimworld.code
 
         private void Selection(Area2D area, bool selected)
         {
+            if (!_isSelecting) return;
+
             if (area.IsInGroup("Player"))
             {
                 var player = area.GetParent<Player>();
+                _game.SelectPlayer(player, selected);
+
                 if (selected)
                     _selectedPlayers.Add(player);
                 else

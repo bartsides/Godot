@@ -28,15 +28,6 @@ namespace NotRimworld.code
         private Vector2 _velocity;
 
         private Game _game;
-        private Game Game
-        {
-            get
-            {
-                if (_game != null) return _game;
-                _game = GetParent<Game>();
-                return _game;
-            }
-        }
 
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
@@ -47,6 +38,12 @@ namespace NotRimworld.code
             _velocity = new Vector2();
 
             _needs = new List<INeed> {new VapeNeed()};
+
+            _game = GetParent().GetParent().GetParent<Game>();
+
+            // Create separate material
+            var sprite = GetNode<AnimatedSprite>("AnimatedSprite");
+            sprite.Material = sprite.Material.Duplicate() as ShaderMaterial;
 
             ChangeState(PlayerState.Idle);
         }
@@ -78,14 +75,14 @@ namespace NotRimworld.code
         {
             if (state == PlayerState.Follow)
             {
-                _path = Game.GetPath(Position, _targetPosition);
-                if (_path == null || _path.Count <= 1)
-                {
-                    ChangeState(PlayerState.Idle);
-                    return;
-                }
+                //_path = _game.GetPath(Position, _targetPosition);
+                //if (_path == null || _path.Count <= 1)
+                //{
+                //    ChangeState(PlayerState.Idle);
+                //    return;
+                //}
 
-                _targetPointWorld = _path[1];
+                //_targetPointWorld = _path[1];
             }
 
             State = state;
@@ -159,17 +156,17 @@ namespace NotRimworld.code
 
         public void GoToClosest(int id)
         {
-            if (Game == null) throw new Exception("tilemap not found");
-            var cells = Game.GetUsedCellsById(id);
+            if (_game == null) throw new Exception("tilemap not found");
+            var cells = _game.GetUsedCellsById(id);
             if (cells.Count == 0) return;
 
-            var characterPosition = Game.WorldToMap(Game.ToLocal(GlobalPosition));
+            var characterPosition = _game.WorldToMap(_game.ToLocal(GlobalPosition));
             var closestCell = Vector2.Inf;
             var shortestPath = new List<Vector2>();
 
             foreach (Vector2 cell in cells)
             {
-                var path = Game.GetPath(characterPosition, cell);
+                var path = _game.GetPath(characterPosition, cell);
                 if (path == null || path.Count < 1) continue;
 
                 if (shortestPath.Count == 0 || shortestPath.Count > path.Count)
@@ -185,8 +182,15 @@ namespace NotRimworld.code
             if (destination.Equals(closestCell))
                 destination = shortestPath[shortestPath.Count - 2];
 
-            SetTargetPosition(Game.GetCellPosition(destination));
+            SetTargetPosition(_game.GetCellPosition(destination));
             _movingToDirective = true;
+        }
+
+        public void Highlight(bool highlight)
+        {
+            var material = GetNode<AnimatedSprite>("AnimatedSprite").Material as ShaderMaterial;
+            material.SetShaderParam("visible", highlight);
+            //material.SetShaderParam("outline_color", new Color("1fa0ff"));
         }
     }
 }

@@ -1,9 +1,49 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://media/Frames/Vape/Vape0.png" type="Texture" id=1]
 [ext_resource path="res://media/Frames/Vape/Vape1.png" type="Texture" id=2]
 [ext_resource path="res://media/Frames/Vape/Vape2.png" type="Texture" id=3]
 [ext_resource path="res://code/Player.cs" type="Script" id=4]
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+uniform float outline_width = 2.0;
+uniform vec4 outline_color: hint_color;
+uniform bool visible;
+
+void fragment() {
+	vec4 col = texture(TEXTURE, UV);
+	vec2 ps = TEXTURE_PIXEL_SIZE;
+	float a;
+	float maxa = col.a;
+	float mina = col.a;
+	if (visible){
+		a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
+		maxa = max(a, maxa);
+		mina = min(a, mina);
+	
+		a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
+		maxa = max(a, maxa);
+		mina = min(a, mina);
+	
+		a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
+		maxa = max(a, maxa);
+		mina = min(a, mina);
+	
+		a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
+		maxa = max(a, maxa);
+		mina = min(a, mina);
+	}
+
+	COLOR = mix(col, outline_color, maxa - mina);
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/outline_width = 1.5
+shader_param/outline_color = Color( 0.988235, 0.960784, 0.258824, 0.611765 )
+shader_param/visible = false
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -20,11 +60,14 @@ height = 35.0
 script = ExtResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 6 )
+z_index = 3
 frames = SubResource( 1 )
-frame = 3
+frame = 2
 playing = true
 
 [node name="Area2D" type="Area2D" parent="." groups=["Player"]]
+z_index = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 2 )
