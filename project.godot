@@ -45,7 +45,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Not Rimworld"
-run/main_scene="res://NotRimworld.tscn"
+run/main_scene="res://Shoot Shoot.tscn"
 config/icon="res://icon.png"
 
 [input]

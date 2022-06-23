@@ -2,6 +2,7 @@
 using NotRimworld.Enums;
 using System;
 using NotRimworld.code;
+using Playerr = NotRimworld.code.Player;
 
 namespace NotRimworld.Needs
 {
@@ -18,7 +19,7 @@ namespace NotRimworld.Needs
             Increment = 7;
         }
 
-        public void Handle(Player player, float delta)
+        public void Handle(Playerr player, float delta)
         {
             if (player.State == PlayerState.Interacting)
                 return;

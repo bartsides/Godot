@@ -2,6 +2,7 @@
 using NotRimworld.Needs;
 using System;
 using NotRimworld.code;
+using Playerr = NotRimworld.code.Player;
 
 namespace NotRimworld.Directives
 {
@@ -15,7 +16,7 @@ namespace NotRimworld.Directives
             Need = need;
         }
 
-        public void Handle(Player player, float delta)
+        public void Handle(Playerr player, float delta)
         {
             if (Need == null) return;
 
