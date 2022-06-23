@@ -30,7 +30,6 @@ namespace NotRimworld.code
         {
             if (@event is InputEventMouseMotion && _isSelecting)
             {
-                GD.Print(1);
                 var mouse = GetGlobalMousePosition();
                 var pos = GetPoints()[0];
                 DrawSelection(new[] {pos, new Vector2(mouse.x, pos.y), mouse, new Vector2(pos.x, mouse.y),});
@@ -38,14 +37,12 @@ namespace NotRimworld.code
 
             if (@event.IsActionReleased("mouse_click") && _isSelecting)
             {
-                GD.Print(2);
                 _game.SelectionEnded(_selectedPlayers.ToArray());
                 EndSelection();
             }
 
             if (@event.IsActionPressed("mouse_click"))
             {
-                GD.Print(3);
                 if (!_isSelecting)
                     _isSelecting = true;
                 else

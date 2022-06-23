@@ -53,6 +53,23 @@ namespace NotRimworld.code
             AddPlayers();
         }
 
+        public override void _Input(InputEvent @event)
+        {
+            if (@event.IsActionPressed("right_click"))
+            {
+                GD.Print("right click");
+                if (_selectedPlayers.Count > 0)
+                {
+                    GD.Print(_selectedPlayers.Count);
+                    foreach (var selectedPlayer in _selectedPlayers)
+                    {
+                        // TODO: Formations
+                        selectedPlayer.MoveTo(GetGlobalMousePosition());
+                    }
+                }
+            }
+        }
+
         private void AddPlayers()
         {
             var players = GetNode("Nav/Players");

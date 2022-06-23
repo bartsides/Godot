@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Godot;
 using NotRimworld.Directives;
 using NotRimworld.Enums;
 using NotRimworld.Needs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NotRimworld.code
 {
@@ -28,6 +28,7 @@ namespace NotRimworld.code
         private Vector2 _velocity;
 
         private Game _game;
+        private Navigation2D _nav;
 
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
@@ -40,6 +41,7 @@ namespace NotRimworld.code
             _needs = new List<INeed> {new VapeNeed()};
 
             _game = GetParent().GetParent().GetParent<Game>();
+            _nav = _game.GetNode<Navigation2D>("Nav");
 
             // Create separate material
             var sprite = GetNode<AnimatedSprite>("AnimatedSprite");
@@ -53,7 +55,7 @@ namespace NotRimworld.code
         {
             //IncrementNeeds(delta);
             //HandleDirectives(delta);
-            //HandleMove(delta);
+            HandleMove(delta);
         }
 
         public override void _UnhandledInput(InputEvent @event)
@@ -124,29 +126,43 @@ namespace NotRimworld.code
 
         private void HandleMove(float delta)
         {
-            if (State != PlayerState.Follow) return;
-
-            MoveTo(_targetPointWorld);
-
-            if (!ArrivedTo(_targetPointWorld)) return;
-
-            _path.RemoveAt(0);
-            if (_path.Count == 0)
+            GD.Print("handle move");
+            if (_path.Count < 2)
             {
-                ChangeState(PlayerState.Idle);
+                GD.Print("return");
+                SetProcess(false);
                 return;
             }
 
-            _targetPointWorld = _path[0];
+            var nextPoint = _path[1];
+            var distance = Position.DistanceTo(nextPoint);
+            if (distance > 5)
+            {
+                Position = Position.LinearInterpolate(nextPoint, (200 * delta) / distance);
+                LookAt(_path[1]);
+            }
+            else
+            {
+                _path.RemoveAt(1);
+            }
+
+            _path[0] = Position;
+            SetLinePoints(_path);
         }
 
-        private void MoveTo(Vector2 destination)
+        private void SetLinePoints(List<Vector2> points)
         {
-            var desiredVelocity = (destination - Position).Normalized() * _speed;
-            var steering = desiredVelocity - _velocity;
-            _velocity += steering / Mass;
-            Position += _velocity * GetProcessDeltaTime();
-            Rotation = _velocity.Angle();
+            // TODO: Set line points
+        }
+
+        public void MoveTo(Vector2 destination)
+        {
+            SetProcess(true);
+            GD.Print($"{Position} -> {destination}");
+            _path = _nav.GetSimplePath(Position, destination).ToList();
+            _path.Insert(0, Position);
+            GD.Print($"Points: " + _path.Count);
+            SetLinePoints(_path);
         }
 
         private bool ArrivedTo(Vector2 destination)
