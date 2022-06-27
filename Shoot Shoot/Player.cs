@@ -2,13 +2,14 @@ using Godot;
 
 public class Player : RigidBody2D
 {
-    private float walkMaxVelocity = 200f;
+    // TODO: Faster decceleration
+    private float walkMaxVelocity = 400f;
     private float walkAcceleration = 800f;
-    private float walkDecceleration = 800f;
+    private float walkDecceleration = 1600f;
 
     private bool shooting;
     private float shootTime;
-    private float minShootTime = 1f;
+    private float minShootTime = 0.3f;
 
     private PackedScene bulletScene;
 
@@ -48,7 +49,7 @@ public class Player : RigidBody2D
 
     public void ShootBullet() {
         shootTime = 0f;
-        RigidBody2D bullet = bulletScene.Instance() as RigidBody2D;
+        var bullet = bulletScene.Instance<RigidBody2D>();
         
         //Position2D bulletShoot = GetNode("BulletShoot") as Position2D;
         //Vector2 bulletPosition = Position + bulletShoot.Position * (new Vector2(side, 1.0f));

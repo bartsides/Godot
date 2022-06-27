@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://auto_tileset_with_coll_nav.tres" type="TileSet" id=1]
 [ext_resource path="res://Shoot Shoot/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Shoot Shoot/Shoot Shoot.cs" type="Script" id=3]
+[ext_resource path="res://Shoot Shoot/ShootShoot.cs" type="Script" id=3]
+[ext_resource path="res://Shoot Shoot/Enemy.tscn" type="PackedScene" id=4]
 
-[node name="Shoot Shoot" type="Node2D"]
+[node name="ShootShoot" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="nav" type="Navigation2D" parent="."]
@@ -17,3 +18,11 @@ tile_data = PoolIntArray( -262147, 0, 7, -262146, 0, 8, -196611, 0, 131076, -196
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 mode = 2
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Enemy" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( -123, -221 )
+
+[node name="Enemy2" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( 120, 258 )

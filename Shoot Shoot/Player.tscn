@@ -9,6 +9,7 @@ height = 42.0
 
 [node name="Player" type="RigidBody2D"]
 gravity_scale = 0.0
+can_sleep = false
 linear_damp = 4.05
 angular_damp = 5.313
 script = ExtResource( 2 )
