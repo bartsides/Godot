@@ -1,70 +1,94 @@
+using System.Collections.Generic;
 using Godot;
 
 public class Player : RigidBody2D
 {
 	// TODO: Faster decceleration
-	private float walkMaxVelocity = 400f;
-	private float walkAcceleration = 800f;
-	private float walkDecceleration = 1600f;
+	private float walkMaxVelocity = 200;
+	private float walkAcceleration = 500;
 
 	private bool shooting;
-	private float shootTime;
-	private float minShootTime = 0.3f;
+	private float attackTime;
+	private float minAttackTime = 0.3f;
 
-	private PackedScene bulletScene;
+	private PackedScene gunScene;
+	private Gun CurrentWeapon;
+	private float gunRadius = 12;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		shooting = false;
-		shootTime = 0;
+		attackTime = 0;
 
-		// TODO: Have weapon handle bullet specifics
-		bulletScene = GD.Load<PackedScene>("res://Shoot Shoot/Bullet.tscn");
+		SetWeapons(new List<PackedScene>{
+			GD.Load<PackedScene>("res://Shoot Shoot/Gun.tscn")
+		});
+	}
+
+	private void SetWeapons(List<PackedScene> guns) {
+		var weaponsNode = GetNode("Weapons");
+		foreach(var gun in guns) {
+			weaponsNode.AddChild(gun.Instance());
+		}
+
+		foreach(Node2D node in weaponsNode.GetChildren()) {
+			if (node is Gun weapon) {
+				if (CurrentWeapon == null) {
+					GD.Print("Setting current weapon");
+					CurrentWeapon = weapon;
+					node.Visible = true;
+				} else {
+					node.Visible = false;
+				}
+			}
+		}
 	}
 
 	public override void _IntegrateForces(Physics2DDirectBodyState state)
 	{
 		base._IntegrateForces(state);
 
+		ProcessWeaponPosition();
+
 		var step = state.Step;
 		var linearVelocity = state.LinearVelocity;
 
 		var interaction = ListenToPlayerInput();
 
-		ProcessShooting(interaction, step);
+		ProcessAttack(interaction, step);
 
 		linearVelocity = ProcessPlayerMovement(interaction, linearVelocity, step);
 
 		state.LinearVelocity = linearVelocity;
 	}
 
-	private void ProcessShooting(PlayerInputInteraction interaction, float step) {
-		if (shootTime < minShootTime)
-			shootTime += step;
-		if (interaction.Shoot && shootTime > minShootTime)
-			CallDeferred("ShootBullet");
+	private void ProcessWeaponPosition() {
+		if (CurrentWeapon == null) return;
+
+		var position = Position;
+		var mouse = GetGlobalMousePosition();
+		
+		CurrentWeapon.Position = Position.DirectionTo(mouse) * gunRadius;
+		CurrentWeapon.LookAt(mouse);
+		CurrentWeapon.Rotate(Mathf.Deg2Rad(90));
+	}
+
+	private void ProcessAttack(PlayerInputInteraction interaction, float step) {
+		if (attackTime < minAttackTime)
+			attackTime += step;
+		if (interaction.Shoot && attackTime > minAttackTime)
+			CallDeferred("Attack");
 		shooting = interaction.Shoot;
 	}
 
-	public void ShootBullet() {
-		shootTime = 0f;
-		var bullet = bulletScene.Instance<RigidBody2D>();
-		
-		//Position2D bulletShoot = GetNode("BulletShoot") as Position2D;
-		//Vector2 bulletPosition = Position + bulletShoot.Position * (new Vector2(side, 1.0f));
+	public void Attack() {
+		attackTime = 0f;
+		if (CurrentWeapon == null) return;
 
-		bullet.Position = Position;
-		GetParent().AddChild(bullet);
-
-		bullet.LinearVelocity = Position.DirectionTo(GetGlobalMousePosition()) * 800f;
-
-		// Particles2D particles = GetNode("Sprite/Smoke") as Particles2D;
-		// particles.Restart();
-		// AudioStreamPlayer2D soundShoot = GetNode("SoundShoot") as AudioStreamPlayer2D;
-		// soundShoot.Play();
-
-		AddCollisionExceptionWith(bullet);
+		var projectile = CurrentWeapon.Shoot();
+		if (projectile != null)
+			AddCollisionExceptionWith(projectile);
 	}
 
 	private Vector2 ProcessPlayerMovement(PlayerInputInteraction interaction, Vector2 linearVelocity, float step) {
@@ -76,23 +100,23 @@ public class Player : RigidBody2D
 	private Vector2 ProcessPlayerDirectionalMovement(PlayerInputInteraction interaction, Vector2 linearVelocity, float step) {
 		if (interaction.MoveLeft && !interaction.MoveRight) {
 			if (linearVelocity.x > -walkMaxVelocity) {
-				linearVelocity.x -= walkAcceleration * step;
+				linearVelocity.x -= walkAcceleration * step * (linearVelocity.x > 0 ? 5 : 1);
 			}
 		}
 		else if (interaction.MoveRight && !interaction.MoveLeft) {
 			if (linearVelocity.x < walkMaxVelocity) {
-				linearVelocity.x += walkAcceleration * step;
+				linearVelocity.x += walkAcceleration * step * (linearVelocity.x < 0 ? 5 : 1);
 			}
 		}
 
 		if (interaction.MoveUp && !interaction.MoveDown) {
 			if (linearVelocity.y > -walkMaxVelocity) {
-				linearVelocity.y -= walkAcceleration * step;
+				linearVelocity.y -= walkAcceleration * step * (linearVelocity.y > 0 ? 5 : 1);
 			}
 		}
 		else if (interaction.MoveDown && !interaction.MoveUp) {
 			if (linearVelocity.y < walkMaxVelocity) {
-				linearVelocity.y += walkAcceleration * step;
+				linearVelocity.y += walkAcceleration * step * (linearVelocity.y < 0 ? 5 : 1);
 			}
 		}
 
