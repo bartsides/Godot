@@ -2,105 +2,105 @@ using Godot;
 
 public class Player : RigidBody2D
 {
-    // TODO: Faster decceleration
-    private float walkMaxVelocity = 400f;
-    private float walkAcceleration = 800f;
-    private float walkDecceleration = 1600f;
+	// TODO: Faster decceleration
+	private float walkMaxVelocity = 400f;
+	private float walkAcceleration = 800f;
+	private float walkDecceleration = 1600f;
 
-    private bool shooting;
-    private float shootTime;
-    private float minShootTime = 0.3f;
+	private bool shooting;
+	private float shootTime;
+	private float minShootTime = 0.3f;
 
-    private PackedScene bulletScene;
+	private PackedScene bulletScene;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        shooting = false;
-        shootTime = 0;
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		shooting = false;
+		shootTime = 0;
 
-        // TODO: Have weapon handle bullet specifics
-        bulletScene = GD.Load<PackedScene>("res://Shoot Shoot/Bullet.tscn");
-    }
+		// TODO: Have weapon handle bullet specifics
+		bulletScene = GD.Load<PackedScene>("res://Shoot Shoot/Bullet.tscn");
+	}
 
-    public override void _IntegrateForces(Physics2DDirectBodyState state)
-    {
-        base._IntegrateForces(state);
+	public override void _IntegrateForces(Physics2DDirectBodyState state)
+	{
+		base._IntegrateForces(state);
 
-        var step = state.Step;
-        var linearVelocity = state.LinearVelocity;
+		var step = state.Step;
+		var linearVelocity = state.LinearVelocity;
 
-        var interaction = ListenToPlayerInput();
+		var interaction = ListenToPlayerInput();
 
-        ProcessShooting(interaction, step);
+		ProcessShooting(interaction, step);
 
-        linearVelocity = ProcessPlayerMovement(interaction, linearVelocity, step);
+		linearVelocity = ProcessPlayerMovement(interaction, linearVelocity, step);
 
-        state.LinearVelocity = linearVelocity;
-    }
+		state.LinearVelocity = linearVelocity;
+	}
 
-    private void ProcessShooting(PlayerInputInteraction interaction, float step) {
-        if (shootTime < minShootTime)
-            shootTime += step;
-        if (interaction.Shoot && shootTime > minShootTime)
-            CallDeferred("ShootBullet");
-        shooting = interaction.Shoot;
-    }
+	private void ProcessShooting(PlayerInputInteraction interaction, float step) {
+		if (shootTime < minShootTime)
+			shootTime += step;
+		if (interaction.Shoot && shootTime > minShootTime)
+			CallDeferred("ShootBullet");
+		shooting = interaction.Shoot;
+	}
 
-    public void ShootBullet() {
-        shootTime = 0f;
-        var bullet = bulletScene.Instance<RigidBody2D>();
-        
-        //Position2D bulletShoot = GetNode("BulletShoot") as Position2D;
-        //Vector2 bulletPosition = Position + bulletShoot.Position * (new Vector2(side, 1.0f));
+	public void ShootBullet() {
+		shootTime = 0f;
+		var bullet = bulletScene.Instance<RigidBody2D>();
+		
+		//Position2D bulletShoot = GetNode("BulletShoot") as Position2D;
+		//Vector2 bulletPosition = Position + bulletShoot.Position * (new Vector2(side, 1.0f));
 
-        bullet.Position = Position;
-        GetParent().AddChild(bullet);
+		bullet.Position = Position;
+		GetParent().AddChild(bullet);
 
-        bullet.LinearVelocity = Position.DirectionTo(GetGlobalMousePosition()) * 800f;
+		bullet.LinearVelocity = Position.DirectionTo(GetGlobalMousePosition()) * 800f;
 
-        // Particles2D particles = GetNode("Sprite/Smoke") as Particles2D;
-        // particles.Restart();
-        // AudioStreamPlayer2D soundShoot = GetNode("SoundShoot") as AudioStreamPlayer2D;
-        // soundShoot.Play();
+		// Particles2D particles = GetNode("Sprite/Smoke") as Particles2D;
+		// particles.Restart();
+		// AudioStreamPlayer2D soundShoot = GetNode("SoundShoot") as AudioStreamPlayer2D;
+		// soundShoot.Play();
 
-        AddCollisionExceptionWith(bullet);
-    }
+		AddCollisionExceptionWith(bullet);
+	}
 
-    private Vector2 ProcessPlayerMovement(PlayerInputInteraction interaction, Vector2 linearVelocity, float step) {
-        linearVelocity = ProcessPlayerDirectionalMovement(interaction, linearVelocity, step);
+	private Vector2 ProcessPlayerMovement(PlayerInputInteraction interaction, Vector2 linearVelocity, float step) {
+		linearVelocity = ProcessPlayerDirectionalMovement(interaction, linearVelocity, step);
 
-        return linearVelocity;
-    }
+		return linearVelocity;
+	}
 
-    private Vector2 ProcessPlayerDirectionalMovement(PlayerInputInteraction interaction, Vector2 linearVelocity, float step) {
-        if (interaction.MoveLeft && !interaction.MoveRight) {
-            if (linearVelocity.x > -walkMaxVelocity) {
-                linearVelocity.x -= walkAcceleration * step;
-            }
-        }
-        else if (interaction.MoveRight && !interaction.MoveLeft) {
-            if (linearVelocity.x < walkMaxVelocity) {
-                linearVelocity.x += walkAcceleration * step;
-            }
-        }
+	private Vector2 ProcessPlayerDirectionalMovement(PlayerInputInteraction interaction, Vector2 linearVelocity, float step) {
+		if (interaction.MoveLeft && !interaction.MoveRight) {
+			if (linearVelocity.x > -walkMaxVelocity) {
+				linearVelocity.x -= walkAcceleration * step;
+			}
+		}
+		else if (interaction.MoveRight && !interaction.MoveLeft) {
+			if (linearVelocity.x < walkMaxVelocity) {
+				linearVelocity.x += walkAcceleration * step;
+			}
+		}
 
-        if (interaction.MoveUp && !interaction.MoveDown) {
-            if (linearVelocity.y > -walkMaxVelocity) {
-                linearVelocity.y -= walkAcceleration * step;
-            }
-        }
-        else if (interaction.MoveDown && !interaction.MoveUp) {
-            if (linearVelocity.y < walkMaxVelocity) {
-                linearVelocity.y += walkAcceleration * step;
-            }
-        }
+		if (interaction.MoveUp && !interaction.MoveDown) {
+			if (linearVelocity.y > -walkMaxVelocity) {
+				linearVelocity.y -= walkAcceleration * step;
+			}
+		}
+		else if (interaction.MoveDown && !interaction.MoveUp) {
+			if (linearVelocity.y < walkMaxVelocity) {
+				linearVelocity.y += walkAcceleration * step;
+			}
+		}
 
-        return linearVelocity;
-    }
+		return linearVelocity;
+	}
 
-    private PlayerInputInteraction ListenToPlayerInput() {
-        return new PlayerInputInteraction(Input.IsActionPressed("move_left"), Input.IsActionPressed("move_right"), 
-            Input.IsActionPressed("move_up"), Input.IsActionPressed("move_down"), Input.IsActionPressed("shoot"));
-    }
+	private PlayerInputInteraction ListenToPlayerInput() {
+		return new PlayerInputInteraction(Input.IsActionPressed("move_left"), Input.IsActionPressed("move_right"), 
+			Input.IsActionPressed("move_up"), Input.IsActionPressed("move_down"), Input.IsActionPressed("shoot"));
+	}
 }

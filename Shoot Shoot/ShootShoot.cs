@@ -3,11 +3,11 @@ using System;
 
 public class ShootShoot : Node2D
 {
-    public override void _Ready()
-    {
-        SpawnEnemies();
-    }
+	public override void _Ready()
+	{
+		SpawnEnemies();
+	}
 
-    private void SpawnEnemies() {
-    }
+	private void SpawnEnemies() {
+	}
 }
