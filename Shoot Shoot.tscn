@@ -1,9 +1,74 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://auto_tileset_with_coll_nav.tres" type="TileSet" id=1]
 [ext_resource path="res://Shoot Shoot/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Shoot Shoot/ShootShoot.cs" type="Script" id=3]
 [ext_resource path="res://Shoot Shoot/Enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/Iso Tiles Pixel..png" type="Texture" id=5]
+
+[sub_resource type="TileSet" id=1]
+0/name = "Iso Tiles Pixel..png 0"
+0/texture = ExtResource( 5 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 25, 26, 0, 0 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "Iso Tiles Pixel..png 1"
+1/texture = ExtResource( 5 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 127, 17, 33, 34 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+2/name = "Iso Tiles Pixel..png 2"
+2/texture = ExtResource( 5 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 169, 9, 5, 26 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 32, 16 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 32, 16 )
+2/shape_one_way = false
+2/shape_one_way_margin = 1.0
+2/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": null,
+"shape_transform": Transform2D( 1, 0, 0, 1, 32, 16 )
+} ]
+2/z_index = 0
+3/name = "Iso Tiles Pixel..png 3"
+3/texture = ExtResource( 5 )
+3/tex_offset = Vector2( 0, 0 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 76, 16, 37, 32 )
+3/tile_mode = 0
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape_one_way = false
+3/shape_one_way_margin = 0.0
+3/shapes = [  ]
+3/z_index = 0
 
 [node name="ShootShoot" type="Node2D"]
 script = ExtResource( 3 )
@@ -15,6 +80,12 @@ tile_set = ExtResource( 1 )
 show_collision = true
 format = 1
 tile_data = PoolIntArray( -262147, 0, 7, -262146, 0, 8, -196611, 0, 131076, -196610, 0, 196608, -196609, 0, 196612, -262144, 0, 196612, -262143, 0, 196612, -262142, 0, 8, -131076, 0, 7, -131075, 0, 196609, -131074, 0, 131078, -131073, 0, 131078, -196608, 0, 131078, -196607, 0, 131078, -196606, 0, 131077, -65541, 0, 7, -65540, 0, 196609, -65539, 0, 131078, -65538, 0, 131078, -65537, 0, 131078, -131072, 0, 131078, -131071, 0, 131078, -131070, 0, 131077, -5, 0, 131076, -4, 0, 131078, -3, 0, 131078, -2, 0, 131078, -1, 0, 131078, -65536, 0, 131078, -65535, 0, 131078, -65534, 0, 131077, 65531, 0, 131076, 65532, 0, 131078, 65533, 0, 131078, 65534, 0, 131078, 65535, 0, 131078, 0, 0, 131078, 1, 0, 131078, 2, 0, 131077, 131067, 0, 131076, 131068, 0, 131078, 131069, 0, 131078, 131070, 0, 131078, 131071, 0, 131078, 65536, 0, 131078, 65537, 0, 131078, 65538, 0, 131077, 196603, 0, 131076, 196604, 0, 131078, 196605, 0, 131078, 196606, 0, 131078, 196607, 0, 131072, 131072, 0, 196613, 131073, 0, 131073, 131074, 0, 196608, 131075, 0, 8, 262139, 0, 65543, 262140, 0, 196613, 262141, 0, 196613, 262142, 0, 131073, 262143, 0, 131077, 196609, 0, 131076, 196610, 0, 131078, 196611, 0, 131077, 327678, 0, 65543, 327679, 0, 327685, 262144, 0, 2, 262145, 0, 327684, 262146, 0, 196613, 262147, 0, 65544 )
+
+[node name="TileMap2" type="TileMap" parent="nav"]
+mode = 1
+tile_set = SubResource( 1 )
+cell_size = Vector2( 32, 16 )
+format = 1
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 mode = 2
