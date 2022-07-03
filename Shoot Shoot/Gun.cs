@@ -11,13 +11,14 @@ public class Gun : Node2D
 		bulletScene = GD.Load<PackedScene>("res://Shoot Shoot/Bullet.tscn");
     }
 
-    public Projectile Shoot() {
+    public Projectile Shoot(Vector2 direction) {
         // TODO: Shoot gun sound and smoke
 
         var bullet = bulletScene.Instance<Bullet>();
         AddChild(bullet);
         bullet.Position = GetNode<Position2D>("BulletPosition").Position;
-        bullet.LinearVelocity = GlobalPosition.DirectionTo(GetGlobalMousePosition()) * Speed;
+        //bullet.LinearVelocity = GlobalPosition.DirectionTo(GetGlobalMousePosition()) * Speed;
+        bullet.LinearVelocity = direction * Speed;
         return bullet;
     }
 }

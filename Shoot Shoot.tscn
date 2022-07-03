@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://auto_tileset_with_coll_nav.tres" type="TileSet" id=1]
 [ext_resource path="res://Shoot Shoot/Player.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Shoot Shoot/Enemy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/Iso Tiles Pixel..png" type="Texture" id=5]
 [ext_resource path="res://Shoot Shoot/Iso.cs" type="Script" id=6]
+[ext_resource path="res://Shoot Shoot/Level.cs" type="Script" id=7]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Iso Tiles Pixel..png 0"
@@ -65,27 +66,35 @@
 3/shapes = [  ]
 3/z_index = 0
 
-[node name="ShootShoot" type="Node2D"]
+[node name="ShootShoot" type="YSort"]
+sort_enabled = false
 script = ExtResource( 3 )
 
-[node name="nav" type="Navigation2D" parent="."]
+[node name="Level" type="Navigation2D" parent="."]
+script = ExtResource( 7 )
 
-[node name="TileMap" type="TileMap" parent="nav"]
+[node name="TileMap" type="TileMap" parent="Level"]
 tile_set = ExtResource( 1 )
 show_collision = true
 format = 1
 
-[node name="TileMap2" type="TileMap" parent="nav"]
+[node name="TileMap2" type="TileMap" parent="Level"]
 mode = 1
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 16 )
 format = 1
 
-[node name="Iso" type="TileMap" parent="nav"]
+[node name="Iso" type="TileMap" parent="Level"]
+visible = false
 mode = 1
 cell_size = Vector2( 128, 64 )
 format = 1
 script = ExtResource( 6 )
+
+[node name="FloorTileMap" type="TileMap" parent="Level"]
+mode = 1
+cell_size = Vector2( 128, 64 )
+format = 1
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 mode = 2
