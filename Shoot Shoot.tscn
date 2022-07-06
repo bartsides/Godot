@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://auto_tileset_with_coll_nav.tres" type="TileSet" id=1]
 [ext_resource path="res://Shoot Shoot/Player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/Iso Tiles Pixel..png" type="Texture" id=5]
 [ext_resource path="res://Shoot Shoot/Iso.cs" type="Script" id=6]
 [ext_resource path="res://Shoot Shoot/Level.cs" type="Script" id=7]
+[ext_resource path="res://GeneratedTileset.tres" type="TileSet" id=8]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Iso Tiles Pixel..png 0"
@@ -93,8 +94,11 @@ script = ExtResource( 6 )
 
 [node name="FloorTileMap" type="TileMap" parent="Level"]
 mode = 1
+tile_set = ExtResource( 8 )
 cell_size = Vector2( 128, 64 )
+show_collision = true
 format = 1
+tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 0, -65535, 0, 0, 65535, 0, 0, 0, 1, 0, 1, 0, 0, 131071, 0, 0, 65536, 0, 0, 65537, 0, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 mode = 2

@@ -1,5 +1,6 @@
-using DrawingColor = System.Drawing.Color;
 using Godot;
+
+using DrawingColor = System.Drawing.Color;
 
 public class WallTile : Tile
 {
@@ -14,7 +15,8 @@ public class WallTile : Tile
             Top2.ToVector2(),
         }
     };
-    protected override Vector2? CollisionOffset => new Vector2(0, -TileHeight);
+    protected override Transform2D CollisionTransform => new Transform2D(0, new Vector2(0, -TileHeight));
+    //protected override Vector2? CollisionOffset => new Vector2(0, -TileHeight - TileBoxHeight);
 
     public WallTile(int id) : base(id) { }
 

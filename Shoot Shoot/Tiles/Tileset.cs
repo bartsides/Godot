@@ -1,5 +1,5 @@
 public struct Tileset {
-    public int FloorTile;
+    public int Floor;
     public int TopWall;
     public int TopLeftWall;
     public int TopRightWall;
@@ -8,4 +8,5 @@ public struct Tileset {
     public int BottomWall;
     public int BottomLeftWall;
     public int BottomRightWall;
+    public int Door;
 }

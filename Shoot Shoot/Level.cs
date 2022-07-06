@@ -10,10 +10,13 @@ public class Level : Navigation2D
     public override void _Ready()
     {
         floorTileMap = GetNode<TileMap>("FloorTileMap");
+        floorTileMap.ShowCollision = true;
     }
     
     public void GenerateLevel(bool regenerateTileset) {
-        Reset(regenerateTileset);
+        Reset();
+
+        GD.Print("Regen " + regenerateTileset);
         if (regenerateTileset)
             GenerateTileSet();
 
@@ -50,7 +53,7 @@ public class Level : Navigation2D
         wallTile.Setup(tileset);
 
         Tileset = new Tileset {
-            FloorTile = floorTile.Id,
+            Floor = floorTile.Id,
             TopWall = wallTile.Id,
             TopLeftWall = wallTile.Id,
             TopRightWall = wallTile.Id,
@@ -58,11 +61,15 @@ public class Level : Navigation2D
             BottomLeftWall = wallTile.Id,
             BottomRightWall = wallTile.Id,
             LeftWall = wallTile.Id,
-            RightWall = wallTile.Id
+            RightWall = wallTile.Id,
+            Door = floorTile.Id
         };
+        GD.Print("saving");
+        ResourceSaver.Save("GeneratedTileset.tres", tileset);
+        GD.Print("saved");
     }
 
-    private void Reset(bool clearTileset) {
+    private void Reset() {
         // TODO: Reset level
     }
 }

@@ -1,6 +1,6 @@
 using Godot;
 
-public class PlayerInputInteraction
+public class PlayerInput
 {
     public bool MoveLeft { get; set; }
     public bool MoveRight {get;set;}
@@ -10,7 +10,7 @@ public class PlayerInputInteraction
     public Vector2 MoveVector { get; set; }
     public Vector2 AimVector { get; set; }
 
-    public PlayerInputInteraction(Vector2 movementVector, Vector2 aimVector, bool shoot) {
+    public PlayerInput(Vector2 movementVector, Vector2 aimVector, bool shoot) {
         MoveVector = movementVector;
         AimVector = aimVector;
         Shoot = shoot;

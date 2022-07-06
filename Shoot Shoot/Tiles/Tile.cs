@@ -7,19 +7,21 @@ public abstract class Tile {
     public int Id { get; }
     public int TileHeight = 64;
     public int TileWidth = 128;
-    public virtual int TileBoxHeight { get; set; } = 10;
-    private const int DefaultOffsetY = 50;
+    protected const int DefaultTileBoxHeight = 10;
+    public virtual int TileBoxHeight { get; set; } = DefaultTileBoxHeight;
+    protected const int DefaultOffsetY = 50;
     public static Vector2 Offset { get; set; } = new Vector2(0, -DefaultOffsetY);
     public virtual int TileTopPadding { get; set; } = DefaultOffsetY;
     public int ImageHeight => TileTopPadding + TileHeight + TileBoxHeight;
+
     protected virtual Shape2D CollisionShape { get; set; } = null;
-    protected virtual Vector2? CollisionOffset { get; set; } = null;
+    protected virtual Transform2D CollisionTransform { get; set; } = new Transform2D(0, Vector2.Zero);
 
     public abstract ColorScheme ColorScheme { get; set; }
 
     protected const string filename = @"temp.png";
 
-    private TilePaths? _TilePaths = null;
+    protected TilePaths? _TilePaths = null;
     public TilePaths TilePaths { 
         get {
             if (_TilePaths == null)
@@ -28,7 +30,7 @@ public abstract class Tile {
         }
     }
 
-    private Texture _texture = null;
+    protected Texture _texture = null;
     public Texture Texture {
         get {
             if (_texture == null)
@@ -46,8 +48,8 @@ public abstract class Tile {
     // Bottom rectangle points
     protected Point Top2 => new Point(Top.X, Top.Y + TileBoxHeight);
     protected Point Right2 => new Point(Right.X, Right.Y + TileBoxHeight);
-    protected Point Bottom2 => new Point(TileWidth / 2, Bottom.Y + TileBoxHeight);
-    protected Point Left2 => new Point(0, Left.Y + TileBoxHeight);
+    protected Point Bottom2 => new Point(Bottom.X, Bottom.Y + TileBoxHeight);
+    protected Point Left2 => new Point(Left.X, Left.Y + TileBoxHeight);
 
     public Tile(int id) {
         Id = id;
@@ -57,13 +59,9 @@ public abstract class Tile {
         tileset.TileSetTexture(Id, Texture);
         tileset.TileSetTextureOffset(Id, Offset);
         if (CollisionShape != null) {
-            var shapeId = tileset.GetLastUnusedTileId();
-            tileset.TileAddShape(shapeId, CollisionShape, new Transform2D());
-            tileset.TileSetShape(Id, shapeId, CollisionShape);
-            
-            if (CollisionOffset != null) {
-                tileset.TileSetShapeOffset(Id, shapeId, CollisionOffset.Value);
-            }
+            tileset.TileAddShape(Id, CollisionShape, CollisionTransform);
+            tileset.TileSetShape(this.Id, Id, CollisionShape);
+            GD.Print(GD.Var2Str(CollisionShape));
         }
     }
 

@@ -33,6 +33,13 @@ public class StartingRoom : IRoom
             }
         }
 
+        // Add door
+        result[Width/2][0] = Tileset.Door;
+        result[Width/2][Height-1] = Tileset.Door;
+
+        // Add middle wall
+        result[2][2] = Tileset.TopWall;
+
         return result;
     }
 
@@ -66,7 +73,7 @@ public class StartingRoom : IRoom
             tile = Tileset.BottomWall;
         }
         else
-            tile = Tileset.FloorTile;
+            tile = Tileset.Floor;
 
         if (isWall) {
             result[x][y] = tile;
