@@ -16,7 +16,6 @@ public class Level : Navigation2D
     public void GenerateLevel(bool regenerateTileset) {
         Reset();
 
-        GD.Print("Regen " + regenerateTileset);
         if (regenerateTileset)
             GenerateTileSet();
 
@@ -42,31 +41,40 @@ public class Level : Navigation2D
         var tileset = new TileSet();
         floorTileMap.TileSet = tileset;
 
-        var id = tileset.GetLastUnusedTileId();
-        tileset.CreateTile(id);
-        var floorTile = new FloorTile(id);
-        floorTile.Setup(tileset);
-
-        id = tileset.GetLastUnusedTileId();
-        tileset.CreateTile(id);
-        var wallTile = new WallTile(id);
-        wallTile.Setup(tileset);
+        var floorTile = GenerateTile<FloorTile>(tileset);
+        var middleWallTile = GenerateTile<MiddleWallTile>(tileset);
+        var topWallTile = GenerateTile<TopWallTile>(tileset);
+        var topLeftWallTile = GenerateTile<TopLeftWallTile>(tileset);
+        var topRightWallTile = GenerateTile<TopRightWallTile>(tileset);
+        var leftWallTile = GenerateTile<LeftWallTile>(tileset);
+        var rightWallTile = GenerateTile<RightWallTile>(tileset);
+        var bottomWallTile = GenerateTile<BottomWallTile>(tileset);
+        var bottomRightWallTile = GenerateTile<BottomRightWallTile>(tileset);
+        var bottomLeftWallTile = GenerateTile<BottomLeftWallTile>(tileset);
 
         Tileset = new Tileset {
             Floor = floorTile.Id,
-            TopWall = wallTile.Id,
-            TopLeftWall = wallTile.Id,
-            TopRightWall = wallTile.Id,
-            BottomWall = wallTile.Id,
-            BottomLeftWall = wallTile.Id,
-            BottomRightWall = wallTile.Id,
-            LeftWall = wallTile.Id,
-            RightWall = wallTile.Id,
+            TopWall = topWallTile.Id,
+            TopLeftWall = topLeftWallTile.Id,
+            TopRightWall = topRightWallTile.Id,
+            BottomWall = bottomWallTile.Id,
+            BottomLeftWall = bottomLeftWallTile.Id,
+            BottomRightWall = bottomRightWallTile.Id,
+            LeftWall = leftWallTile.Id,
+            RightWall = rightWallTile.Id,
+            MiddleWall = middleWallTile.Id,
             Door = floorTile.Id
         };
-        GD.Print("saving");
+        
         ResourceSaver.Save("GeneratedTileset.tres", tileset);
-        GD.Print("saved");
+    }
+
+    private TTile GenerateTile<TTile>(TileSet tileset) where TTile : Tile, new() {
+        var id = tileset.GetLastUnusedTileId();
+        tileset.CreateTile(id);
+        var tile = new TTile() { Id = id };
+        tile.Setup(tileset);
+        return tile;
     }
 
     private void Reset() {

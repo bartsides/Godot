@@ -38,7 +38,7 @@ public class StartingRoom : IRoom
         result[Width/2][Height-1] = Tileset.Door;
 
         // Add middle wall
-        result[2][2] = Tileset.TopWall;
+        result[2][2] = Tileset.MiddleWall;
 
         return result;
     }

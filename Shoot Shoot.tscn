@@ -93,21 +93,18 @@ format = 1
 script = ExtResource( 6 )
 
 [node name="FloorTileMap" type="TileMap" parent="Level"]
-mode = 1
 tile_set = ExtResource( 8 )
-cell_size = Vector2( 128, 64 )
 show_collision = true
 format = 1
-tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 0, -65535, 0, 0, 65535, 0, 0, 0, 1, 0, 1, 0, 0, 131071, 0, 0, 65536, 0, 0, 65537, 0, 0 )
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
+[node name="Player" parent="Level" instance=ExtResource( 2 )]
 mode = 2
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="Enemies" type="Node2D" parent="Level"]
 visible = false
 
-[node name="Enemy" parent="Enemies" instance=ExtResource( 4 )]
+[node name="Enemy" parent="Level/Enemies" instance=ExtResource( 4 )]
 position = Vector2( -123, -221 )
 
-[node name="Enemy2" parent="Enemies" instance=ExtResource( 4 )]
+[node name="Enemy2" parent="Level/Enemies" instance=ExtResource( 4 )]
 position = Vector2( 120, 258 )

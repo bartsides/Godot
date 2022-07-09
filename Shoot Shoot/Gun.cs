@@ -19,6 +19,7 @@ public class Gun : Node2D
         bullet.Position = GetNode<Position2D>("BulletPosition").Position;
         //bullet.LinearVelocity = GlobalPosition.DirectionTo(GetGlobalMousePosition()) * Speed;
         bullet.LinearVelocity = direction * Speed;
+        bullet.ZIndex = 0;
         return bullet;
     }
 }

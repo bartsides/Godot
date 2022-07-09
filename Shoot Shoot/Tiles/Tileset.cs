@@ -8,5 +8,6 @@ public struct Tileset {
     public int BottomWall;
     public int BottomLeftWall;
     public int BottomRightWall;
+    public int MiddleWall;
     public int Door;
 }

@@ -5,4 +5,5 @@ public struct ColorScheme {
     public Color Top;
     public Color Light;
     public Color Dark;
+    public Color Void;
 }
