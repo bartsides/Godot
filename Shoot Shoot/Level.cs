@@ -20,7 +20,7 @@ public class Level : Navigation2D
             GenerateTileSet();
 
         // TODO: Incorporate FloorNumber into level generation
-        var startingRoom = new StartingRoom(ColorScheme, Tileset);
+        var startingRoom = new Room(ColorScheme, Tileset);
         AddRoomTiles(startingRoom, Vector2.Zero - new Vector2(startingRoom.Width / 2, startingRoom.Height / 2));
     }
 
@@ -50,7 +50,9 @@ public class Level : Navigation2D
         var rightWallTile = GenerateTile<RightWallTile>(tileset);
         var bottomWallTile = GenerateTile<BottomWallTile>(tileset);
         var bottomRightWallTile = GenerateTile<BottomRightWallTile>(tileset);
+        var bottomRightCornerTile = GenerateTile<BottomRightCornerTile>(tileset);
         var bottomLeftWallTile = GenerateTile<BottomLeftWallTile>(tileset);
+        var bottomLeftCornerTile = GenerateTile<BottomLeftCornerTile>(tileset);
 
         Tileset = new Tileset {
             Floor = floorTile.Id,
@@ -59,7 +61,9 @@ public class Level : Navigation2D
             TopRightWall = topRightWallTile.Id,
             BottomWall = bottomWallTile.Id,
             BottomLeftWall = bottomLeftWallTile.Id,
+            BottomLeftCorner = bottomLeftCornerTile.Id,
             BottomRightWall = bottomRightWallTile.Id,
+            BottomRightCorner = bottomRightCornerTile.Id,
             LeftWall = leftWallTile.Id,
             RightWall = rightWallTile.Id,
             MiddleWall = middleWallTile.Id,

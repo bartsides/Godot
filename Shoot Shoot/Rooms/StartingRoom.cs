@@ -51,7 +51,7 @@ public class StartingRoom : IRoom
             if (y == 0)
                 tile = Tileset.TopLeftWall;
             else if (y == Height - 1)
-                tile = Tileset.BottomLeftWall;
+                tile = Tileset.BottomLeftCorner;
             else
                 tile = Tileset.LeftWall;
         }

@@ -8,7 +8,7 @@ public class Gun : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-		bulletScene = GD.Load<PackedScene>("res://Shoot Shoot/Bullet.tscn");
+        bulletScene = GD.Load<PackedScene>("res://Shoot Shoot/Bullet.tscn");
     }
 
     public Projectile Shoot(Vector2 direction) {

@@ -5,22 +5,24 @@ using System.Drawing.Imaging;
 
 public class Tile {
     public int Id { get; set; }
-    public virtual int ZIndex { get; set; } = 0;
+
     protected static int TileHeight { get; set; } = 64;
     protected static int TileWidth { get; set; } = 64;
+
     protected const int DefaultTileBoxHeight = 0;
-    public virtual int TileBoxHeight { get; set; } = DefaultTileBoxHeight;
     protected const int DefaultOffsetY = 50;
+    protected const string filename = @"temp.png";
+
+    public virtual int ZIndex { get; set; } = 0;
+    public virtual int TileBoxHeight { get; set; } = DefaultTileBoxHeight;
     public virtual Vector2 Offset { get; set; } = new Vector2(0, -DefaultOffsetY);
     public virtual int TileTopPadding { get; set; } = DefaultOffsetY;
-    public int ImageHeight => TileTopPadding + TileHeight + TileBoxHeight;
 
     protected virtual Shape2D CollisionShape { get; set; } = null;
     protected virtual Transform2D CollisionTransform { get; set; } = new Transform2D(0, Vector2.Zero);
-
     public virtual ColorScheme ColorScheme { get; set; }
 
-    protected const string filename = @"temp.png";
+    public int ImageHeight => TileTopPadding + TileHeight + TileBoxHeight;
 
     protected Texture _texture = null;
     public Texture Texture {
