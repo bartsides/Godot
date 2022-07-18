@@ -1,21 +1,62 @@
+using Godot;
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using Godot;
 
 public static class RoomGenerator {
+    private const int minShapes = 2;
+    private const  int maxShapes = 8;
+    private const int minShapeWidth = 4;
     private static readonly Pen pen = Pens.Black;
+    private static readonly Brush brush = Brushes.Black;
+    private static RandomNumberGenerator rand = new RandomNumberGenerator();
+    private static IShape[] Shapes = new IShape[] {
+        new RectangleShape(),
+        //new EllipseShape(),
+        //new TriangleShape(),
+    };
 
     public static int?[][] Generate(int width, int height, Tileset tileset) {
+        rand.Seed = (ulong) DateTime.UtcNow.Ticks;
+
         var result = new int?[width][];
-        for (var x = 0; x < width; x++) {
+        for (var x = 0; x < width; x++)
             result[x] = new int?[height];
-        }
 
         var bitmap = DrawImageWithShapes(width, height);
         result = CreateExteriorWalls(bitmap, result, tileset);
+        result = CreateFloor(bitmap, result, tileset);
+        result = AddDoor(bitmap, result, tileset, MooreNeighbor.Up);
         return result;
+    }
+
+    private static Bitmap DrawImageWithShapes(int maxWidth, int maxHeight) {
+        var bitmap = new Bitmap(maxWidth, maxHeight, PixelFormat.Format32bppArgb);
+        using (var g = Graphics.FromImage(bitmap)) {
+            var numberOfShapes = rand.RandiRange(minShapes, maxShapes);
+
+            var width = maxWidth;
+            var height = maxHeight;
+            var center = new Point(maxWidth/2, maxHeight/2);
+            for (var i = 0; i < numberOfShapes; i++) {
+                var shape = Shapes[rand.RandiRange(0, Shapes.Length - 1)];
+
+                var size = new Size(rand.RandiRange(4, width), rand.RandiRange(4, height));
+                center = new Point(center.X - size.Width/2, center.Y - size.Height/2);
+
+                center = shape.Draw(center, size, g, brush, rand);
+
+                width = Math.Min(center.X, maxWidth - center.X);
+                height = Math.Min(center.Y, maxHeight - center.Y);
+
+                //GD.Print($"({center.X},{center.Y}) {width}x{height}");
+
+                if (width <= minShapeWidth || height <= minShapeWidth)
+                    break;
+            }
+        }
+
+        return bitmap;
     }
 
     private static int?[][] CreateExteriorWalls(Bitmap bitmap, int?[][] result, Tileset tileset) {
@@ -24,49 +65,40 @@ public static class RoomGenerator {
         var current = start;
         var prev = current;
         var neighbor = MooreNeighbor.UpLeft;
+        var startingNeighbor = neighbor;
         var next = current.GetNeighbor(neighbor);
         var lastNeighborPoint = next;
 
         // Skip first and process it last
-        var firstProcessed = false;
+        var startProcessedNum = 0;
         var exit = false;
-
 
         while (true)
         {
-            if (firstProcessed && current == start)
-                exit = true;
+            if (startProcessedNum > 1) exit = true;
 
             if (next.X.Between(0, bitmap.Width - 1) && next.Y.Between(0, bitmap.Height - 1) &&
                 bitmap.GetPixel(next.X, next.Y).A > 0)
             {
-                if (firstProcessed) {
-                    MooreNeighbor? nextNeighbor = null;
+                if (startProcessedNum > 0) {
                     Point? corner = null;
 
+                    // Add corners when needed
                     if (neighbor == MooreNeighbor.DownRight) {
                         corner = current.GetNeighbor(MooreNeighbor.Right);
-                        //nextNeighbor = MooreNeighbor.Down;
                     }
                     else if (neighbor == MooreNeighbor.DownLeft) {
                         corner = current.GetNeighbor(MooreNeighbor.Down);
-                        //nextNeighbor = MooreNeighbor.Left;
                     }
                     else if (neighbor == MooreNeighbor.UpLeft) {
                         corner = current.GetNeighbor(MooreNeighbor.Left);
-                        //nextNeighbor = MooreNeighbor.Up;
                     }
                     else if (neighbor == MooreNeighbor.UpRight) {
                         corner = current.GetNeighbor(MooreNeighbor.Up);
-                        //nextNeighbor = MooreNeighbor.Right;
                     }
 
                     if (corner.HasValue) {
-                        //neighbor = nextNeighbor.Value;
-
                         result[current.X][current.Y] = DetermineWallType(prev, current, corner.Value, tileset);
-
-                        //GD.Print($"Filling top right corner ({prev.X},{prev.Y}) ({current.X},{current.Y}) ({corner.X},{corner.Y}) ({next.X},{next.Y})");
                         prev = current;
                         current = corner.Value;
                     }
@@ -74,7 +106,8 @@ public static class RoomGenerator {
                     result[current.X][current.Y] = DetermineWallType(prev, current, next, tileset);
                 }
 
-                firstProcessed = true;
+                if (current == start)
+                    startProcessedNum++;
 
                 // Found next pixel
                 prev = current;
@@ -93,13 +126,62 @@ public static class RoomGenerator {
             if (exit) break;
         }
 
-
-
         return result;
     }
 
+    private static int?[][] CreateFloor(Bitmap bitmap, int?[][] result, Tileset tileset) {
+        for (var x = 0; x < result.Length; x++)
+        for (var y = 0; y < result[x].Length; y++) {
+            if (result[x][y] == null && bitmap.GetPixel(x, y).A > 0) {
+                result[x][y] = tileset.Floor;
+            }
+        }
+        return result;
+    }
+
+    private static int?[][] AddDoor(Bitmap bitmap, int?[][] result, Tileset tileset, MooreNeighbor direction) {
+        var x = bitmap.Width / 2;
+        var y = bitmap.Height / 2;
+        switch (direction) {
+            case MooreNeighbor.Up:
+                for (y = 0; y < bitmap.Height - 1; y++) {
+                    if (bitmap.GetPixel(x, y).A > 0) {
+                        result[x][y] = tileset.Door;
+                        return result;
+                    }
+                }
+                break;
+            case MooreNeighbor.Down:
+                for (y = bitmap.Height - 1; y >= 0; y--) {
+                    if (bitmap.GetPixel(x, y).A > 0) {
+                        result[x][y] = tileset.Door;
+                        return result;
+                    }
+                }
+                break;
+            case MooreNeighbor.Left:
+                for (x = 0; x < bitmap.Width - 1; x++) {
+                    if (bitmap.GetPixel(x, y).A > 0) {
+                        result[x][y] = tileset.Door;
+                        return result;
+                    }
+                }
+                break;
+            case MooreNeighbor.Right:
+                for (x = bitmap.Width - 1; x >= 0; x--) {
+                    if (bitmap.GetPixel(x, y).A > 0) {
+                        result[x][y] = tileset.Door;
+                        return result;
+                    }
+                }
+                break;
+            default:
+                throw new NotImplementedException($"Add door with direction {direction} not implemented");
+        }
+        throw new Exception($"Unable to add {direction} door");
+    }
+
     private static int DetermineWallType(Point prev, Point current, Point next, Tileset tileset) {
-        // GD.Print($"{prev.X},{prev.Y} - {current.X},{current.Y} - {next.X},{next.Y}");
         var before = current.DetermineNeighbor(prev);
         var after = current.DetermineNeighbor(next);
 
@@ -116,12 +198,12 @@ public static class RoomGenerator {
         else if (before == MooreNeighbor.Down) {
             if (after == MooreNeighbor.Left) return tileset.BottomLeftWall;
             if (after == MooreNeighbor.Up) return tileset.LeftWall;
-            if (after == MooreNeighbor.Right) return tileset.TopLeftWall;
+            if (after == MooreNeighbor.Right) return tileset.TopLeftCorner;
         }
         else if (before == MooreNeighbor.Left) {
-            if (after == MooreNeighbor.Up) return tileset.TopLeftWall;
+            if (after == MooreNeighbor.Up) return tileset.TopWall;
             if (after == MooreNeighbor.Right) return tileset.TopWall;
-            if (after == MooreNeighbor.Down) return tileset.TopRightWall;
+            if (after == MooreNeighbor.Down) return tileset.TopRightCorner;
         }
 
         return tileset.MiddleWall;
@@ -139,25 +221,5 @@ public static class RoomGenerator {
         }
 
         throw new Exception("Unable to find starting point");
-    }
-
-    private static Bitmap DrawImageWithShapes(int width, int height) {
-        var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-        using (var g = Graphics.FromImage(bitmap)) {
-            var points = new Point[]
-            {
-                new Point(3, 3), new Point(7, 4), new Point(5, 6), new Point(4, 9), new Point(3, 3)
-            };
-            var types = new[]
-            {
-                (byte) PathPointType.Start, (byte) PathPointType.Line, (byte) PathPointType.Line,
-                (byte) PathPointType.Line, (byte) PathPointType.Line
-            };
-            g.DrawPath(pen, new GraphicsPath(points, types));
-
-            g.DrawEllipse(pen, new Rectangle(4, 4, 15, 15));
-        }
-
-        return bitmap;
     }
 }

@@ -7,10 +7,12 @@ using DrawingColor = System.Drawing.Color;
 
 public class WallTile : Tile
 {
+    public override string TileName => nameof(WallTile);
     public virtual int WallHeight { get; set; } = TileHeight * 1;
     public virtual int EdgeWidth { get; set; } = TileWidth / 4;
     public virtual Point[] WallPoints { get; set; }
-    public virtual byte[] WallPointTypes { get; set; } = Constants.RectPointTypes;
+    public virtual byte[] WallPointTypes { get; set; }
+    public virtual Brush VoidBrush { get; set; } = Constants.VoidBrush;
 
     protected override Shape2D CollisionShape => new ConvexPolygonShape2D {
         Points = new [] {
@@ -38,10 +40,12 @@ public class WallTile : Tile
         using (var g = Graphics.FromImage(bitmap))
         {
             var voidPoints = new [] { TopLeft, TopRight, BottomRight, BottomLeft, TopLeft };
-            var voidPath = new GraphicsPath(voidPoints, Constants.RectPointTypes);
-            g.FillPath(Constants.VoidBrush, voidPath);
+            var voidPath = new GraphicsPath(voidPoints, GetPathPointTypes(voidPoints));
+            g.FillPath(VoidBrush, voidPath);
 
             if (WallPoints?.Length > 0) {
+                if (WallPointTypes == null)
+                    WallPointTypes = GetPathPointTypes(WallPoints);
                 var wallPath = new GraphicsPath(WallPoints, WallPointTypes);
                 g.FillPath(wallBrush, wallPath);
             }

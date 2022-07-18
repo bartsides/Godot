@@ -1,6 +1,7 @@
 using System.Drawing;
 
 public class LeftWallTile : WallTile {
+    public override string TileName => nameof(LeftWallTile);
     public override Point[] WallPoints => new [] { 
         TopRight,
         BottomRight,

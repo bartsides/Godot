@@ -39,7 +39,6 @@ public class Player : RigidBody2D
 		foreach(Node2D node in weaponsNode.GetChildren()) {
 			if (node is Gun weapon) {
 				if (CurrentWeapon == null) {
-					GD.Print("Setting current weapon");
 					CurrentWeapon = weapon;
 					node.Visible = true;
 				} else {

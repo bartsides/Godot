@@ -44,8 +44,8 @@ public class Level : Navigation2D
         var floorTile = GenerateTile<FloorTile>(tileset);
         var middleWallTile = GenerateTile<MiddleWallTile>(tileset);
         var topWallTile = GenerateTile<TopWallTile>(tileset);
-        var topLeftWallTile = GenerateTile<TopLeftWallTile>(tileset);
-        var topRightWallTile = GenerateTile<TopRightWallTile>(tileset);
+        var topLeftWallTile = GenerateTile<TopLeftCornerTile>(tileset);
+        var topRightWallTile = GenerateTile<TopRightCornerTile>(tileset);
         var leftWallTile = GenerateTile<LeftWallTile>(tileset);
         var rightWallTile = GenerateTile<RightWallTile>(tileset);
         var bottomWallTile = GenerateTile<BottomWallTile>(tileset);
@@ -57,8 +57,8 @@ public class Level : Navigation2D
         Tileset = new Tileset {
             Floor = floorTile.Id,
             TopWall = topWallTile.Id,
-            TopLeftWall = topLeftWallTile.Id,
-            TopRightWall = topRightWallTile.Id,
+            TopLeftCorner = topLeftWallTile.Id,
+            TopRightCorner = topRightWallTile.Id,
             BottomWall = bottomWallTile.Id,
             BottomLeftWall = bottomLeftWallTile.Id,
             BottomLeftCorner = bottomLeftCornerTile.Id,

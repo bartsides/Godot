@@ -1,8 +1,10 @@
 using System.Drawing;
-using System.Drawing.Drawing2D;
+using Godot;
 
 public class BottomLeftWallTile : WallTile {
+    public override string TileName => nameof(BottomLeftWallTile);
     public override int ZIndex => 1;
+    protected override Shape2D CollisionShape => new ConvexPolygonShape2D();
 
     public override Point[] WallPoints => new [] {
         TopLeft,
@@ -12,11 +14,5 @@ public class BottomLeftWallTile : WallTile {
         new Point(BottomRight.X - EdgeWidth, TopRight.Y + EdgeWidth),
         new Point(TopLeft.X, TopLeft.Y + EdgeWidth),
         TopLeft,
-    };
-
-    public override byte[] WallPointTypes => new [] {
-        (byte) PathPointType.Start, (byte) PathPointType.Line, (byte) PathPointType.Line,
-        (byte) PathPointType.Line, (byte) PathPointType.Line, (byte) PathPointType.Line,
-        (byte) PathPointType.Line
     };
 }

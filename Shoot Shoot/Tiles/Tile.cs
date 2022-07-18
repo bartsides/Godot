@@ -2,6 +2,7 @@ using Godot;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Collections.Generic;
 
 public class Tile {
     public int Id { get; set; }
@@ -13,6 +14,7 @@ public class Tile {
     protected const int DefaultOffsetY = 50;
     protected const string filename = @"temp.png";
 
+    public virtual string TileName { get; set; } = "Tile";
     public virtual int ZIndex { get; set; } = 0;
     public virtual int TileBoxHeight { get; set; } = DefaultTileBoxHeight;
     public virtual Vector2 Offset { get; set; } = new Vector2(0, -DefaultOffsetY);
@@ -45,6 +47,7 @@ public class Tile {
         tileset.TileSetTexture(Id, Texture);
         tileset.TileSetTextureOffset(Id, Offset);
         tileset.TileSetZIndex(Id, ZIndex);
+        tileset.TileSetName(Id, TileName);
 
         if (CollisionShape != null)
             tileset.TileAddShape(Id, CollisionShape, CollisionTransform);
@@ -59,14 +62,8 @@ public class Tile {
         var bitmap = new Bitmap(TileWidth, ImageHeight, PixelFormat.Format32bppArgb);
         using (var g = Graphics.FromImage(bitmap))
         {
-            var rectTypes = new[]
-            {
-                (byte) PathPointType.Start, (byte) PathPointType.Line, (byte) PathPointType.Line,
-                (byte) PathPointType.Line, (byte) PathPointType.Line
-            };
-
             var points = new [] { TopLeft, TopRight, BottomRight, BottomLeft, TopLeft };
-            var path = new GraphicsPath(points, rectTypes);
+            var path = new GraphicsPath(points, GetPathPointTypes(points));
 
             g.FillPath(topBrush, path);
             g.DrawPath(outline, path);
@@ -84,5 +81,12 @@ public class Tile {
 
     protected Vector2 AddOffset(Point point) {
         return new Vector2(point.X + Offset.x, point.Y + Offset.y);
+    }
+
+    protected static byte[] GetPathPointTypes(Point[] points) {
+        var result = new List<byte> { (byte) PathPointType.Start };
+        for (var i = 0; i < points.Length - 1; i++)
+            result.Add((byte) PathPointType.Line);
+        return result.ToArray();
     }
 }
