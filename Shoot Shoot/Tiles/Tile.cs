@@ -11,7 +11,7 @@ public class Tile {
     protected static int TileWidth { get; set; } = 64;
 
     protected const int DefaultTileBoxHeight = 0;
-    protected const int DefaultOffsetY = 50;
+    protected const int DefaultOffsetY = 64;
     protected const string filename = @"temp.png";
 
     public virtual string TileName { get; set; } = "Tile";

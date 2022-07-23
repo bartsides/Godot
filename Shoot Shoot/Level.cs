@@ -6,11 +6,12 @@ public class Level : Navigation2D
     public ColorScheme ColorScheme { get; set; }
     public Tileset Tileset { get; set; }
     private TileMap floorTileMap;
+    private const int NumberOfRooms = 2;
     
     public override void _Ready()
     {
         floorTileMap = GetNode<TileMap>("FloorTileMap");
-        floorTileMap.ShowCollision = true;
+        //floorTileMap.ShowCollision = true;
     }
     
     public void GenerateLevel(bool regenerateTileset) {
@@ -19,19 +20,28 @@ public class Level : Navigation2D
         if (regenerateTileset)
             GenerateTileSet();
 
-        // TODO: Incorporate FloorNumber into level generation
         var startingRoom = new Room(ColorScheme, Tileset);
-        AddRoomTiles(startingRoom, Vector2.Zero - new Vector2(startingRoom.Width / 2, startingRoom.Height / 2));
+        startingRoom.Center = Vector2.Zero;
+        startingRoom.GenerateTiles();
+        var door = startingRoom.AddDoor(MooreNeighbor.Up);
+        AddRoomTiles(startingRoom);
+
+        var room = new Room(ColorScheme, Tileset);
+        room.Center = startingRoom.Center - new Vector2(0, room.Height + 2);
+        room.GenerateTiles();
+        var door2 = room.AddDoor(MooreNeighbor.Down);
+        AddRoomTiles(room);
+
+        AddHallway(door, door2);
     }
 
-    private void AddRoomTiles(IRoom room, Vector2 topLeft) {
-        var tiles = room.GenerateTiles();
-        for (var row = 0; row < tiles.Length; row++) {
-            for (var col = 0; col < tiles[row].Length; col++) {
-                var tile = tiles[row][col];
-                if (tile == null) 
+    private void AddRoomTiles(Room room) {
+        for (var row = 0; row < room.Tiles.Length; row++) {
+            for (var col = 0; col < room.Tiles[row].Length; col++) {
+                var tile = room.Tiles[row][col];
+                if (tile == null)
                     continue;
-                var tileLoc = topLeft + new Vector2(row, col);
+                var tileLoc = room.TopLeft + new Vector2(row, col);
                 floorTileMap.SetCell((int)tileLoc.x, (int)tileLoc.y, tile.Value);
             }
         }
@@ -79,6 +89,21 @@ public class Level : Navigation2D
         var tile = new TTile() { Id = id };
         tile.Setup(tileset);
         return tile;
+    }
+
+    private void AddHallway(Door start, Door end) {
+        GD.Print($"Adding hallway from {start.Position.x},{start.Position.y} to {end.Position.x},{end.Position.y}");
+        var pos = start.Position + new Vector2(0, -1);
+        while (pos.x != end.Position.y &&pos.y != end.Position.y) {
+            GD.Print($"Position {pos.x},{pos.y}");
+            floorTileMap.SetCell((int)pos.x, (int)pos.y, Tileset.Floor);
+            floorTileMap.SetCell((int)pos.x - 1, (int)pos.y, Tileset.LeftWall);
+            floorTileMap.SetCell((int)pos.x + 1, (int)pos.y, Tileset.RightWall);
+            pos += new Vector2(0, -1);
+        }
+
+        floorTileMap.SetCell((int)end.Position.x - 1, (int)end.Position.y, Tileset.BottomLeftWall);
+        floorTileMap.SetCell((int)end.Position.x + 1, (int)end.Position.y, Tileset.BottomRightWall);
     }
 
     private void Reset() {

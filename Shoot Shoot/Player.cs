@@ -28,6 +28,8 @@ public class Player : RigidBody2D
 		SetWeapons(new List<PackedScene>{
 			GD.Load<PackedScene>("res://Shoot Shoot/Gun.tscn")
 		});
+
+		GD.Print($"Player location {Position.x},{Position.y}");
 	}
 
 	private void SetWeapons(List<PackedScene> guns) {
