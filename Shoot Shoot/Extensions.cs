@@ -9,6 +9,7 @@ public static class Extensions {
     public static bool IsZero(this float value) => Mathf.Abs(value - 0) <= 0.0000001;
     public static bool Between(this int value, int min, int max) => value >= min && value <= max;
     public static MooreNeighbor Next(this MooreNeighbor neighbor) => (MooreNeighbor)(((int)neighbor + 1) % 8);
+    public static MooreNeighbor Opposite(this MooreNeighbor neighbor) => (MooreNeighbor)(((int)neighbor + 4) % 8);
 
     public static Point GetNeighbor(this Point point, MooreNeighbor neighbor)
     {

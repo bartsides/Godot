@@ -1,4 +1,6 @@
 using Godot;
+using System;
+using System.Collections.Generic;
 
 public class Level : Navigation2D
 {
@@ -7,10 +9,16 @@ public class Level : Navigation2D
     public Tileset Tileset { get; set; }
     private TileMap floorTileMap;
     private const int NumberOfRooms = 2;
+    private PackedScene RoomScene;
+    private Node2D RoomsNode { get; set; }
+    private List<Room> Rooms { get; set; } = new List<Room>();
     
     public override void _Ready()
     {
         floorTileMap = GetNode<TileMap>("FloorTileMap");
+        RoomScene = GD.Load<PackedScene>("res://Shoot Shoot/Room.tscn");
+        RoomsNode = GetNode<Node2D>("Rooms");
+
         //floorTileMap.ShowCollision = true;
     }
     
@@ -20,22 +28,58 @@ public class Level : Navigation2D
         if (regenerateTileset)
             GenerateTileSet();
 
-        var startingRoom = new Room(ColorScheme, Tileset);
-        startingRoom.Center = Vector2.Zero;
-        startingRoom.GenerateTiles();
-        var door = startingRoom.AddDoor(MooreNeighbor.Up);
-        AddRoomTiles(startingRoom);
+        var room = GetNextRoom();
+        MooreNeighbor direction = MooreNeighbor.Up;
 
-        var room = new Room(ColorScheme, Tileset);
-        room.Center = startingRoom.Center - new Vector2(0, room.Height + 2);
+        for (var i = 0; i < NumberOfRooms; i++) {
+            // Determine next direction
+            room = AddRoom(room, direction);
+        }
+
+        foreach (var r in Rooms) {
+            AddRoomTiles(r);
+        }
+    }
+
+    private Room AddRoom(Room prev, MooreNeighbor direction) {
+        var room = GetNextRoom();
+
+        Vector2 diff;
+        if (direction == MooreNeighbor.Up)
+            diff = new Vector2(0, -(room.Height + 2));
+        else if (direction == MooreNeighbor.Down)
+            diff = new Vector2(0, room.Height + 2);
+        else if (direction == MooreNeighbor.Left)
+            diff = new Vector2(-(room.Width + 2), 0);
+        else if (direction == MooreNeighbor.Right)
+            diff = new Vector2(room.Width + 2, 0);
+        else
+            throw new NotImplementedException($"Add room with direction {direction} not implemented");
+
+        var door = prev.AddDoor(direction);
+        
+        room.Center = prev.Center + diff;
+        var nextDoor = room.AddDoor(direction.Opposite());
+
+        AddHallway(door, nextDoor);
+
+        room.AddEnemies();
+        return room;
+    }
+
+    private Room GetNextRoom() {
+        var room = RoomScene.Instance<Room>();
+        room.ColorScheme = ColorScheme;
+        room.Tileset = Tileset;
         room.GenerateTiles();
-        var door2 = room.AddDoor(MooreNeighbor.Down);
-        AddRoomTiles(room);
 
-        AddHallway(door, door2);
+        RoomsNode.AddChild(room);
+        Rooms.Add(room);
+        return room;
     }
 
     private void AddRoomTiles(Room room) {
+        GD.Print("Adding room tiles");
         for (var row = 0; row < room.Tiles.Length; row++) {
             for (var col = 0; col < room.Tiles[row].Length; col++) {
                 var tile = room.Tiles[row][col];
@@ -92,10 +136,11 @@ public class Level : Navigation2D
     }
 
     private void AddHallway(Door start, Door end) {
+        // Only handles up
         GD.Print($"Adding hallway from {start.Position.x},{start.Position.y} to {end.Position.x},{end.Position.y}");
         var pos = start.Position + new Vector2(0, -1);
-        while (pos.x != end.Position.y &&pos.y != end.Position.y) {
-            GD.Print($"Position {pos.x},{pos.y}");
+        while (pos.x != end.Position.y && pos.y != end.Position.y) {
+            //GD.Print($"Position {pos.x},{pos.y}");
             floorTileMap.SetCell((int)pos.x, (int)pos.y, Tileset.Floor);
             floorTileMap.SetCell((int)pos.x - 1, (int)pos.y, Tileset.LeftWall);
             floorTileMap.SetCell((int)pos.x + 1, (int)pos.y, Tileset.RightWall);

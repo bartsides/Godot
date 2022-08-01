@@ -108,3 +108,5 @@ position = Vector2( -123, -221 )
 
 [node name="Enemy2" parent="Level/Enemies" instance=ExtResource( 4 )]
 position = Vector2( 120, 258 )
+
+[node name="Rooms" type="Node2D" parent="Level"]

@@ -4,19 +4,20 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Godot;
 
-public class Room {
-    public ColorScheme ColorScheme { get; }
-    public Tileset Tileset { get; }
+public class Room : Node2D {
+    public ColorScheme ColorScheme { get; set; }
+    public Tileset Tileset { get; set; }
     public List<object> Items { get; set; }
     public Bitmap MinimapImage { get; private set; }
     public List<Door> Doors { get; set; } = new List<Door>();
 
-    public Vector2 Center { get; set; }
+    public Vector2 Center { get; set; } = Vector2.Zero;
     public Vector2 TopLeft => Center - new Vector2(Width/2, Height/2);
     public virtual int Width { get; set; }
     public virtual int Height { get; set; }
 
     public int?[][] Tiles { get; set; }
+    private List<Vector2> SpawnableTiles = new List<Vector2>();
 
     protected RandomNumberGenerator Rand = new RandomNumberGenerator();
 
@@ -24,24 +25,34 @@ public class Room {
     private const int maxShapes = 8;
     private const int minShapeWidth = 4;
 
+    private PackedScene EnemyScene;
+    public List<Enemy> Enemies { get; set; }
+
     private static IShape[] Shapes = new IShape[] {
         new RectangleShape(),
         //new EllipseShape(),
         //new TriangleShape(),
     };
 
-    public Room(ColorScheme colorScheme, Tileset tileset)
-    {
-        ColorScheme = colorScheme;
-        Tileset = tileset;
-        
+    public Room() {
         Width = 20;
         Height = 20;
+
+        EnemyScene = GD.Load<PackedScene>("res://Shoot Shoot/Enemy.tscn");
     }
 
     public virtual void AddEnemies()
     {
-        
+        var numEnemies = Rand.RandiRange(1, 10);
+        if (numEnemies == 0) return;
+
+
+
+        for (var i = 0; i < numEnemies; i++) {
+            var enemy = EnemyScene.Instance<Enemy>();
+            //enemy.Position = 
+            AddChild(enemy);
+        }
     }
 
     public virtual int?[][] GenerateTiles() {
@@ -165,6 +176,7 @@ public class Room {
     }
 
     public virtual Door AddDoor(MooreNeighbor direction) {
+        GD.Print($"Adding door {direction}");
         var x = MinimapImage.Width / 2;
         var y = MinimapImage.Height / 2;
         bool found = false;
