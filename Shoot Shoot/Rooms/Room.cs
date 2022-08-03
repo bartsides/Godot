@@ -176,58 +176,77 @@ public class Room : Node2D {
     }
 
     public virtual Door AddDoor(MooreNeighbor direction) {
-        GD.Print($"Adding door {direction}");
+        //GD.Print($"Adding door {direction}");
+        var location = FindDoorLocation(direction);
+        var x = (int)location.x;
+        var y = (int)location.y;
+
+        var door = new Door { 
+            Position = Center + new Vector2(x - Width/2, y - Height/2), 
+            Direction = direction 
+        };
+        Doors.Add(door);
+        
+        // Set tiles
+        Tiles[x][y] = Tileset.Door;
+        switch (direction) {
+            case MooreNeighbor.Up:
+                Tiles[x-1][y] = Tileset.TopWall;
+                Tiles[x+1][y] = Tileset.TopWall;
+                break;
+            case MooreNeighbor.Down:
+                Tiles[x-1][y] = Tileset.BottomLeftWall;
+                Tiles[x+1][y] = Tileset.BottomRightWall;
+                break;
+            case MooreNeighbor.Left:
+            case MooreNeighbor.Right:
+            default:
+                break;
+        }
+
+        //GD.Print($"Door local pos {location.x},{location.y}  global pos {door.Position.x},{door.Position.y}   center of room {Center.x},{Center.y}");
+
+        return door;
+    }
+
+    private Vector2 FindDoorLocation(MooreNeighbor direction) {
         var x = MinimapImage.Width / 2;
         var y = MinimapImage.Height / 2;
-        bool found = false;
-        
+
         switch (direction) {
             case MooreNeighbor.Up:
                 for (y = 0; y < MinimapImage.Height - 1; y++) {
                     if (MinimapImage.GetPixel(x, y).A > 0) {
-                        found = true;
-                        break;
+                        return new Vector2(x, y);
                     }
                 }
                 break;
             case MooreNeighbor.Down:
                 for (y = MinimapImage.Height - 1; y >= 0; y--) {
                     if (MinimapImage.GetPixel(x, y).A > 0) {
-                        found = true;
-                        break;
+                        return new Vector2(x, y);
                     }
                 }
                 break;
             case MooreNeighbor.Left:
                 for (x = 0; x < MinimapImage.Width - 1; x++) {
                     if (MinimapImage.GetPixel(x, y).A > 0) {
-                        found = true;
-                        break;
+                        return new Vector2(x, y);
                     }
                 }
                 break;
             case MooreNeighbor.Right:
                 for (x = MinimapImage.Width - 1; x >= 0; x--) {
                     if (MinimapImage.GetPixel(x, y).A > 0) {
-                        found = true;
-                        break;
+                        return new Vector2(x, y);
                     }
                 }
                 break;
             default:
                 throw new NotImplementedException($"Add door with direction {direction} not implemented");
         }
-        
-        if (!found)
-            throw new Exception($"Unable to add {direction} door");
 
-        Tiles[x][y] = Tileset.Door;
-        var door = new Door{ Position = Center + new Vector2(x - Width/2, y - Height/2), Direction = direction };
-        Doors.Add(door);
-
-        GD.Print($"Door local pos {x},{y}  global pos {door.Position.x},{door.Position.y}   center of room {Center.x},{Center.y}");
-
-        return door;
+        throw new Exception($"Unable to add {direction} door");
     }
 
     protected static int DetermineWallType(Point prev, Point current, Point next, Tileset tileset) {

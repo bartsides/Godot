@@ -146,9 +146,6 @@ public class Level : Navigation2D
             floorTileMap.SetCell((int)pos.x + 1, (int)pos.y, Tileset.RightWall);
             pos += new Vector2(0, -1);
         }
-
-        floorTileMap.SetCell((int)end.Position.x - 1, (int)end.Position.y, Tileset.BottomLeftWall);
-        floorTileMap.SetCell((int)end.Position.x + 1, (int)end.Position.y, Tileset.BottomRightWall);
     }
 
     private void Reset() {

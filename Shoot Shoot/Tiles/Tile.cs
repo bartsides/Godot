@@ -19,6 +19,7 @@ public class Tile {
     public virtual int TileBoxHeight { get; set; } = DefaultTileBoxHeight;
     public virtual Vector2 Offset { get; set; } = new Vector2(0, -DefaultOffsetY);
     public virtual int TileTopPadding { get; set; } = DefaultOffsetY;
+    public virtual bool DrawOutline { get; set; } = false;
 
     protected virtual Shape2D CollisionShape { get; set; } = null;
     protected virtual Transform2D CollisionTransform { get; set; } = new Transform2D(0, Vector2.Zero);
@@ -37,9 +38,9 @@ public class Tile {
 
     // Top rectangle points
     protected Point TopLeft => new Point(0, TileTopPadding);
-    protected Point TopRight => new Point(TileWidth - 1, TileTopPadding);
+    protected Point TopRight => new Point(TileWidth, TileTopPadding);
     protected Point BottomLeft => new Point(0, TileHeight + TileTopPadding);
-    protected Point BottomRight => new Point(TileWidth - 1, TileHeight + TileTopPadding);
+    protected Point BottomRight => new Point(TileWidth, TileHeight + TileTopPadding);
 
     public Tile() { }
 
@@ -66,7 +67,9 @@ public class Tile {
             var path = new GraphicsPath(points, GetPathPointTypes(points));
 
             g.FillPath(topBrush, path);
-            g.DrawPath(outline, path);
+            
+            if (DrawOutline)
+                g.DrawPath(outline, path);
         }
 
         bitmap.Save(filename, ImageFormat.Png);
