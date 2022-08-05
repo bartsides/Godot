@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using Godot;
 
 public class Room : Node2D {
+    private bool debug = true;
     public ColorScheme ColorScheme { get; set; }
     public Tileset Tileset { get; set; }
     public List<object> Items { get; set; }
@@ -15,7 +16,8 @@ public class Room : Node2D {
     public Vector2 TopLeft => Center - new Vector2(Width/2, Height/2);
     public virtual int Width { get; set; }
     public virtual int Height { get; set; }
-
+    public Level Level { get; set; }
+    
     public int?[][] Tiles { get; set; }
     private List<Vector2> SpawnableTiles = new List<Vector2>();
 
@@ -37,8 +39,8 @@ public class Room : Node2D {
     public Room() {
         Width = 20;
         Height = 20;
-
         EnemyScene = GD.Load<PackedScene>("res://Shoot Shoot/Enemy.tscn");
+        Rand.Seed = (ulong) DateTime.UtcNow.Ticks;
     }
 
     public virtual void AddEnemies()
@@ -46,18 +48,20 @@ public class Room : Node2D {
         var numEnemies = Rand.RandiRange(1, 10);
         if (numEnemies == 0) return;
 
-
-
         for (var i = 0; i < numEnemies; i++) {
+            if (SpawnableTiles.Count < 1) {
+                GD.Print($"No spawnable points. Skipping spawning {numEnemies - i}");
+                return;
+            }
             var enemy = EnemyScene.Instance<Enemy>();
-            //enemy.Position = 
+            var spawnableTile = SpawnableTiles[Rand.RandiRange(0, SpawnableTiles.Count-1)];
+            enemy.Position = Level.FloorTileMap.MapToWorld(TopLeft + spawnableTile);
+            GD.Print($"Spawned enemy ({enemy.Position.x},{enemy.Position.y})");
             AddChild(enemy);
         }
     }
 
     public virtual int?[][] GenerateTiles() {
-        Rand.Seed = (ulong) DateTime.UtcNow.Ticks;
-
         Tiles = new int?[Width][];
         for (var x = 0; x < Width; x++)
             Tiles[x] = new int?[Height];
@@ -65,18 +69,20 @@ public class Room : Node2D {
         DrawImageWithShapes(Width, Height);
         CreateExteriorWalls();
         CreateFloor();
+
         return Tiles;
     }
 
     protected virtual void DrawImageWithShapes(int maxWidth, int maxHeight) {
         var brush = new SolidBrush(MinimapColors.Floor);
-        var bitmap = new Bitmap(maxWidth, maxHeight, PixelFormat.Format32bppArgb);
-        using (var g = Graphics.FromImage(bitmap)) {
-            var numberOfShapes = Rand.RandiRange(minShapes, maxShapes);
+        var numberOfShapes = Rand.RandiRange(minShapes, maxShapes);
 
-            var width = maxWidth;
-            var height = maxHeight;
-            var center = new Point(maxWidth/2, maxHeight/2);
+        var width = maxWidth;
+        var height = maxHeight;
+        var center = new Point(maxWidth/2, maxHeight/2);
+        
+        MinimapImage = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
+        using (var g = Graphics.FromImage(MinimapImage)) {
             for (var i = 0; i < numberOfShapes; i++) {
                 var shape = Shapes[Rand.RandiRange(0, Shapes.Length - 1)];
 
@@ -94,8 +100,6 @@ public class Room : Node2D {
                     break;
             }
         }
-
-        MinimapImage = bitmap;
     }
 
     protected virtual void CreateExteriorWalls() {
@@ -137,12 +141,12 @@ public class Room : Node2D {
                     }
 
                     if (corner.HasValue) {
-                        Tiles[current.X][current.Y] = DetermineWallType(prev, current, corner.Value, Tileset);
+                        SetWall(prev, current, corner.Value);
                         prev = current;
                         current = corner.Value;
                     }
 
-                    Tiles[current.X][current.Y] = DetermineWallType(prev, current, next, Tileset);
+                    SetWall(prev, current, next);
                 }
 
                 if (current == start)
@@ -166,17 +170,23 @@ public class Room : Node2D {
         }
     }
 
+    protected void SetWall(Point prev, Point current, Point next) {
+        Tiles[current.X][current.Y] = DetermineWallType(prev, current, next, Tileset);
+        MinimapImage.SetPixel(current.X, current.Y, MinimapColors.Wall);
+    }
+
     protected virtual void CreateFloor() {
         for (var x = 0; x < Tiles.Length; x++)
         for (var y = 0; y < Tiles[x].Length; y++) {
             if (Tiles[x][y] == null && MinimapImage.GetPixel(x, y).A > 0) {
                 Tiles[x][y] = Tileset.Floor;
+                SpawnableTiles.Add(new Vector2(x, y));
             }
         }
     }
 
     public virtual Door AddDoor(MooreNeighbor direction) {
-        //GD.Print($"Adding door {direction}");
+        if (debug) GD.Print($"Adding door {direction}");
         var location = FindDoorLocation(direction);
         var x = (int)location.x;
         var y = (int)location.y;

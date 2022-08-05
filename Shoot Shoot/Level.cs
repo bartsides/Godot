@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 public class Level : Navigation2D
 {
+    private bool debug = true;
     public int FloorNumber { get; set; }
     public ColorScheme ColorScheme { get; set; }
     public Tileset Tileset { get; set; }
-    private TileMap floorTileMap;
+    public TileMap FloorTileMap { get; set; }
     private const int NumberOfRooms = 2;
     private PackedScene RoomScene;
     private Node2D RoomsNode { get; set; }
@@ -15,7 +16,7 @@ public class Level : Navigation2D
     
     public override void _Ready()
     {
-        floorTileMap = GetNode<TileMap>("FloorTileMap");
+        FloorTileMap = GetNode<TileMap>("FloorTileMap");
         RoomScene = GD.Load<PackedScene>("res://Shoot Shoot/Room.tscn");
         RoomsNode = GetNode<Node2D>("Rooms");
 
@@ -42,6 +43,7 @@ public class Level : Navigation2D
     }
 
     private Room AddRoom(Room prev, MooreNeighbor direction) {
+        if (debug) GD.Print($"Adding room {direction}");
         var room = GetNextRoom();
 
         Vector2 diff;
@@ -71,6 +73,7 @@ public class Level : Navigation2D
         var room = RoomScene.Instance<Room>();
         room.ColorScheme = ColorScheme;
         room.Tileset = Tileset;
+        room.Level = this;
         room.GenerateTiles();
 
         RoomsNode.AddChild(room);
@@ -79,21 +82,22 @@ public class Level : Navigation2D
     }
 
     private void AddRoomTiles(Room room) {
-        GD.Print("Adding room tiles");
+        if (debug) GD.Print("Adding room tiles");
         for (var row = 0; row < room.Tiles.Length; row++) {
             for (var col = 0; col < room.Tiles[row].Length; col++) {
                 var tile = room.Tiles[row][col];
                 if (tile == null)
                     continue;
                 var tileLoc = room.TopLeft + new Vector2(row, col);
-                floorTileMap.SetCell((int)tileLoc.x, (int)tileLoc.y, tile.Value);
+                FloorTileMap.SetCell((int)tileLoc.x, (int)tileLoc.y, tile.Value);
             }
         }
     }
 
     private void GenerateTileSet() {
+        if (debug) GD.Print("Generating tileset");
         var tileset = new TileSet();
-        floorTileMap.TileSet = tileset;
+        FloorTileMap.TileSet = tileset;
 
         var floorTile = GenerateTile<FloorTile>(tileset);
         var middleWallTile = GenerateTile<MiddleWallTile>(tileset);
@@ -123,6 +127,8 @@ public class Level : Navigation2D
             MiddleWall = middleWallTile.Id,
             Door = floorTile.Id
         };
+
+        if (debug) GD.Print("Tileset generated");
         
         ResourceSaver.Save("GeneratedTileset.tres", tileset);
     }
@@ -137,13 +143,13 @@ public class Level : Navigation2D
 
     private void AddHallway(Door start, Door end) {
         // Only handles up
-        GD.Print($"Adding hallway from {start.Position.x},{start.Position.y} to {end.Position.x},{end.Position.y}");
+        if (debug) GD.Print($"Adding hallway from {start.Position.x},{start.Position.y} to {end.Position.x},{end.Position.y}");
         var pos = start.Position + new Vector2(0, -1);
         while (pos.x != end.Position.y && pos.y != end.Position.y) {
-            //GD.Print($"Position {pos.x},{pos.y}");
-            floorTileMap.SetCell((int)pos.x, (int)pos.y, Tileset.Floor);
-            floorTileMap.SetCell((int)pos.x - 1, (int)pos.y, Tileset.LeftWall);
-            floorTileMap.SetCell((int)pos.x + 1, (int)pos.y, Tileset.RightWall);
+            if (debug) GD.Print($"Position {pos.x},{pos.y}");
+            FloorTileMap.SetCell((int)pos.x, (int)pos.y, Tileset.Floor);
+            FloorTileMap.SetCell((int)pos.x - 1, (int)pos.y, Tileset.LeftWall);
+            FloorTileMap.SetCell((int)pos.x + 1, (int)pos.y, Tileset.RightWall);
             pos += new Vector2(0, -1);
         }
     }
