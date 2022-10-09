@@ -57,8 +57,6 @@ public class Tile {
     protected virtual void GenerateTexture() {
         var outline = new Pen(ColorScheme.Outline);
         var topBrush = new SolidBrush(ColorScheme.Top);
-        var leftBrush = new SolidBrush(ColorScheme.Light);
-        var rightBrush = new SolidBrush(ColorScheme.Dark);
 
         var bitmap = new Bitmap(TileWidth, ImageHeight, PixelFormat.Format32bppArgb);
         using (var g = Graphics.FromImage(bitmap))

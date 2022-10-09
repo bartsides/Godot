@@ -1,4 +1,4 @@
-public enum MooreNeighbor
+public enum Direction
 {
     UpLeft,
     Up,

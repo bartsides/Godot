@@ -62,15 +62,34 @@ public class Room : Node2D {
     }
 
     public virtual int?[][] GenerateTiles() {
+
+
+        GD.Print("Generating room tiles");
         Tiles = new int?[Width][];
         for (var x = 0; x < Width; x++)
             Tiles[x] = new int?[Height];
+
+        // DebugBullshit();
+        // throw new Exception("stopping");
 
         DrawImageWithShapes(Width, Height);
         CreateExteriorWalls();
         CreateFloor();
 
+        // Find top walls, determine how long they are and come up with 
+        // strategies on how to randomize / layout / group together.
+        // Such as randomize length of that type of tile such as 1 to 5 in a row.
+
         return Tiles;
+    }
+
+    private void DebugBullshit() {
+        GD.Print("Loading file");
+        MinimapImage = (Bitmap) System.Drawing.Image.FromFile(@"C:/users/barts/desktop/room.png");
+
+        GD.Print("Creating walls");
+        CreateExteriorWalls();
+        GD.Print("Walls created");
     }
 
     protected virtual void DrawImageWithShapes(int maxWidth, int maxHeight) {
@@ -95,19 +114,21 @@ public class Room : Node2D {
                 height = Math.Min(center.Y, maxHeight - center.Y);
 
                 //GD.Print($"({center.X},{center.Y}) {width}x{height}");
-
+                
                 if (width <= minShapeWidth || height <= minShapeWidth)
                     break;
             }
         }
+        MinimapImage.Save(@"C:/users/barts/desktop/room.png", ImageFormat.Png);
     }
 
     protected virtual void CreateExteriorWalls() {
+        GD.Print("Creating external walls");
         var start = FindStartingPoint(MinimapImage);
 
         var current = start;
         var prev = current;
-        var neighbor = MooreNeighbor.UpLeft;
+        var neighbor = Direction.UpLeft;
         var startingNeighbor = neighbor;
         var next = current.GetNeighbor(neighbor);
         var lastNeighborPoint = next;
@@ -127,17 +148,17 @@ public class Room : Node2D {
                     Point? corner = null;
 
                     // Add corners when needed
-                    if (neighbor == MooreNeighbor.DownRight) {
-                        corner = current.GetNeighbor(MooreNeighbor.Right);
+                    if (neighbor == Direction.DownRight) {
+                        corner = current.GetNeighbor(Direction.Right);
                     }
-                    else if (neighbor == MooreNeighbor.DownLeft) {
-                        corner = current.GetNeighbor(MooreNeighbor.Down);
+                    else if (neighbor == Direction.DownLeft) {
+                        corner = current.GetNeighbor(Direction.Down);
                     }
-                    else if (neighbor == MooreNeighbor.UpLeft) {
-                        corner = current.GetNeighbor(MooreNeighbor.Left);
+                    else if (neighbor == Direction.UpLeft) {
+                        corner = current.GetNeighbor(Direction.Left);
                     }
-                    else if (neighbor == MooreNeighbor.UpRight) {
-                        corner = current.GetNeighbor(MooreNeighbor.Up);
+                    else if (neighbor == Direction.UpRight) {
+                        corner = current.GetNeighbor(Direction.Up);
                     }
 
                     if (corner.HasValue) {
@@ -152,12 +173,19 @@ public class Room : Node2D {
                 if (current == start)
                     startProcessedNum++;
 
+                if (debug) GD.Print($"Found next wall ({current.X},{current.Y}) {neighbor}");
+
                 // Found next pixel
                 prev = current;
                 current = next;
                 neighbor = current.DetermineNeighbor(lastNeighborPoint);
                 lastNeighborPoint = next;
                 next = current.GetNeighbor(neighbor);
+
+                if (debug) GD.Print($"Next ({next.X},{next.Y}) {neighbor}");
+
+                if (prev.X == 9 && prev.Y == 8)
+                    break;
             }
             else
             {
@@ -185,7 +213,7 @@ public class Room : Node2D {
         }
     }
 
-    public virtual Door AddDoor(MooreNeighbor direction) {
+    public virtual Door AddDoor(Direction direction) {
         if (debug) GD.Print($"Adding door {direction}");
         var location = FindDoorLocation(direction);
         var x = (int)location.x;
@@ -200,16 +228,16 @@ public class Room : Node2D {
         // Set tiles
         Tiles[x][y] = Tileset.Door;
         switch (direction) {
-            case MooreNeighbor.Up:
-                Tiles[x-1][y] = Tileset.TopWall;
-                Tiles[x+1][y] = Tileset.TopWall;
+            case Direction.Up:
+                Tiles[x-1][y] = Tileset.TopWalls[0];
+                Tiles[x+1][y] = Tileset.TopWalls[0];
                 break;
-            case MooreNeighbor.Down:
+            case Direction.Down:
                 Tiles[x-1][y] = Tileset.BottomLeftWall;
                 Tiles[x+1][y] = Tileset.BottomRightWall;
                 break;
-            case MooreNeighbor.Left:
-            case MooreNeighbor.Right:
+            case Direction.Left:
+            case Direction.Right:
             default:
                 break;
         }
@@ -219,33 +247,33 @@ public class Room : Node2D {
         return door;
     }
 
-    private Vector2 FindDoorLocation(MooreNeighbor direction) {
+    private Vector2 FindDoorLocation(Direction direction) {
         var x = MinimapImage.Width / 2;
         var y = MinimapImage.Height / 2;
 
         switch (direction) {
-            case MooreNeighbor.Up:
+            case Direction.Up:
                 for (y = 0; y < MinimapImage.Height - 1; y++) {
                     if (MinimapImage.GetPixel(x, y).A > 0) {
                         return new Vector2(x, y);
                     }
                 }
                 break;
-            case MooreNeighbor.Down:
+            case Direction.Down:
                 for (y = MinimapImage.Height - 1; y >= 0; y--) {
                     if (MinimapImage.GetPixel(x, y).A > 0) {
                         return new Vector2(x, y);
                     }
                 }
                 break;
-            case MooreNeighbor.Left:
+            case Direction.Left:
                 for (x = 0; x < MinimapImage.Width - 1; x++) {
                     if (MinimapImage.GetPixel(x, y).A > 0) {
                         return new Vector2(x, y);
                     }
                 }
                 break;
-            case MooreNeighbor.Right:
+            case Direction.Right:
                 for (x = MinimapImage.Width - 1; x >= 0; x--) {
                     if (MinimapImage.GetPixel(x, y).A > 0) {
                         return new Vector2(x, y);
@@ -263,25 +291,25 @@ public class Room : Node2D {
         var before = current.DetermineNeighbor(prev);
         var after = current.DetermineNeighbor(next);
 
-        if (before == MooreNeighbor.Up) {
-            if (after == MooreNeighbor.Right) return tileset.TopWall;
-            if (after == MooreNeighbor.Down) return tileset.RightWall;
-            if (after == MooreNeighbor.Left) return tileset.BottomRightCorner;
+        if (before == Direction.Up) {
+            if (after == Direction.Right) return tileset.TopWalls[0];
+            if (after == Direction.Down) return tileset.RightWall;
+            if (after == Direction.Left) return tileset.BottomRightCorner;
         }
-        else if (before == MooreNeighbor.Right) {
-            if (after == MooreNeighbor.Down) return tileset.BottomRightWall;
-            if (after == MooreNeighbor.Left) return tileset.BottomWall;
-            if (after == MooreNeighbor.Up) return tileset.BottomLeftCorner;
+        else if (before == Direction.Right) {
+            if (after == Direction.Down) return tileset.BottomRightWall;
+            if (after == Direction.Left) return tileset.BottomWall;
+            if (after == Direction.Up) return tileset.BottomLeftCorner;
         }
-        else if (before == MooreNeighbor.Down) {
-            if (after == MooreNeighbor.Left) return tileset.BottomLeftWall;
-            if (after == MooreNeighbor.Up) return tileset.LeftWall;
-            if (after == MooreNeighbor.Right) return tileset.TopLeftCorner;
+        else if (before == Direction.Down) {
+            if (after == Direction.Left) return tileset.BottomLeftWall;
+            if (after == Direction.Up) return tileset.LeftWall;
+            if (after == Direction.Right) return tileset.TopLeftCorner;
         }
-        else if (before == MooreNeighbor.Left) {
-            if (after == MooreNeighbor.Up) return tileset.TopWall;
-            if (after == MooreNeighbor.Right) return tileset.TopWall;
-            if (after == MooreNeighbor.Down) return tileset.TopRightCorner;
+        else if (before == Direction.Left) {
+            if (after == Direction.Up) return tileset.TopWalls[0];
+            if (after == Direction.Right) return tileset.TopWalls[0];
+            if (after == Direction.Down) return tileset.TopRightCorner;
         }
 
         return tileset.MiddleWall;

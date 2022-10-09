@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 public class Level : Navigation2D
 {
@@ -9,7 +10,7 @@ public class Level : Navigation2D
     public ColorScheme ColorScheme { get; set; }
     public Tileset Tileset { get; set; }
     public TileMap FloorTileMap { get; set; }
-    private const int NumberOfRooms = 2;
+    private const int NumberOfRooms = 0;
     private PackedScene RoomScene;
     private Node2D RoomsNode { get; set; }
     private List<Room> Rooms { get; set; } = new List<Room>();
@@ -27,10 +28,10 @@ public class Level : Navigation2D
         Reset();
 
         if (regenerateTileset)
-            GenerateTileSet();
+            GenerateTileSet(Levels.Level1.WallBrushes);
 
         var room = GetNextRoom();
-        MooreNeighbor direction = MooreNeighbor.Up;
+        Direction direction = Direction.Up;
 
         for (var i = 0; i < NumberOfRooms; i++) {
             // Determine next direction
@@ -42,18 +43,18 @@ public class Level : Navigation2D
         }
     }
 
-    private Room AddRoom(Room prev, MooreNeighbor direction) {
+    private Room AddRoom(Room prev, Direction direction) {
         if (debug) GD.Print($"Adding room {direction}");
         var room = GetNextRoom();
 
         Vector2 diff;
-        if (direction == MooreNeighbor.Up)
+        if (direction == Direction.Up)
             diff = new Vector2(0, -(room.Height + 2));
-        else if (direction == MooreNeighbor.Down)
+        else if (direction == Direction.Down)
             diff = new Vector2(0, room.Height + 2);
-        else if (direction == MooreNeighbor.Left)
+        else if (direction == Direction.Left)
             diff = new Vector2(-(room.Width + 2), 0);
-        else if (direction == MooreNeighbor.Right)
+        else if (direction == Direction.Right)
             diff = new Vector2(room.Width + 2, 0);
         else
             throw new NotImplementedException($"Add room with direction {direction} not implemented");
@@ -94,14 +95,13 @@ public class Level : Navigation2D
         }
     }
 
-    private void GenerateTileSet() {
+    private void GenerateTileSet(List<Brush> wallbrushes) {
         if (debug) GD.Print("Generating tileset");
         var tileset = new TileSet();
         FloorTileMap.TileSet = tileset;
 
         var floorTile = GenerateTile<FloorTile>(tileset);
         var middleWallTile = GenerateTile<MiddleWallTile>(tileset);
-        var topWallTile = GenerateTile<TopWallTile>(tileset);
         var topLeftWallTile = GenerateTile<TopLeftCornerTile>(tileset);
         var topRightWallTile = GenerateTile<TopRightCornerTile>(tileset);
         var leftWallTile = GenerateTile<LeftWallTile>(tileset);
@@ -114,7 +114,7 @@ public class Level : Navigation2D
 
         Tileset = new Tileset {
             Floor = floorTile.Id,
-            TopWall = topWallTile.Id,
+            TopWalls = new List<int>(),
             TopLeftCorner = topLeftWallTile.Id,
             TopRightCorner = topRightWallTile.Id,
             BottomWall = bottomWallTile.Id,
@@ -128,15 +128,24 @@ public class Level : Navigation2D
             Door = floorTile.Id
         };
 
+        foreach (var wallbrush in wallbrushes) {
+            var topWallTile = GenerateTile<TopWallTile>(tileset);
+            Tileset.TopWalls.Add(topWallTile.Id);
+        }
+
         if (debug) GD.Print("Tileset generated");
         
         ResourceSaver.Save("GeneratedTileset.tres", tileset);
     }
 
-    private TTile GenerateTile<TTile>(TileSet tileset) where TTile : Tile, new() {
+    private TTile GenerateTile<TTile>(TileSet tileset, Brush brush = null) where TTile : Tile, new() {
         var id = tileset.GetLastUnusedTileId();
         tileset.CreateTile(id);
         var tile = new TTile() { Id = id };
+
+        if (brush != null && tile is WallTile walltile)
+            walltile.VoidBrush = brush;
+
         tile.Setup(tileset);
         return tile;
     }

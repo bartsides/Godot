@@ -8,7 +8,7 @@ public class TopWallTile : WallTile {
         {
             return new TextureBrush((Bitmap) System.Drawing.Image.FromFile("assets/obey.png"));
         }
-    } 
+    }
 
     public override Point[] WallPoints => new [] {
         BottomLeft.AddY(-WallHeight),

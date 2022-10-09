@@ -63,16 +63,14 @@ public class Player : RigidBody2D
 		ProcessWeaponPosition(input);
 		ProcessAttack(input, step);
 
-		linearVelocity = ProcessPlayerMovement(input, linearVelocity, step);
-
-		state.LinearVelocity = linearVelocity;
+		ProcessPlayerMovement(input, state, linearVelocity, step);
 	}
 
 	private void ProcessWeaponPosition(PlayerInput input) {
 		if (CurrentWeapon == null) return;
 
 		CurrentWeapon.Position = input.AimVector * gunRadius;
-		CurrentWeapon.LookAt(input.AimVector);
+		CurrentWeapon.LookAt(GetGlobalMousePosition());
 		CurrentWeapon.Rotate(Mathf.Deg2Rad(90));
 	}
 
@@ -93,10 +91,27 @@ public class Player : RigidBody2D
 			AddCollisionExceptionWith(projectile);
 	}
 
-	private Vector2 ProcessPlayerMovement(PlayerInput input, Vector2 linearVelocity, float step) {
-		linearVelocity = ProcessPlayerDirectionalMovement(input, linearVelocity, step);
+	private void ProcessPlayerMovement(PlayerInput input, Physics2DDirectBodyState state, Vector2 linearVelocity, float step) {
+		state.LinearVelocity = ProcessPlayerDirectionalMovement(input, linearVelocity, step);
 
-		return linearVelocity;
+		// Determine movement direction
+		var movementAngle = Mathf.Rad2Deg(input.MoveVector.Angle());
+		Direction playerDirection;
+		bool still = false;
+		if (input.MoveVector.IsZero()) {
+			playerDirection = Direction.Down;
+			still = true;
+		}
+		else if (movementAngle >= -45 && movementAngle <= 45)
+			playerDirection = Direction.Right;
+		else if (movementAngle > 45 && movementAngle < 135)
+			playerDirection = Direction.Down;
+		else if (movementAngle < -45 && movementAngle > -135)
+			playerDirection = Direction.Up;
+		else
+			playerDirection = Direction.Left;
+
+		GD.Print($"{movementAngle}: {playerDirection} {still}");
 	}
 
 	private Vector2 ProcessPlayerDirectionalMovement(PlayerInput input, Vector2 linearVelocity, float step) {

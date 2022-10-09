@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+
 public struct Tileset {
     public int Floor;
-    public int TopWall;
+    public List<int> TopWalls;
     public int TopLeftCorner;
     public int TopRightCorner;
     public int LeftWall;
