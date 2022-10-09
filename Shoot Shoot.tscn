@@ -1,12 +1,12 @@
 [gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/2GreenKnight.png" type="Texture" id=1]
-[ext_resource path="res://animations/Bouncy/Shoot Shoot/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://animations/Bouncy/Shoot Shoot/ShootShoot.cs" type="Script" id=3]
-[ext_resource path="res://animations/Bouncy/Shoot Shoot/Enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Shoot Shoot/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Shoot Shoot/ShootShoot.cs" type="Script" id=3]
+[ext_resource path="res://Shoot Shoot/Enemy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://animations/Bunny/drive-download-20221009T194612Z-001/2BunnyIdle.png" type="Texture" id=5]
 [ext_resource path="res://animations/Bunny/drive-download-20221009T194612Z-001/1BunnyIdle.png" type="Texture" id=6]
-[ext_resource path="res://animations/Bouncy/Shoot Shoot/Level.cs" type="Script" id=7]
+[ext_resource path="res://Shoot Shoot/Level.cs" type="Script" id=7]
 [ext_resource path="res://GeneratedTileset.tres" type="TileSet" id=8]
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/3GreenKnight.png" type="Texture" id=9]
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/10GreenKnight.png" type="Texture" id=10]
@@ -44,7 +44,6 @@ script = ExtResource( 7 )
 [node name="FloorTileMap" type="TileMap" parent="Level"]
 tile_set = ExtResource( 8 )
 show_collision = true
-bake_navigation = true
 format = 1
 
 [node name="Player" parent="Level" instance=ExtResource( 2 )]
