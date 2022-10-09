@@ -1,10 +1,38 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=20 format=2]
 
-[ext_resource path="res://Shoot Shoot/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Shoot Shoot/ShootShoot.cs" type="Script" id=3]
-[ext_resource path="res://Shoot Shoot/Enemy.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Shoot Shoot/Level.cs" type="Script" id=7]
+[ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/2GreenKnight.png" type="Texture" id=1]
+[ext_resource path="res://animations/Bouncy/Shoot Shoot/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://animations/Bouncy/Shoot Shoot/ShootShoot.cs" type="Script" id=3]
+[ext_resource path="res://animations/Bouncy/Shoot Shoot/Enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://animations/Bunny/drive-download-20221009T194612Z-001/2BunnyIdle.png" type="Texture" id=5]
+[ext_resource path="res://animations/Bunny/drive-download-20221009T194612Z-001/1BunnyIdle.png" type="Texture" id=6]
+[ext_resource path="res://animations/Bouncy/Shoot Shoot/Level.cs" type="Script" id=7]
 [ext_resource path="res://GeneratedTileset.tres" type="TileSet" id=8]
+[ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/3GreenKnight.png" type="Texture" id=9]
+[ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/10GreenKnight.png" type="Texture" id=10]
+[ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/9GreenKnight.png" type="Texture" id=11]
+[ext_resource path="res://animations/Bunny/drive-download-20221009T194612Z-001/3BunnyIdle.png" type="Texture" id=12]
+[ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/1GreenKnight.png" type="Texture" id=13]
+[ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/5GreenKnight.png" type="Texture" id=14]
+[ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/7GreenKnight.png" type="Texture" id=15]
+[ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/4GreenKnight.png" type="Texture" id=16]
+[ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/8GreenKnight.png" type="Texture" id=17]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 12 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 13 ), ExtResource( 1 ), ExtResource( 9 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 17 ), ExtResource( 11 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
 
 [node name="ShootShoot" type="YSort"]
 sort_enabled = false
@@ -16,6 +44,7 @@ script = ExtResource( 7 )
 [node name="FloorTileMap" type="TileMap" parent="Level"]
 tile_set = ExtResource( 8 )
 show_collision = true
+bake_navigation = true
 format = 1
 
 [node name="Player" parent="Level" instance=ExtResource( 2 )]
@@ -31,3 +60,15 @@ position = Vector2( -123, -221 )
 position = Vector2( 120, 258 )
 
 [node name="Rooms" type="Node2D" parent="Level"]
+
+[node name="Pink Bunny Idle" type="AnimatedSprite" parent="."]
+position = Vector2( -57, -64 )
+frames = SubResource( 1 )
+frame = 1
+playing = true
+
+[node name="GreenKnight" type="AnimatedSprite" parent="."]
+position = Vector2( 38, -79 )
+frames = SubResource( 2 )
+frame = 4
+playing = true
