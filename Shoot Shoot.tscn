@@ -61,13 +61,15 @@ position = Vector2( 120, 258 )
 [node name="Rooms" type="Node2D" parent="Level"]
 
 [node name="Pink Bunny Idle" type="AnimatedSprite" parent="."]
+visible = false
 position = Vector2( -57, -64 )
 frames = SubResource( 1 )
 frame = 1
 playing = true
 
 [node name="GreenKnight" type="AnimatedSprite" parent="."]
+visible = false
 position = Vector2( 38, -79 )
 frames = SubResource( 2 )
-frame = 4
+frame = 7
 playing = true

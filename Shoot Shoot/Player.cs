@@ -15,15 +15,18 @@ public class Player : RigidBody2D
 	private float minAttackTime = 0.3f;
 
 	private PackedScene gunScene;
-	private Gun CurrentWeapon;
+	private Gun currentWeapon;
 	private float gunRadius = 12;
-	private Vector2 LastAimDirection = new Vector2(1, 0);
+	private Vector2 lastAimDirection = new Vector2(1, 0);
+	private AnimatedSprite animatedSprite;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		shooting = false;
 		attackTime = 0;
+
+		animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
 
 		SetWeapons(new List<PackedScene>{
 			GD.Load<PackedScene>("res://Shoot Shoot/Gun.tscn")
@@ -40,8 +43,8 @@ public class Player : RigidBody2D
 
 		foreach(Node2D node in weaponsNode.GetChildren()) {
 			if (node is Gun weapon) {
-				if (CurrentWeapon == null) {
-					CurrentWeapon = weapon;
+				if (currentWeapon == null) {
+					currentWeapon = weapon;
 					node.Visible = true;
 				} else {
 					node.Visible = false;
@@ -67,11 +70,11 @@ public class Player : RigidBody2D
 	}
 
 	private void ProcessWeaponPosition(PlayerInput input) {
-		if (CurrentWeapon == null) return;
+		if (currentWeapon == null) return;
 
-		CurrentWeapon.Position = input.AimVector * gunRadius;
-		CurrentWeapon.LookAt(GetGlobalMousePosition());
-		CurrentWeapon.Rotate(Mathf.Deg2Rad(90));
+		currentWeapon.Position = input.AimVector * gunRadius;
+		currentWeapon.LookAt(GetGlobalMousePosition());
+		currentWeapon.Rotate(Mathf.Deg2Rad(90));
 	}
 
 	private void ProcessAttack(PlayerInput input, float step) {
@@ -84,9 +87,9 @@ public class Player : RigidBody2D
 
 	public void Attack(Vector2 direction) {
 		attackTime = 0f;
-		if (CurrentWeapon == null) return;
+		if (currentWeapon == null) return;
 
-		var projectile = CurrentWeapon.Shoot(direction);
+		var projectile = currentWeapon.Shoot(direction);
 		if (projectile != null)
 			AddCollisionExceptionWith(projectile);
 	}
@@ -94,24 +97,24 @@ public class Player : RigidBody2D
 	private void ProcessPlayerMovement(PlayerInput input, Physics2DDirectBodyState state, Vector2 linearVelocity, float step) {
 		state.LinearVelocity = ProcessPlayerDirectionalMovement(input, linearVelocity, step);
 
-		// Determine movement direction
-		var movementAngle = Mathf.Rad2Deg(input.MoveVector.Angle());
-		Direction playerDirection;
-		bool still = false;
-		if (input.MoveVector.IsZero()) {
-			playerDirection = Direction.Down;
-			still = true;
-		}
-		else if (movementAngle >= -45 && movementAngle <= 45)
-			playerDirection = Direction.Right;
-		else if (movementAngle > 45 && movementAngle < 135)
-			playerDirection = Direction.Down;
-		else if (movementAngle < -45 && movementAngle > -135)
-			playerDirection = Direction.Up;
-		else
-			playerDirection = Direction.Left;
+		SetPlayerAnimation(input);
+	}
 
-		GD.Print($"{movementAngle}: {playerDirection} {still}");
+	private void SetPlayerAnimation(PlayerInput input) {
+		if (input.MoveVector.IsZero()) {
+			animatedSprite.Animation = "idle";
+			return;
+		}
+
+		var movementAngle = Mathf.Rad2Deg(input.MoveVector.Angle());
+		if (movementAngle >= -45 && movementAngle <= 45)
+			animatedSprite.Animation = "right";
+		else if (movementAngle > 45 && movementAngle < 135)
+			animatedSprite.Animation = "down";
+		else if (movementAngle < -45 && movementAngle > -135)
+			animatedSprite.Animation = "up";
+		else
+			animatedSprite.Animation = "left";
 	}
 
 	private Vector2 ProcessPlayerDirectionalMovement(PlayerInput input, Vector2 linearVelocity, float step) {
@@ -151,12 +154,12 @@ public class Player : RigidBody2D
 		
 		if (aimVector.IsZero()) {
 			if (moveVector.IsZero())
-				aimVector = LastAimDirection;
+				aimVector = lastAimDirection;
 			else
 				aimVector = moveVector.Normalized();
 		}
 
-		LastAimDirection = aimVector;
+		lastAimDirection = aimVector;
 		
 		return new PlayerInput(moveVector, aimVector, Input.IsActionPressed("shoot"));
 	}

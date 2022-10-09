@@ -48,6 +48,11 @@ config/name="Not Rimworld"
 run/main_scene="res://Shoot Shoot.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/stretch/mode="2d"
+window/stretch/aspect="expand"
+
 [input]
 
 click={
