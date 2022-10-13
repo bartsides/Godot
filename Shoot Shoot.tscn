@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/2GreenKnight.png" type="Texture" id=1]
 [ext_resource path="res://Shoot Shoot/Player.tscn" type="PackedScene" id=2]
@@ -28,6 +28,33 @@
 [ext_resource path="res://animations/HaloMan/drive-download-20221009T221127Z-001/4nh.png" type="Texture" id=26]
 [ext_resource path="res://animations/HaloMan/drive-download-20221009T221127Z-001/17nh.png" type="Texture" id=27]
 [ext_resource path="res://animations/HaloMan/drive-download-20221009T221127Z-001/15nh.png" type="Texture" id=28]
+[ext_resource path="res://animations/Plasma Gun/Pg5.png" type="Texture" id=29]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/RBI 6.png" type="Texture" id=30]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/Rb 3.png" type="Texture" id=31]
+[ext_resource path="res://animations/Plasma Gun/Pg1.png" type="Texture" id=32]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/Rb 5.png" type="Texture" id=33]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/Untitled_Artwork-12.png" type="Texture" id=34]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/RBI 7.png" type="Texture" id=35]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/Rb 4.png" type="Texture" id=36]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/Untitled_Artwork-13.png" type="Texture" id=37]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/Rb 1.png" type="Texture" id=38]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/Rb 2.png" type="Texture" id=39]
+[ext_resource path="res://animations/Plasma Bullet/PB6.png" type="Texture" id=40]
+[ext_resource path="res://animations/Plasma Bullet/PB4.png" type="Texture" id=41]
+[ext_resource path="res://animations/Plasma Gun/Pg7.png" type="Texture" id=42]
+[ext_resource path="res://animations/Plasma Bullet/PB3.png" type="Texture" id=43]
+[ext_resource path="res://animations/Plasma Gun/Pg6.png" type="Texture" id=44]
+[ext_resource path="res://animations/Plasma Bullet/PB5.png" type="Texture" id=45]
+[ext_resource path="res://animations/Plasma Gun/Pg9.png" type="Texture" id=46]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/RB9.png" type="Texture" id=47]
+[ext_resource path="res://animations/Plasma Gun/Pg8.png" type="Texture" id=48]
+[ext_resource path="res://animations/Plasma Gun/Pg10.png" type="Texture" id=49]
+[ext_resource path="res://animations/Plasma Gun/Pg11.png" type="Texture" id=50]
+[ext_resource path="res://animations/Plasma Gun/Untitled_Artwork-12.png" type="Texture" id=51]
+[ext_resource path="res://animations/Plasma Bullet/PB1.png" type="Texture" id=52]
+[ext_resource path="res://animations/Plasma Gun/Untitled_Artwork-13.png" type="Texture" id=53]
+[ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/RB8.png" type="Texture" id=54]
+[ext_resource path="res://animations/Plasma Gun/Untitled_Artwork-14.png" type="Texture" id=55]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -73,6 +100,55 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 38 ), ExtResource( 31 ), ExtResource( 33 ), ExtResource( 39 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 54 ), ExtResource( 30 ), ExtResource( 47 ), ExtResource( 34 ), ExtResource( 37 ) ],
+"loop": true,
+"name": "Explode",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 38 ), ExtResource( 36 ), ExtResource( 38 ) ],
+"loop": true,
+"name": "Going to Explode",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 38 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 43 ), ExtResource( 41 ), ExtResource( 45 ), ExtResource( 40 ) ],
+"loop": true,
+"name": "Hit",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 52 ), ExtResource( 43 ) ],
+"loop": true,
+"name": "Travel",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ ExtResource( 32 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 32 ), ExtResource( 29 ), ExtResource( 44 ), ExtResource( 42 ), ExtResource( 48 ), ExtResource( 46 ) ],
+"loop": true,
+"name": "Shoot",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 49 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 53 ), ExtResource( 55 ) ],
+"loop": true,
+"name": "Shoot Up",
+"speed": 15.0
+} ]
+
 [node name="ShootShoot" type="YSort"]
 sort_enabled = false
 script = ExtResource( 3 )
@@ -111,11 +187,35 @@ playing = true
 visible = false
 position = Vector2( 38, -79 )
 frames = SubResource( 2 )
-frame = 4
+frame = 7
 playing = true
 
 [node name="Halo Man" type="AnimatedSprite" parent="."]
+position = Vector2( -8, -24 )
+z_index = 1
 frames = SubResource( 3 )
 animation = "Run Left"
 frame = 2
 playing = true
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -73, -17 )
+frames = SubResource( 4 )
+animation = "Explode"
+frame = 9
+playing = true
+
+[node name="Plasma Bullet" type="AnimatedSprite" parent="."]
+position = Vector2( -46, -18 )
+rotation = 4.74904
+frames = SubResource( 5 )
+animation = "Hit"
+frame = 2
+playing = true
+
+[node name="Plasma Gun" type="AnimatedSprite" parent="."]
+position = Vector2( -20, -25 )
+frames = SubResource( 6 )
+animation = "Shoot"
+playing = true
+flip_h = true
