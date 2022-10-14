@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=79 format=2]
 
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/2GreenKnight.png" type="Texture" id=1]
 [ext_resource path="res://Shoot Shoot/Player.tscn" type="PackedScene" id=2]
@@ -55,6 +55,22 @@
 [ext_resource path="res://animations/Plasma Gun/Untitled_Artwork-13.png" type="Texture" id=53]
 [ext_resource path="res://animations/Red Barrel/drive-download-20221013T230255Z-001/RB8.png" type="Texture" id=54]
 [ext_resource path="res://animations/Plasma Gun/Untitled_Artwork-14.png" type="Texture" id=55]
+[ext_resource path="res://animations/Soldier69/S9.png" type="Texture" id=56]
+[ext_resource path="res://animations/Soldier69/Soldier 1 -1.png" type="Texture" id=57]
+[ext_resource path="res://animations/Soldier69/S4.png" type="Texture" id=58]
+[ext_resource path="res://animations/Soldier69/S5.png" type="Texture" id=59]
+[ext_resource path="res://animations/Soldier69/S6.png" type="Texture" id=60]
+[ext_resource path="res://animations/Soldier69/S7.png" type="Texture" id=61]
+[ext_resource path="res://animations/Soldier69/Soldier 2.png" type="Texture" id=62]
+[ext_resource path="res://animations/Soldier69/S8.png" type="Texture" id=63]
+[ext_resource path="res://animations/Soldier69/S10.png" type="Texture" id=64]
+[ext_resource path="res://animations/Soldier69/S11.png" type="Texture" id=65]
+[ext_resource path="res://animations/Soldier69/S12.png" type="Texture" id=66]
+[ext_resource path="res://animations/Soldier69/S3.png" type="Texture" id=67]
+[ext_resource path="res://animations/Soldier69/S14.png" type="Texture" id=68]
+[ext_resource path="res://animations/Soldier69/S15.png" type="Texture" id=69]
+[ext_resource path="res://animations/Soldier69/S13.png" type="Texture" id=70]
+[ext_resource path="res://animations/Soldier69/S16.png" type="Texture" id=71]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -149,6 +165,34 @@ animations = [ {
 "speed": 15.0
 } ]
 
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ ExtResource( 57 ), ExtResource( 62 ), ExtResource( 67 ), ExtResource( 58 ) ],
+"loop": true,
+"name": "Run Down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 56 ), ExtResource( 65 ), ExtResource( 64 ), ExtResource( 66 ) ],
+"loop": true,
+"name": "Run Left",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 59 ), ExtResource( 61 ), ExtResource( 63 ), ExtResource( 60 ) ],
+"loop": true,
+"name": "Run Right",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 70 ), ExtResource( 69 ), ExtResource( 68 ), ExtResource( 71 ) ],
+"loop": true,
+"name": "Run Up",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 57 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="ShootShoot" type="YSort"]
 sort_enabled = false
 script = ExtResource( 3 )
@@ -180,14 +224,13 @@ position = Vector2( 120, 258 )
 visible = false
 position = Vector2( -57, -64 )
 frames = SubResource( 1 )
-frame = 1
 playing = true
 
 [node name="GreenKnight" type="AnimatedSprite" parent="."]
 visible = false
 position = Vector2( 38, -79 )
 frames = SubResource( 2 )
-frame = 7
+frame = 3
 playing = true
 
 [node name="Halo Man" type="AnimatedSprite" parent="."]
@@ -195,14 +238,14 @@ position = Vector2( -8, -24 )
 z_index = 1
 frames = SubResource( 3 )
 animation = "Run Left"
-frame = 2
+frame = 1
 playing = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -73, -17 )
 frames = SubResource( 4 )
 animation = "Explode"
-frame = 9
+frame = 7
 playing = true
 
 [node name="Plasma Bullet" type="AnimatedSprite" parent="."]
@@ -217,5 +260,12 @@ playing = true
 position = Vector2( -20, -25 )
 frames = SubResource( 6 )
 animation = "Shoot"
+frame = 2
 playing = true
 flip_h = true
+
+[node name="Soldier69" type="AnimatedSprite" parent="."]
+position = Vector2( 56, -19 )
+frames = SubResource( 7 )
+animation = "Run Right"
+playing = true
