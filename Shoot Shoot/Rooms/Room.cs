@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 using Godot;
 
 public class Room : Node2D {
-    private bool debug = true;
+    private bool debug = false;
     public ColorScheme ColorScheme { get; set; }
     public Tileset Tileset { get; set; }
     public List<object> Items { get; set; }
@@ -36,6 +36,13 @@ public class Room : Node2D {
         //new TriangleShape(),
     };
 
+    private readonly List<Direction> CornerDirections = new List<Direction> {
+        Direction.UpRight,
+        Direction.DownRight,
+        Direction.DownLeft,
+        Direction.UpLeft
+    };
+
     public Room() {
         Width = 20;
         Height = 20;
@@ -62,15 +69,10 @@ public class Room : Node2D {
     }
 
     public virtual int?[][] GenerateTiles() {
-
-
         GD.Print("Generating room tiles");
         Tiles = new int?[Width][];
         for (var x = 0; x < Width; x++)
             Tiles[x] = new int?[Height];
-
-        // DebugBullshit();
-        // throw new Exception("stopping");
 
         DrawImageWithShapes(Width, Height);
         CreateExteriorWalls();
@@ -81,15 +83,6 @@ public class Room : Node2D {
         // Such as randomize length of that type of tile such as 1 to 5 in a row.
 
         return Tiles;
-    }
-
-    private void DebugBullshit() {
-        GD.Print("Loading file");
-        MinimapImage = (Bitmap) System.Drawing.Image.FromFile(@"C:/users/barts/desktop/room.png");
-
-        GD.Print("Creating walls");
-        CreateExteriorWalls();
-        GD.Print("Walls created");
     }
 
     protected virtual void DrawImageWithShapes(int maxWidth, int maxHeight) {
@@ -123,8 +116,11 @@ public class Room : Node2D {
     }
 
     protected virtual void CreateExteriorWalls() {
-        GD.Print("Creating external walls");
+        if (debug) GD.Print("Creating external walls");
+
         var start = FindStartingPoint(MinimapImage);
+
+        if (debug) GD.Print($"Starting point: ({start.X},{start.Y})");
 
         var current = start;
         var prev = current;
@@ -139,26 +135,24 @@ public class Room : Node2D {
 
         while (true)
         {
-            if (startProcessedNum > 1) exit = true;
+            if (startProcessedNum > 1){
+                GD.Print("Setting exit to true.");
+                exit = true;
+            }
 
             if (next.X.Between(0, MinimapImage.Width - 1) && next.Y.Between(0, MinimapImage.Height - 1) &&
                 MinimapImage.GetPixel(next.X, next.Y).A > 0)
             {
-                if (startProcessedNum > 0) {
-                    Point? corner = null;
+                if (debug) GD.Print($"Found next wall ({next.X},{next.Y}) {neighbor}");
 
+                Point? corner = null;
+
+                if (startProcessedNum > 0) {
                     // Add corners when needed
-                    if (neighbor == Direction.DownRight) {
-                        corner = current.GetNeighbor(Direction.Right);
-                    }
-                    else if (neighbor == Direction.DownLeft) {
-                        corner = current.GetNeighbor(Direction.Down);
-                    }
-                    else if (neighbor == Direction.UpLeft) {
-                        corner = current.GetNeighbor(Direction.Left);
-                    }
-                    else if (neighbor == Direction.UpRight) {
-                        corner = current.GetNeighbor(Direction.Up);
+                    if (CornerDirections.Contains(neighbor)) {
+                        neighbor = neighbor.Prev();
+                        corner = current.GetNeighbor(neighbor);
+                        GD.Print($"Corner hit: ({corner.Value.X},{corner.Value.Y}) {neighbor}");
                     }
 
                     if (corner.HasValue) {
@@ -170,31 +164,37 @@ public class Room : Node2D {
                     SetWall(prev, current, next);
                 }
 
-                if (current == start)
-                    startProcessedNum++;
-
-                if (debug) GD.Print($"Found next wall ({current.X},{current.Y}) {neighbor}");
-
-                // Found next pixel
                 prev = current;
                 current = next;
-                neighbor = current.DetermineNeighbor(lastNeighborPoint);
+
+                if (corner.HasValue)
+                    neighbor = neighbor.Prev();
+                else
+                    neighbor = current.DetermineNeighbor(lastNeighborPoint).Next();
+
                 lastNeighborPoint = next;
                 next = current.GetNeighbor(neighbor);
 
-                if (debug) GD.Print($"Next ({next.X},{next.Y}) {neighbor}");
+                if (current == start) {
+                    startProcessedNum++;
+                    GD.Print($"Reached beginning. Incrementing startProcessedNum to {startProcessedNum}.");
+                }
 
-                if (prev.X == 9 && prev.Y == 8)
-                    break;
+                if (debug) GD.Print($"Next ({next.X},{next.Y}) {neighbor}");
             }
             else
             {
                 neighbor = neighbor.Next();
                 lastNeighborPoint = next;
                 next = current.GetNeighbor(neighbor);
+
+                if (debug) GD.Print($"Next ({next.X},{next.Y}) {neighbor}");
             }
 
-            if (exit) break;
+            if (exit) {
+                GD.Print("Exiting");
+                break;
+            }
         }
     }
 

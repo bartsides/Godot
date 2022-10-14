@@ -3,13 +3,23 @@ using System;
 using System.Drawing;
 
 public static class Extensions {
+    public static bool IsZero(this Vector2 vector) => vector.x.IsZero() && vector.y.IsZero();
+    
+    public static bool IsZero(this float value) => Mathf.Abs(value - 0) <= 0.0000001;
+
+    public static bool Between(this int value, int min, int max) => value >= min && value <= max;
+
+    public static Direction Next(this Direction neighbor) => (Direction)(((int)neighbor + 1) % 8);
+    public static Direction Prev(this Direction neighbor) {
+        var i = (int)neighbor - 1;
+        if (i < 0)
+            i = 7;
+        return (Direction)(i % 8);
+    }
+    public static Direction Opposite(this Direction neighbor) => (Direction)(((int)neighbor + 4) % 8);
+
     public static Point AddY(this Point point, int y) => new Point(point.X, point.Y + y);
     public static Vector2 ToVector2(this Point point) => new Vector2(point.X, point.Y);
-    public static bool IsZero(this Vector2 vector) => vector.x.IsZero() && vector.y.IsZero();
-    public static bool IsZero(this float value) => Mathf.Abs(value - 0) <= 0.0000001;
-    public static bool Between(this int value, int min, int max) => value >= min && value <= max;
-    public static Direction Next(this Direction neighbor) => (Direction)(((int)neighbor + 1) % 8);
-    public static Direction Opposite(this Direction neighbor) => (Direction)(((int)neighbor + 4) % 8);
 
     public static Point GetNeighbor(this Point point, Direction neighbor)
     {
@@ -81,6 +91,6 @@ public static class Extensions {
                 return Direction.DownRight;
         }
 
-        throw new Exception($"Unable to determine neighbor: ({point.X},{point.Y}) => ({neighbor.X},{neighbor.Y}");
+        throw new Exception($"Unable to determine neighbor: ({point.X},{point.Y}) => ({neighbor.X},{neighbor.Y})");
     }
 }

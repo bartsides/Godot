@@ -10,7 +10,7 @@ public class Level : Navigation2D
     public ColorScheme ColorScheme { get; set; }
     public Tileset Tileset { get; set; }
     public TileMap FloorTileMap { get; set; }
-    private const int NumberOfRooms = 0;
+    private const int NumberOfRooms = 1;
     private PackedScene RoomScene;
     private Node2D RoomsNode { get; set; }
     private List<Room> Rooms { get; set; } = new List<Room>();
