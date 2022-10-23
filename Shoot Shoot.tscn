@@ -264,14 +264,13 @@ position = Vector2( 120, 258 )
 visible = false
 position = Vector2( -57, -64 )
 frames = SubResource( 1 )
-frame = 1
 playing = true
 
 [node name="GreenKnight" type="AnimatedSprite" parent="."]
 visible = false
 position = Vector2( 38, -79 )
 frames = SubResource( 2 )
-frame = 1
+frame = 3
 playing = true
 
 [node name="Halo Man" type="AnimatedSprite" parent="."]
@@ -288,7 +287,7 @@ visible = false
 position = Vector2( -73, -17 )
 frames = SubResource( 4 )
 animation = "Explode"
-frame = 9
+frame = 4
 playing = true
 
 [node name="Plasma Bullet" type="AnimatedSprite" parent="."]
@@ -297,7 +296,7 @@ position = Vector2( -46, -18 )
 rotation = 4.74904
 frames = SubResource( 5 )
 animation = "Hit"
-frame = 2
+frame = 3
 playing = true
 
 [node name="Plasma Gun" type="AnimatedSprite" parent="."]
@@ -305,7 +304,7 @@ visible = false
 position = Vector2( -20, -25 )
 frames = SubResource( 6 )
 animation = "Shoot"
-frame = 2
+frame = 5
 playing = true
 flip_h = true
 
@@ -314,7 +313,6 @@ visible = false
 position = Vector2( 56, -19 )
 frames = SubResource( 7 )
 animation = "Run Down"
-frame = 3
 playing = true
 
 [node name="Monk" type="AnimatedSprite" parent="."]
@@ -322,5 +320,4 @@ visible = false
 position = Vector2( 35, -87 )
 frames = SubResource( 8 )
 animation = "Walk Right"
-frame = 2
 playing = true

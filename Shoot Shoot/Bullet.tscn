@@ -59,7 +59,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Bullet2" type="RigidBody2D"]
+[node name="Bullet" type="RigidBody2D"]
 physics_material_override = SubResource( 6 )
 gravity_scale = 0.0
 custom_integrator = true
