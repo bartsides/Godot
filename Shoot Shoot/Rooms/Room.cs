@@ -112,7 +112,7 @@ public class Room : Node2D {
                     break;
             }
         }
-        MinimapImage.Save(@"C:/users/barts/desktop/room.png", ImageFormat.Png);
+        //MinimapImage.Save(@"C:/users/barts/desktop/room.png", ImageFormat.Png);
     }
 
     protected virtual void CreateExteriorWalls() {
