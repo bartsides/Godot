@@ -2,23 +2,37 @@ using Godot;
 
 public class Gun : Node2D
 {
+    private bool debug = false;
     public float Speed = 800;
-    private PackedScene bulletScene;
+    private AnimatedSprite animatedSprite = null;
+    private AudioStreamPlayer2D audioStreamPlayer2D = null;
+    private Bullet bullet = null;
+    private Node2D bullets = null;
+    private Position2D bulletPosition = null;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        bulletScene = GD.Load<PackedScene>("res://Shoot Shoot/Bullet.tscn");
+        animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+        audioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
+        bullet = GetNode<Bullet>("Bullet");
+        bullets = GetNode<Node2D>("Bullets");
+        bulletPosition = GetNode<Position2D>("BulletPosition");
     }
 
     public Projectile Shoot(Vector2 direction) {
-        // TODO: Shoot gun sound and smoke
+        if (animatedSprite != null) {
+            animatedSprite.Play("Shoot");
+        }
 
-        var bullet = bulletScene.Instance<Bullet>();
-        AddChild(bullet);
-        bullet.Position = GetNode<Position2D>("BulletPosition").Position;
-        bullet.LinearVelocity = direction * Speed;
-        bullet.ZIndex = -1;
+        if (audioStreamPlayer2D != null) {
+            if (debug) GD.Print("Gun sound");
+            audioStreamPlayer2D.Play();
+        }
+
+        var shot = (Bullet)bullet.Duplicate();
+        bullets.AddChild(shot);
+        shot.Fire(bulletPosition.Position, direction * Speed);
         return bullet;
     }
 }
