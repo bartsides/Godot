@@ -11,6 +11,11 @@ public class Enemy : RigidBody2D
         Health = 40;
     }
 
+    public override void _IntegrateForces(Physics2DDirectBodyState state)
+    {
+        base._IntegrateForces(state);
+    }
+
     public void Hit(decimal damage) {
         Health -= damage;
         if (Health <= 0)

@@ -6,32 +6,7 @@
 [ext_resource path="res://animations/Bubbleman/Bubble5.png" type="Texture" id=4]
 [ext_resource path="res://animations/Bubbleman/Bubble1.png" type="Texture" id=5]
 [ext_resource path="res://animations/Bubbleman/Bubble3.png" type="Texture" id=6]
-
-[sub_resource type="CSharpScript" id=3]
-script/source = "using Godot;
-using System;
-
-public class Enemy : RigidBody2D
-{
-    public decimal Health { get; private set; }
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        Health = 40;
-    }
-
-    public void Hit(decimal damage) {
-        Health -= damage;
-        if (Health <= 0)
-            Die();
-    }
-
-    private void Die() {
-        GetParent().RemoveChild(this);
-    }
-}
-"
+[ext_resource path="res://Shoot Shoot/Enemy.cs" type="Script" id=7]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 11.0
@@ -47,7 +22,7 @@ animations = [ {
 
 [node name="Enemy" type="RigidBody2D" groups=["Enemy"]]
 gravity_scale = 0.0
-script = SubResource( 3 )
+script = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
@@ -56,5 +31,4 @@ shape = SubResource( 2 )
 position = Vector2( 2, 0 )
 scale = Vector2( 0.257813, 0.257813 )
 frames = SubResource( 1 )
-frame = 3
 playing = true

@@ -7,6 +7,7 @@ public abstract class Projectile : RigidBody2D
     public decimal Damage { get;  protected set; }
     public int MaxEnemiesHit { get; protected set; } = 1;
     public int MaxBounces { get; protected set; } = 20;
+    protected bool Active { get; set; } = false;
 
     public virtual bool HandleHitEnemy(Enemy node) {
         node.Hit(Damage);
