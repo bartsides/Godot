@@ -24,11 +24,10 @@ public class Level : Navigation2D
         //floorTileMap.ShowCollision = true;
     }
     
-    public void GenerateLevel(bool regenerateTileset) {
+    public void GenerateLevel(List<Brush> wallBrushes) {
         Reset();
 
-        if (regenerateTileset)
-            GenerateTileSet(Levels.Level1.WallBrushes);
+        GenerateTileSet(wallBrushes);
 
         var room = GetNextRoom();
         Direction direction = Direction.Up;
@@ -129,7 +128,7 @@ public class Level : Navigation2D
         };
 
         foreach (var wallbrush in wallbrushes) {
-            var topWallTile = GenerateTile<TopWallTile>(tileset);
+            var topWallTile = GenerateTile<TopWallTile>(tileset, wallbrush);
             Tileset.TopWalls.Add(topWallTile.Id);
         }
 
@@ -165,5 +164,21 @@ public class Level : Navigation2D
 
     private void Reset() {
         // TODO: Reset level
+    }
+
+    public void RoomCleared() {
+        var allEnemiesKilled = true;
+        
+        var rooms = GetNode("Rooms").GetChildren();
+        foreach (Room room in rooms) {
+            if (room.GetNode("Enemies").GetChildCount() > 0) {
+                allEnemiesKilled = false;
+                break;
+            }
+        }
+
+        if (allEnemiesKilled) {
+            ((ShootShoot)GetParent()).LevelCompleted();
+        }
     }
 }

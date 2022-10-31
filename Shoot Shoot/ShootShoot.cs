@@ -1,4 +1,6 @@
 using Godot;
+using System.Collections.Generic;
+using System.Drawing;
 
 public class ShootShoot : Node2D
 {
@@ -12,9 +14,19 @@ public class ShootShoot : Node2D
 	}
 
 	private void NextLevel() {
+		var floorTileMap = GetNode("Level").GetNode<TileMap>("FloorTileMap");
+		floorTileMap.Clear();
+
+		var player = GetNode("Level").GetNode<Player>("Player");
+		player.Position = Vector2.Zero;
+
 		FloorNumber++;
 
 		level.FloorNumber = FloorNumber;
-		level.GenerateLevel(true);
+		level.GenerateLevel(new List<Brush>{Levels.WallBrushes[FloorNumber-1]});
+	}
+
+	public void LevelCompleted() {
+		NextLevel();
 	}
 }

@@ -28,7 +28,6 @@ public class Room : Node2D {
     private const int minShapeWidth = 4;
 
     private PackedScene EnemyScene;
-    public List<Enemy> Enemies { get; set; }
 
     private static IShape[] Shapes = new IShape[] {
         new RectangleShape(),
@@ -43,6 +42,8 @@ public class Room : Node2D {
         Direction.UpLeft
     };
 
+    public int EnemiesAlive => GetNode("Enemies").GetChildCount();
+
     public Room() {
         Width = 20;
         Height = 20;
@@ -55,6 +56,8 @@ public class Room : Node2D {
         var numEnemies = Rand.RandiRange(1, 10);
         if (numEnemies == 0) return;
 
+        var enemies = GetNode("Enemies");
+
         for (var i = 0; i < numEnemies; i++) {
             if (SpawnableTiles.Count < 1) {
                 GD.Print($"No spawnable points. Skipping spawning {numEnemies - i}");
@@ -64,7 +67,20 @@ public class Room : Node2D {
             var spawnableTile = SpawnableTiles[Rand.RandiRange(0, SpawnableTiles.Count-1)];
             enemy.Position = Level.FloorTileMap.MapToWorld(TopLeft + spawnableTile);
             GD.Print($"Spawned enemy ({enemy.Position.x},{enemy.Position.y})");
-            AddChild(enemy);
+            enemies.AddChild(enemy);
+        }
+    }
+
+    public void EnemyKilled(Enemy enemy) {
+        var enemies = GetNode("Enemies");
+        enemies.RemoveChild(enemy);
+
+        if (EnemiesAlive < 1) {
+            GD.Print("All enemies killed");
+            var level = (Level) GetParent().GetParent();
+            level.RoomCleared();
+        } else {
+            GD.Print($"Remaining enemies in room: {EnemiesAlive}");
         }
     }
 

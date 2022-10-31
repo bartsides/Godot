@@ -23,6 +23,6 @@ public class Enemy : RigidBody2D
     }
 
     private void Die() {
-        GetParent().RemoveChild(this);
+        ((Room)GetParent().GetParent()).EnemyKilled(this);
     }
 }
