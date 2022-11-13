@@ -28,6 +28,7 @@ public class Bullet : Projectile
     public void Fire(Vector2 position, Vector2 linearVelocity) {
         Position = position;
         LinearVelocity = linearVelocity;
+        LookAt(Position + LinearVelocity);
         Visible = true;
         Active = true;
     }

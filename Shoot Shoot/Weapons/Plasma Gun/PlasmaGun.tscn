@@ -26,7 +26,6 @@ playing = true
 
 [node name="Bullet" parent="." index="5" instance=ExtResource( 3 )]
 visible = false
-angular_velocity = 100.0
 
 [node name="AudioStreamPlayer2D" parent="." index="6"]
 stream = ExtResource( 4 )

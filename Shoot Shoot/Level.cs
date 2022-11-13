@@ -163,7 +163,11 @@ public class Level : Navigation2D
     }
 
     private void Reset() {
-        // TODO: Reset level
+        Rooms.Clear();
+        var rooms = GetNode("Rooms");
+        foreach (Room room in rooms.GetChildren()) {
+            rooms.RemoveChild(room);
+        }
     }
 
     public void RoomCleared() {

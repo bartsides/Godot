@@ -102,19 +102,9 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 25 ), ExtResource( 19 ), ExtResource( 25 ) ],
-"loop": true,
-"name": "Up",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 22 ), ExtResource( 23 ) ],
 "loop": true,
 "name": "Run Right",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 28 ), ExtResource( 20 ), ExtResource( 27 ) ],
-"loop": true,
-"name": "Run Left",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 24 ), ExtResource( 21 ), ExtResource( 24 ) ],
@@ -122,9 +112,19 @@ animations = [ {
 "name": "Idle",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 28 ), ExtResource( 20 ), ExtResource( 27 ) ],
+"loop": true,
+"name": "Run Left",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 26 ), ExtResource( 18 ) ],
 "loop": true,
 "name": "Up Idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 25 ), ExtResource( 19 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "Up",
 "speed": 5.0
 } ]
 
@@ -148,22 +148,22 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ ExtResource( 43 ), ExtResource( 41 ), ExtResource( 45 ), ExtResource( 40 ) ],
-"loop": true,
-"name": "Hit",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 52 ), ExtResource( 43 ) ],
 "loop": true,
 "name": "Travel",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 43 ), ExtResource( 41 ), ExtResource( 45 ), ExtResource( 40 ) ],
+"loop": true,
+"name": "Hit",
 "speed": 5.0
 } ]
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ ExtResource( 32 ), ExtResource( 29 ), ExtResource( 44 ), ExtResource( 42 ), ExtResource( 48 ), ExtResource( 46 ) ],
+"frames": [ ExtResource( 32 ) ],
 "loop": true,
-"name": "Shoot",
+"name": "Idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 49 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 53 ), ExtResource( 55 ) ],
@@ -171,9 +171,9 @@ animations = [ {
 "name": "Shoot Up",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 32 ) ],
+"frames": [ ExtResource( 32 ), ExtResource( 29 ), ExtResource( 44 ), ExtResource( 42 ), ExtResource( 48 ), ExtResource( 46 ) ],
 "loop": true,
-"name": "Idle",
+"name": "Shoot",
 "speed": 5.0
 } ]
 
@@ -189,6 +189,11 @@ animations = [ {
 "name": "Run Right",
 "speed": 10.0
 }, {
+"frames": [ ExtResource( 57 ), ExtResource( 62 ), ExtResource( 67 ), ExtResource( 58 ) ],
+"loop": true,
+"name": "Run Down",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 70 ), ExtResource( 69 ), ExtResource( 68 ), ExtResource( 71 ) ],
 "loop": true,
 "name": "Run Up",
@@ -198,11 +203,6 @@ animations = [ {
 "loop": true,
 "name": "Run Left",
 "speed": 10.0
-}, {
-"frames": [ ExtResource( 57 ), ExtResource( 62 ), ExtResource( 67 ), ExtResource( 58 ) ],
-"loop": true,
-"name": "Run Down",
-"speed": 5.0
 } ]
 
 [sub_resource type="SpriteFrames" id=8]
@@ -212,24 +212,24 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 84 ), ExtResource( 82 ), ExtResource( 83 ) ],
-"loop": true,
-"name": "Walk Left",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 73 ), ExtResource( 76 ), ExtResource( 77 ) ],
 "loop": true,
 "name": "Walk Up",
 "speed": 8.0
 }, {
-"frames": [ ExtResource( 72 ), ExtResource( 78 ), ExtResource( 81 ), ExtResource( 74 ) ],
-"loop": true,
-"name": "Walk Front ",
-"speed": 8.0
-}, {
 "frames": [ ExtResource( 75 ), ExtResource( 79 ), ExtResource( 80 ) ],
 "loop": true,
 "name": "Walk Right",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 84 ), ExtResource( 82 ), ExtResource( 83 ) ],
+"loop": true,
+"name": "Walk Left",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 72 ), ExtResource( 78 ), ExtResource( 81 ), ExtResource( 74 ) ],
+"loop": true,
+"name": "Walk Front ",
 "speed": 8.0
 } ]
 
@@ -254,14 +254,14 @@ mode = 2
 visible = false
 position = Vector2( -57, -64 )
 frames = SubResource( 1 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="GreenKnight" type="AnimatedSprite" parent="."]
 visible = false
 position = Vector2( 38, -79 )
 frames = SubResource( 2 )
-frame = 4
+frame = 8
 playing = true
 
 [node name="Halo Man" type="AnimatedSprite" parent="."]
@@ -270,7 +270,6 @@ position = Vector2( -8, -24 )
 z_index = 1
 frames = SubResource( 3 )
 animation = "Run Left"
-frame = 2
 playing = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -287,6 +286,7 @@ position = Vector2( -46, -18 )
 rotation = 4.74904
 frames = SubResource( 5 )
 animation = "Hit"
+frame = 2
 playing = true
 
 [node name="Plasma Gun" type="AnimatedSprite" parent="."]
@@ -294,7 +294,6 @@ visible = false
 position = Vector2( -20, -25 )
 frames = SubResource( 6 )
 animation = "Shoot"
-frame = 2
 playing = true
 flip_h = true
 
@@ -303,7 +302,7 @@ visible = false
 position = Vector2( 56, -19 )
 frames = SubResource( 7 )
 animation = "Run Down"
-frame = 1
+frame = 3
 playing = true
 
 [node name="Monk" type="AnimatedSprite" parent="."]
@@ -311,5 +310,4 @@ visible = false
 position = Vector2( 35, -87 )
 frames = SubResource( 8 )
 animation = "Walk Right"
-frame = 1
 playing = true

@@ -6,6 +6,6 @@
 [node name="Bullet" instance=ExtResource( 1 )]
 
 [node name="AnimatedSprite" parent="." index="2"]
-rotation = -3.13624
+rotation = 3.14159
 frames = ExtResource( 2 )
 frame = 1
