@@ -254,14 +254,12 @@ mode = 2
 visible = false
 position = Vector2( -57, -64 )
 frames = SubResource( 1 )
-frame = 2
 playing = true
 
 [node name="GreenKnight" type="AnimatedSprite" parent="."]
 visible = false
 position = Vector2( 38, -79 )
 frames = SubResource( 2 )
-frame = 8
 playing = true
 
 [node name="Halo Man" type="AnimatedSprite" parent="."]
@@ -270,6 +268,7 @@ position = Vector2( -8, -24 )
 z_index = 1
 frames = SubResource( 3 )
 animation = "Run Left"
+frame = 1
 playing = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -277,7 +276,7 @@ visible = false
 position = Vector2( -73, -17 )
 frames = SubResource( 4 )
 animation = "Explode"
-frame = 7
+frame = 6
 playing = true
 
 [node name="Plasma Bullet" type="AnimatedSprite" parent="."]
@@ -294,6 +293,7 @@ visible = false
 position = Vector2( -20, -25 )
 frames = SubResource( 6 )
 animation = "Shoot"
+frame = 4
 playing = true
 flip_h = true
 
@@ -310,4 +310,5 @@ visible = false
 position = Vector2( 35, -87 )
 frames = SubResource( 8 )
 animation = "Walk Right"
+frame = 1
 playing = true

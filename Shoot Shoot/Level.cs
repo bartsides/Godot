@@ -30,6 +30,7 @@ public class Level : Navigation2D
         GenerateTileSet(wallBrushes);
 
         var room = GetNextRoom();
+        room.AddEnemies();
         Direction direction = Direction.Up;
 
         for (var i = 0; i < NumberOfRooms; i++) {

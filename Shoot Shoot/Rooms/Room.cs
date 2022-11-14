@@ -53,7 +53,7 @@ public class Room : Node2D {
 
     public virtual void AddEnemies()
     {
-        var numEnemies = Rand.RandiRange(1, 10);
+        var numEnemies = Rand.RandiRange(1, 1);
         if (numEnemies == 0) return;
 
         var enemies = GetNode("Enemies");

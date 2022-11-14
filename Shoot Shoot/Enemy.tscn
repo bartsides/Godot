@@ -21,6 +21,7 @@ animations = [ {
 } ]
 
 [node name="Enemy" type="RigidBody2D" groups=["Enemy"]]
+mode = 3
 gravity_scale = 0.0
 script = ExtResource( 7 )
 
@@ -31,4 +32,5 @@ shape = SubResource( 2 )
 position = Vector2( 2, 0 )
 scale = Vector2( 0.257813, 0.257813 )
 frames = SubResource( 1 )
+frame = 2
 playing = true

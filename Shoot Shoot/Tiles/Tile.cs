@@ -50,8 +50,22 @@ public class Tile {
         tileset.TileSetZIndex(Id, ZIndex);
         tileset.TileSetName(Id, TileName);
 
-        if (CollisionShape != null)
+        if (CollisionShape != null) {
             tileset.TileAddShape(Id, CollisionShape, CollisionTransform);
+        }
+
+        // TODO: Consider Collisionshape when generating NavigationPolygon
+        var nav = new NavigationPolygon();
+        nav.Vertices = new Vector2[] {
+            TopLeft.ToVector2(), 
+            TopRight.ToVector2(), 
+            BottomRight.ToVector2(), 
+            BottomLeft.ToVector2()
+        };
+        nav.AddPolygon(new int[]{
+            0, 1, 2, 3, 0
+        });
+        tileset.TileSetNavigationPolygon(Id, nav);
     }
 
     protected virtual void GenerateTexture() {
