@@ -102,19 +102,14 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 22 ), ExtResource( 23 ) ],
-"loop": true,
-"name": "Run Right",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 24 ), ExtResource( 21 ), ExtResource( 24 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 28 ), ExtResource( 20 ), ExtResource( 27 ) ],
+"frames": [ ExtResource( 22 ), ExtResource( 23 ) ],
 "loop": true,
-"name": "Run Left",
+"name": "Run Right",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 26 ), ExtResource( 18 ) ],
@@ -125,6 +120,11 @@ animations = [ {
 "frames": [ ExtResource( 25 ), ExtResource( 19 ), ExtResource( 25 ) ],
 "loop": true,
 "name": "Up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 20 ), ExtResource( 27 ) ],
+"loop": true,
+"name": "Run Left",
 "speed": 5.0
 } ]
 
@@ -194,14 +194,14 @@ animations = [ {
 "name": "Run Down",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 70 ), ExtResource( 69 ), ExtResource( 68 ), ExtResource( 71 ) ],
-"loop": true,
-"name": "Run Up",
-"speed": 10.0
-}, {
 "frames": [ ExtResource( 56 ), ExtResource( 65 ), ExtResource( 64 ), ExtResource( 66 ) ],
 "loop": true,
 "name": "Run Left",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 70 ), ExtResource( 69 ), ExtResource( 68 ), ExtResource( 71 ) ],
+"loop": true,
+"name": "Run Up",
 "speed": 10.0
 } ]
 
@@ -212,14 +212,14 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 73 ), ExtResource( 76 ), ExtResource( 77 ) ],
-"loop": true,
-"name": "Walk Up",
-"speed": 8.0
-}, {
 "frames": [ ExtResource( 75 ), ExtResource( 79 ), ExtResource( 80 ) ],
 "loop": true,
 "name": "Walk Right",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 73 ), ExtResource( 76 ), ExtResource( 77 ) ],
+"loop": true,
+"name": "Walk Up",
 "speed": 8.0
 }, {
 "frames": [ ExtResource( 84 ), ExtResource( 82 ), ExtResource( 83 ) ],
@@ -260,6 +260,7 @@ playing = true
 visible = false
 position = Vector2( 38, -79 )
 frames = SubResource( 2 )
+frame = 6
 playing = true
 
 [node name="Halo Man" type="AnimatedSprite" parent="."]
@@ -276,7 +277,7 @@ visible = false
 position = Vector2( -73, -17 )
 frames = SubResource( 4 )
 animation = "Explode"
-frame = 6
+frame = 10
 playing = true
 
 [node name="Plasma Bullet" type="AnimatedSprite" parent="."]
@@ -310,5 +311,4 @@ visible = false
 position = Vector2( 35, -87 )
 frames = SubResource( 8 )
 animation = "Walk Right"
-frame = 1
 playing = true
