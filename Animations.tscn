@@ -1,0 +1,61 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://animations/Simple Gun/Untitled_Artwork-4.png" type="Texture" id=1]
+[ext_resource path="res://animations/Simple Gun/Untitled_Artwork-6.png" type="Texture" id=2]
+[ext_resource path="res://animations/Simple Gun/Untitled_Artwork-8.png" type="Texture" id=3]
+[ext_resource path="res://animations/Simple Gun/Untitled_Artwork-3.png" type="Texture" id=4]
+[ext_resource path="res://animations/Simple Gun/Untitled_Artwork-5.png" type="Texture" id=5]
+[ext_resource path="res://animations/Simple Gun/Untitled_Artwork-7.png" type="Texture" id=6]
+[ext_resource path="res://animations/Simple Gun/Untitled_Artwork-2.png" type="Texture" id=7]
+[ext_resource path="res://animations/Simple Gun/Untitled_Artwork-1.png" type="Texture" id=8]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "Idle Back",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "Idle Front",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "Idle Left",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "Idle Right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 3 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "Shoot Back",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 2 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "Shoot Front",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 1 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "Shoot Left",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "Shoot Right",
+"speed": 5.0
+} ]
+
+[node name="Animations" type="Node2D"]
+
+[node name="Simple Gun" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "Shoot Front"
+frame = 1
+playing = true
