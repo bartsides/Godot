@@ -28,7 +28,7 @@ animations = [ {
 "name": "Run Side",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
+"frames": [ ExtResource( 11 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "Damage Up",
 "speed": 5.0
@@ -43,12 +43,12 @@ animations = [ {
 "name": "Run Down",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "Damage Down",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 9 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "Damage Right",
 "speed": 5.0
