@@ -1,21 +1,34 @@
 using Godot;
-using System;
 using System.Linq;
 
 public class Enemy : RigidBody2D
 {
 	public decimal Health { get; private set; }
 	private Level level;
+	private AnimatedSprite animatedSprite;
 	private Vector2[] path = new Vector2[]{};
 	private int speed = 100;
 	private int maxVelocity = 500;
 	private float timeSinceLastReassess = 0;
 	private float maxTimeSinceLastReassess = 100;
 
+    private bool dying = false;
+    private float deathAnimationTime = 0;
+    private float deathAnimationMaxTime = 1;
+
+	private bool dead = false;
+	private float deadBodyTime = 0;
+	private float deadBodyMaxTime = 5;
+
+	private bool hit = false;
+	private float hitTime = 0;
+	private float hitMaxTime = 2f/5f; // 2 frames at play speed of 5 FPS
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		level = GetParent().GetParent().GetParent().GetParent<Level>();
+		animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		Health = 40;
 		SetProcess(true);
 	}
@@ -27,6 +40,45 @@ public class Enemy : RigidBody2D
 
 	public override void _Process(float delta)
 	{
+		if (dead) {
+			HandleDead(delta);
+			return;
+		}
+
+        if (dying) {
+			HandleDying(delta);
+        }
+		else {
+			HandleMovement(delta);
+
+			if (hit)
+				HandleHit(delta);
+		}
+
+		SetAnimation();
+	}
+
+	private void HandleDead(float delta) {
+		deadBodyTime += delta;
+		if (deadBodyTime > deadBodyMaxTime)
+			Remove();
+	}
+
+	private void HandleDying(float delta) {
+		deathAnimationTime += delta;
+		
+		if (deathAnimationTime > deathAnimationMaxTime)
+			Die();
+	}
+
+	private void HandleHit(float delta) {
+		hitTime += delta;
+		if (hitTime > hitMaxTime) {
+			hit = false;
+		}
+	}
+
+	private void HandleMovement(float delta) {
 		timeSinceLastReassess += delta;
 
 		if (path.Length < 1 || timeSinceLastReassess > maxTimeSinceLastReassess) {
@@ -39,6 +91,36 @@ public class Enemy : RigidBody2D
 		}
 	}
 
+    private void SetAnimation() {
+        animatedSprite.FlipH = false;
+
+        if (dying) {
+            animatedSprite.Animation = "Die";
+            return;
+        }
+		
+		// TODO: Utilize Damage Right, Damage Up, Damage Down animations
+
+		if (LinearVelocity.IsZero()) {
+			animatedSprite.Animation = hit ? "Damage Down" : "Run Down";
+		}
+
+        var movementAngle = Mathf.Rad2Deg(LinearVelocity.Angle());
+		if (movementAngle >= -45 && movementAngle <= 45) {
+			animatedSprite.Animation = hit ? "Damage Right" : "Run Side";
+        }
+		else if (movementAngle > 45 && movementAngle < 135) { 
+			animatedSprite.Animation = hit ? "Damage Down" : "Run Down";
+        }
+		else if (movementAngle < -45 && movementAngle > -135) {
+			animatedSprite.Animation = hit ? "Damage Up" : "Damage Up";
+        }
+		else {
+			animatedSprite.Animation = hit ? "Damage Right" : "Run Side";
+            animatedSprite.FlipH = true;
+        }
+    }
+
 	private void Move(float speed) {
 		var dist = Position.DistanceTo(path[0]);
 		if (dist < 10)
@@ -50,10 +132,24 @@ public class Enemy : RigidBody2D
 	public void Hit(decimal damage) {
 		Health -= damage;
 		if (Health <= 0)
-			Die();
+			StartDying();
+		
+		hit = true;
+		hitTime = 0;
+		animatedSprite.Frame = 0; // reset animation on hit
+	}
+
+	private void StartDying() {
+        dying = true;
+		LinearVelocity = Vector2.Zero;
 	}
 
 	private void Die() {
-		((Room)GetParent().GetParent()).EnemyKilled(this);
+		dead = true;
+		animatedSprite.Playing = false;
 	}
+
+    private void Remove() {
+		((Room)GetParent().GetParent()).EnemyKilled(this);
+    }
 }
