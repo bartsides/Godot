@@ -24,4 +24,5 @@ public class BottomWallTile : WallTile {
             BottomLeft.ToVector2(),
         }
     };
+    protected override int TextureRotation => -90;
 }

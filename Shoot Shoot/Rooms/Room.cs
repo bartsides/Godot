@@ -223,7 +223,7 @@ public class Room : Node2D {
         for (var x = 0; x < Tiles.Length; x++)
         for (var y = 0; y < Tiles[x].Length; y++) {
             if (Tiles[x][y] == null && MinimapImage.GetPixel(x, y).A > 0) {
-                Tiles[x][y] = Tileset.Floor;
+                Tiles[x][y] = Tileset.GetFloor();
                 SpawnableTiles.Add(new Vector2(x, y));
             }
         }
@@ -245,8 +245,8 @@ public class Room : Node2D {
         Tiles[x][y] = Tileset.Door;
         switch (direction) {
             case Direction.Up:
-                Tiles[x-1][y] = Tileset.TopWalls[0];
-                Tiles[x+1][y] = Tileset.TopWalls[0];
+                Tiles[x-1][y] = Tileset.GetTopWall();
+                Tiles[x+1][y] = Tileset.GetTopWall();
                 break;
             case Direction.Down:
                 Tiles[x-1][y] = Tileset.BottomLeftWall;
@@ -308,7 +308,7 @@ public class Room : Node2D {
         var after = current.DetermineNeighbor(next);
 
         if (before == Direction.Up) {
-            if (after == Direction.Right) return tileset.TopWalls[0];
+            if (after == Direction.Right) return tileset.GetTopWall();
             if (after == Direction.Down) return tileset.RightWall;
             if (after == Direction.Left) return tileset.BottomRightCorner;
         }
@@ -323,8 +323,8 @@ public class Room : Node2D {
             if (after == Direction.Right) return tileset.TopLeftCorner;
         }
         else if (before == Direction.Left) {
-            if (after == Direction.Up) return tileset.TopWalls[0];
-            if (after == Direction.Right) return tileset.TopWalls[0];
+            if (after == Direction.Up) return tileset.GetTopWall();
+            if (after == Direction.Right) return tileset.GetTopWall();
             if (after == Direction.Down) return tileset.TopRightCorner;
         }
 

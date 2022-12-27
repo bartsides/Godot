@@ -11,4 +11,5 @@ public class BottomLeftCornerTile : WallTile {
         new Point(TopRight.X, TopRight.Y + EdgeWidth),
         TopRight
     };
+    protected override int TextureRotation => -90;
 }

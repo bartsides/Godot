@@ -3,9 +3,9 @@
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/2GreenKnight.png" type="Texture" id=1]
 [ext_resource path="res://Shoot Shoot/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Shoot Shoot/ShootShoot.cs" type="Script" id=3]
+[ext_resource path="res://Shoot Shoot/Levels/Level.cs" type="Script" id=4]
 [ext_resource path="res://animations/Bunny/drive-download-20221009T194612Z-001/2BunnyIdle.png" type="Texture" id=5]
 [ext_resource path="res://animations/Bunny/drive-download-20221009T194612Z-001/1BunnyIdle.png" type="Texture" id=6]
-[ext_resource path="res://Shoot Shoot/Level.cs" type="Script" id=7]
 [ext_resource path="res://GeneratedTileset.tres" type="TileSet" id=8]
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/3GreenKnight.png" type="Texture" id=9]
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/10GreenKnight.png" type="Texture" id=10]
@@ -112,11 +112,6 @@ animations = [ {
 "name": "Run Right",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 26 ), ExtResource( 18 ) ],
-"loop": true,
-"name": "Up Idle",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 25 ), ExtResource( 19 ), ExtResource( 25 ) ],
 "loop": true,
 "name": "Up",
@@ -125,6 +120,11 @@ animations = [ {
 "frames": [ ExtResource( 28 ), ExtResource( 20 ), ExtResource( 27 ) ],
 "loop": true,
 "name": "Run Left",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 26 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "Up Idle",
 "speed": 5.0
 } ]
 
@@ -148,22 +148,22 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ ExtResource( 52 ), ExtResource( 43 ) ],
-"loop": true,
-"name": "Travel",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 43 ), ExtResource( 41 ), ExtResource( 45 ), ExtResource( 40 ) ],
 "loop": true,
 "name": "Hit",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 52 ), ExtResource( 43 ) ],
+"loop": true,
+"name": "Travel",
 "speed": 5.0
 } ]
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ ExtResource( 32 ) ],
+"frames": [ ExtResource( 32 ), ExtResource( 29 ), ExtResource( 44 ), ExtResource( 42 ), ExtResource( 48 ), ExtResource( 46 ) ],
 "loop": true,
-"name": "Idle",
+"name": "Shoot",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 49 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 53 ), ExtResource( 55 ) ],
@@ -171,9 +171,9 @@ animations = [ {
 "name": "Shoot Up",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 32 ), ExtResource( 29 ), ExtResource( 44 ), ExtResource( 42 ), ExtResource( 48 ), ExtResource( 46 ) ],
+"frames": [ ExtResource( 32 ) ],
 "loop": true,
-"name": "Shoot",
+"name": "Idle",
 "speed": 5.0
 } ]
 
@@ -189,15 +189,15 @@ animations = [ {
 "name": "Run Right",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 57 ), ExtResource( 62 ), ExtResource( 67 ), ExtResource( 58 ) ],
-"loop": true,
-"name": "Run Down",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 56 ), ExtResource( 65 ), ExtResource( 64 ), ExtResource( 66 ) ],
 "loop": true,
 "name": "Run Left",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 57 ), ExtResource( 62 ), ExtResource( 67 ), ExtResource( 58 ) ],
+"loop": true,
+"name": "Run Down",
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 70 ), ExtResource( 69 ), ExtResource( 68 ), ExtResource( 71 ) ],
 "loop": true,
@@ -212,24 +212,24 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 75 ), ExtResource( 79 ), ExtResource( 80 ) ],
+"frames": [ ExtResource( 84 ), ExtResource( 82 ), ExtResource( 83 ) ],
 "loop": true,
-"name": "Walk Right",
-"speed": 8.0
+"name": "Walk Left",
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 73 ), ExtResource( 76 ), ExtResource( 77 ) ],
 "loop": true,
 "name": "Walk Up",
 "speed": 8.0
 }, {
-"frames": [ ExtResource( 84 ), ExtResource( 82 ), ExtResource( 83 ) ],
-"loop": true,
-"name": "Walk Left",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 72 ), ExtResource( 78 ), ExtResource( 81 ), ExtResource( 74 ) ],
 "loop": true,
 "name": "Walk Front ",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 75 ), ExtResource( 79 ), ExtResource( 80 ) ],
+"loop": true,
+"name": "Walk Right",
 "speed": 8.0
 } ]
 
@@ -238,7 +238,7 @@ sort_enabled = false
 script = ExtResource( 3 )
 
 [node name="Level" type="Navigation2D" parent="."]
-script = ExtResource( 7 )
+script = ExtResource( 4 )
 
 [node name="FloorTileMap" type="TileMap" parent="Level"]
 tile_set = ExtResource( 8 )
@@ -260,7 +260,6 @@ playing = true
 visible = false
 position = Vector2( 38, -79 )
 frames = SubResource( 2 )
-frame = 6
 playing = true
 
 [node name="Halo Man" type="AnimatedSprite" parent="."]
@@ -277,7 +276,7 @@ visible = false
 position = Vector2( -73, -17 )
 frames = SubResource( 4 )
 animation = "Explode"
-frame = 10
+frame = 4
 playing = true
 
 [node name="Plasma Bullet" type="AnimatedSprite" parent="."]
@@ -286,7 +285,6 @@ position = Vector2( -46, -18 )
 rotation = 4.74904
 frames = SubResource( 5 )
 animation = "Hit"
-frame = 2
 playing = true
 
 [node name="Plasma Gun" type="AnimatedSprite" parent="."]
@@ -303,7 +301,7 @@ visible = false
 position = Vector2( 56, -19 )
 frames = SubResource( 7 )
 animation = "Run Down"
-frame = 3
+frame = 1
 playing = true
 
 [node name="Monk" type="AnimatedSprite" parent="."]

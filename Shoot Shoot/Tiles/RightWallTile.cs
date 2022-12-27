@@ -9,4 +9,5 @@ public class RightWallTile : WallTile {
         new Point(TopLeft.X + EdgeWidth, TopRight.Y),
         TopLeft,
     };
+    protected override int TextureRotation => 180;
 }

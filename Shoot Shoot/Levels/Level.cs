@@ -21,13 +21,13 @@ public class Level : Navigation2D
         RoomScene = GD.Load<PackedScene>("res://Shoot Shoot/Room.tscn");
         RoomsNode = GetNode<Node2D>("Rooms");
 
-        //floorTileMap.ShowCollision = true;
+        //FloorTileMap.ShowCollision = true;
     }
     
-    public void GenerateLevel(List<Brush> wallBrushes) {
+    public void GenerateLevel(LevelTemplate levelTemplate) {
         Reset();
 
-        GenerateTileSet(wallBrushes);
+        GenerateTileSet(levelTemplate);
 
         var room = GetNextRoom();
         room.AddEnemies();
@@ -95,25 +95,25 @@ public class Level : Navigation2D
         }
     }
 
-    private void GenerateTileSet(List<Brush> wallbrushes) {
+    private void GenerateTileSet(LevelTemplate levelTemplate) {
         if (debug) GD.Print("Generating tileset");
         var tileset = new TileSet();
         FloorTileMap.TileSet = tileset;
 
-        var floorTile = GenerateTile<FloorTile>(tileset);
-        var middleWallTile = GenerateTile<MiddleWallTile>(tileset);
-        var topLeftWallTile = GenerateTile<TopLeftCornerTile>(tileset);
-        var topRightWallTile = GenerateTile<TopRightCornerTile>(tileset);
-        var leftWallTile = GenerateTile<LeftWallTile>(tileset);
-        var rightWallTile = GenerateTile<RightWallTile>(tileset);
-        var bottomWallTile = GenerateTile<BottomWallTile>(tileset);
-        var bottomRightWallTile = GenerateTile<BottomRightWallTile>(tileset);
-        var bottomRightCornerTile = GenerateTile<BottomRightCornerTile>(tileset);
-        var bottomLeftWallTile = GenerateTile<BottomLeftWallTile>(tileset);
-        var bottomLeftCornerTile = GenerateTile<BottomLeftCornerTile>(tileset);
+        var doorTile = GenerateTile<FloorTile>(tileset);
+        var middleWallTile = GenerateTile<MiddleWallTile>(tileset, null, levelTemplate.TopBrush);
+        var topLeftWallTile = GenerateTile<TopLeftCornerTile>(tileset, null, levelTemplate.TopBrush);
+        var topRightWallTile = GenerateTile<TopRightCornerTile>(tileset, null, levelTemplate.TopBrush);
+        var leftWallTile = GenerateTile<LeftWallTile>(tileset, null, levelTemplate.TopBrush);
+        var rightWallTile = GenerateTile<RightWallTile>(tileset, null, levelTemplate.TopBrush);
+        var bottomWallTile = GenerateTile<BottomWallTile>(tileset, null, levelTemplate.TopBrush);
+        var bottomRightWallTile = GenerateTile<BottomRightWallTile>(tileset, null, levelTemplate.TopBrush);
+        var bottomRightCornerTile = GenerateTile<BottomRightCornerTile>(tileset, null, levelTemplate.TopBrush);
+        var bottomLeftWallTile = GenerateTile<BottomLeftWallTile>(tileset, null, levelTemplate.TopBrush);
+        var bottomLeftCornerTile = GenerateTile<BottomLeftCornerTile>(tileset, null, levelTemplate.TopBrush);
 
         Tileset = new Tileset {
-            Floor = floorTile.Id,
+            Floors = new List<int>(),
             TopWalls = new List<int>(),
             TopLeftCorner = topLeftWallTile.Id,
             TopRightCorner = topRightWallTile.Id,
@@ -125,12 +125,17 @@ public class Level : Navigation2D
             LeftWall = leftWallTile.Id,
             RightWall = rightWallTile.Id,
             MiddleWall = middleWallTile.Id,
-            Door = floorTile.Id
+            Door = doorTile.Id
         };
 
-        foreach (var wallbrush in wallbrushes) {
-            var topWallTile = GenerateTile<TopWallTile>(tileset, wallbrush);
+        foreach (var wallbrush in levelTemplate.WallBrushes) {
+            var topWallTile = GenerateTile<TopWallTile>(tileset, wallbrush, levelTemplate.TopBrush);
             Tileset.TopWalls.Add(topWallTile.Id);
+        }
+
+        foreach (var floorBrush in levelTemplate.FloorBrushes) {
+            var floorTile = GenerateTile<FloorTile>(tileset, floorBrush);
+            Tileset.Floors.Add(floorTile.Id);
         }
 
         if (debug) GD.Print("Tileset generated");
@@ -138,13 +143,16 @@ public class Level : Navigation2D
         ResourceSaver.Save("GeneratedTileset.tres", tileset);
     }
 
-    private TTile GenerateTile<TTile>(TileSet tileset, Brush brush = null) where TTile : Tile, new() {
+    private TTile GenerateTile<TTile>(TileSet tileset, Brush brush = null, Brush secondBrush = null) where TTile : Tile, new() {
         var id = tileset.GetLastUnusedTileId();
         tileset.CreateTile(id);
         var tile = new TTile() { Id = id };
 
-        if (brush != null && tile is WallTile walltile)
-            walltile.VoidBrush = brush;
+        if (brush != null)
+            tile.SetBrush(brush);
+
+        if (secondBrush != null)
+            tile.SetSecondBrush(secondBrush);
 
         tile.Setup(tileset);
         return tile;
@@ -156,7 +164,7 @@ public class Level : Navigation2D
         var pos = start.Position + new Vector2(0, -1);
         while (pos.x != end.Position.y && pos.y != end.Position.y) {
             if (debug) GD.Print($"Position {pos.x},{pos.y}");
-            FloorTileMap.SetCell((int)pos.x, (int)pos.y, Tileset.Floor);
+            FloorTileMap.SetCell((int)pos.x, (int)pos.y, Tileset.GetFloor());
             FloorTileMap.SetCell((int)pos.x - 1, (int)pos.y, Tileset.LeftWall);
             FloorTileMap.SetCell((int)pos.x + 1, (int)pos.y, Tileset.RightWall);
             pos += new Vector2(0, -1);

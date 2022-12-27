@@ -24,6 +24,7 @@ public class Tile {
     protected virtual Shape2D CollisionShape { get; set; } = null;
     protected virtual Transform2D CollisionTransform { get; set; } = new Transform2D(0, Vector2.Zero);
     public virtual ColorScheme ColorScheme { get; set; }
+    public virtual Brush TopBrush { get; set; } = null;
 
     public int ImageHeight => TileTopPadding + TileHeight + TileBoxHeight;
 
@@ -70,7 +71,8 @@ public class Tile {
 
     protected virtual void GenerateTexture() {
         var outline = new Pen(ColorScheme.Outline);
-        var topBrush = new SolidBrush(ColorScheme.Top);
+        if (TopBrush == null)
+            TopBrush = new SolidBrush(ColorScheme.Top);
 
         var bitmap = new Bitmap(TileWidth, ImageHeight, PixelFormat.Format32bppArgb);
         using (var g = Graphics.FromImage(bitmap))
@@ -78,7 +80,7 @@ public class Tile {
             var points = new [] { TopLeft, TopRight, BottomRight, BottomLeft, TopLeft };
             var path = new GraphicsPath(points, GetPathPointTypes(points));
 
-            g.FillPath(topBrush, path);
+            g.FillPath(TopBrush, path);
             
             if (DrawOutline)
                 g.DrawPath(outline, path);
@@ -103,5 +105,13 @@ public class Tile {
         for (var i = 0; i < points.Length - 1; i++)
             result.Add((byte) PathPointType.Line);
         return result.ToArray();
+    }
+
+    public virtual void SetBrush(Brush brush) {
+        TopBrush = brush;
+    }
+
+    public virtual void SetSecondBrush(Brush secondBrush) {
+
     }
 }

@@ -15,4 +15,5 @@ public class BottomRightWallTile : WallTile {
         BottomLeft,
         TopLeft
     };
+    protected override int TextureRotation => -90;
 }
