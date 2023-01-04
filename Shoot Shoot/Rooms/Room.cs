@@ -243,24 +243,68 @@ public class Room : Node2D {
         
         // Set tiles
         Tiles[x][y] = Tileset.Door;
-        switch (direction) {
-            case Direction.Up:
-                Tiles[x-1][y] = Tileset.GetTopWall();
-                Tiles[x+1][y] = Tileset.GetTopWall();
-                break;
-            case Direction.Down:
-                Tiles[x-1][y] = Tileset.BottomLeftWall;
-                Tiles[x+1][y] = Tileset.BottomRightWall;
-                break;
-            case Direction.Left:
-            case Direction.Right:
-            default:
-                break;
-        }
+        SetDoorWalls(x, y, direction);
 
         //GD.Print($"Door local pos {location.x},{location.y}  global pos {door.Position.x},{door.Position.y}   center of room {Center.x},{Center.y}");
 
         return door;
+    }
+
+    private void SetDoorWalls(int x, int y, Direction direction) {
+        GD.Print($"Set door wall: {x},{y} {direction} [{Tiles.Length}, {Tiles[x].Length}]");
+
+        if (direction == Direction.Up) {
+            var leftSide = Tileset.LeftWall;
+            var rightSide = Tileset.RightWall;
+            
+            var isLeftTopWall = false;
+            var isRightTopWall = false;
+            if (y == 0) {
+                isLeftTopWall = !Tileset.IsWall(Tiles[x-1][y]);
+                isRightTopWall = !Tileset.IsWall(Tiles[x+1][y]);
+            }
+            else {
+                isLeftTopWall = !Tileset.IsWall(Tiles[x-1][y-1]);
+                isRightTopWall = !Tileset.IsWall(Tiles[x+1][y-1]);
+            }
+
+            if (isLeftTopWall)
+            {
+                GD.Print("Left is top wall");
+                leftSide = Tileset.GetTopWall();
+            }
+
+            if (isRightTopWall) {
+                GD.Print("Right is top wall");
+                rightSide = Tileset.GetTopWall();
+            }
+
+            Tiles[x-1][y] = leftSide;
+            Tiles[x+1][y] = rightSide;
+        }
+        else if (direction == Direction.Down) {
+            var leftSide = Tileset.LeftWall;
+            var rightSide = Tileset.RightWall;
+            
+            if (x > 0 && (y+1 >= Tiles[x].Length || !Tileset.IsWall(Tiles[x-1][y+1]))) {
+                GD.Print("Left is bottom left wall");
+                leftSide = Tileset.BottomLeftWall;
+            }
+
+            if (x < Tiles.Length && (y+1 >= Tiles[x].Length || !Tileset.IsWall(Tiles[x+1][y+1]))) {
+                GD.Print("Right is bottom right wall");
+                rightSide = Tileset.BottomRightWall;
+            }
+
+            Tiles[x-1][y] = leftSide;
+            Tiles[x+1][y] = rightSide;
+        }
+        else if (direction == Direction.Left) {
+
+        }
+        else if (direction == Direction.Right) {
+
+        }
     }
 
     private Vector2 FindDoorLocation(Direction direction) {

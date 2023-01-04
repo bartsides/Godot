@@ -7,5 +7,7 @@
 
 [node name="AnimatedSprite" parent="." index="2"]
 position = Vector2( 0, 1 )
-rotation = 4.71239
+rotation = -1.57079
+scale = Vector2( 0.684616, 0.684616 )
 frames = ExtResource( 2 )
+frame = 1

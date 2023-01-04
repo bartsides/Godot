@@ -31,4 +31,27 @@ public class Tileset {
     public int GetTopWall() {
         return TopWalls[rand.RandiRange(0, TopWalls.Count - 1)];
     }
+
+    public bool IsWall(int? tile) {
+        if (tile == null) return false;
+
+        var i = tile.Value;
+
+        var otherWalls = new List<int> {
+            TopLeftCorner,
+            TopRightCorner,
+            LeftWall,
+            RightWall,
+            BottomWall,
+            BottomLeftWall,
+            BottomLeftCorner,
+            BottomRightWall,
+            BottomRightCorner,
+            MiddleWall
+        };
+
+        return Floors.Contains(i) ||
+            TopWalls.Contains(i) ||
+            otherWalls.Contains(i);            
+    }
 }

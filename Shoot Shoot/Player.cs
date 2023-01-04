@@ -57,7 +57,6 @@ public class Player : RigidBody2D
 	{
 		base._IntegrateForces(state);
 
-
 		var step = state.Step;
 		var linearVelocity = state.LinearVelocity;
 
@@ -74,7 +73,6 @@ public class Player : RigidBody2D
 
 		currentWeapon.Position = input.AimVector * gunRadius;
 		currentWeapon.LookAt(GetGlobalMousePosition());
-		currentWeapon.Rotate(Mathf.Deg2Rad(90));
 	}
 
 	private void ProcessAttack(PlayerInput input, float step) {
