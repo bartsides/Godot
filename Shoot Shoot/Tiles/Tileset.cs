@@ -50,8 +50,6 @@ public class Tileset {
             MiddleWall
         };
 
-        return Floors.Contains(i) ||
-            TopWalls.Contains(i) ||
-            otherWalls.Contains(i);            
+        return TopWalls.Contains(i) || otherWalls.Contains(i);            
     }
 }

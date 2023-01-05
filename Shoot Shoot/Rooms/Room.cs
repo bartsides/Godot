@@ -45,8 +45,8 @@ public class Room : Node2D {
     public int EnemiesAlive => GetNode("Enemies").GetChildCount();
 
     public Room() {
-        Width = 20;
-        Height = 20;
+        Width = 10;
+        Height = 10;
         EnemyScene = GD.Load<PackedScene>("res://Shoot Shoot/Enemy.tscn");
         Rand.Seed = (ulong) DateTime.UtcNow.Ticks;
     }
@@ -256,48 +256,64 @@ public class Room : Node2D {
         if (direction == Direction.Up) {
             var leftSide = Tileset.LeftWall;
             var rightSide = Tileset.RightWall;
+
+            var isDoorwayOpen = !Tileset.IsWall(Tiles[x][y+1]);
             
-            var isLeftTopWall = false;
-            var isRightTopWall = false;
-            if (y == 0) {
-                isLeftTopWall = !Tileset.IsWall(Tiles[x-1][y]);
-                isRightTopWall = !Tileset.IsWall(Tiles[x+1][y]);
+            if (isDoorwayOpen) {
+                GD.Print("Doorway is open");
+
+                var isLeftTopWall = !Tileset.IsWall(Tiles[x-1][y+1]) && Tileset.IsWall(Tiles[x-1][y]);
+                var isRightTopWall = !Tileset.IsWall(Tiles[x+1][y+1]) && Tileset.IsWall(Tiles[x+1][y]);
+
+                if (isLeftTopWall)
+                {
+                    GD.Print("Left is top wall");
+                    leftSide = Tileset.GetTopWall();
+                }
+
+                if (isRightTopWall) {
+                    GD.Print("Right is top wall");
+                    rightSide = Tileset.GetTopWall();
+                }
+
+                Tiles[x-1][y] = leftSide;
+                Tiles[x+1][y] = rightSide;
             }
             else {
-                isLeftTopWall = !Tileset.IsWall(Tiles[x-1][y-1]);
-                isRightTopWall = !Tileset.IsWall(Tiles[x+1][y-1]);
+                // TODO: handle doorway not open
+                Tiles[x-1][y] = leftSide;
+                Tiles[x+1][y] = rightSide;
             }
-
-            if (isLeftTopWall)
-            {
-                GD.Print("Left is top wall");
-                leftSide = Tileset.GetTopWall();
-            }
-
-            if (isRightTopWall) {
-                GD.Print("Right is top wall");
-                rightSide = Tileset.GetTopWall();
-            }
-
-            Tiles[x-1][y] = leftSide;
-            Tiles[x+1][y] = rightSide;
         }
         else if (direction == Direction.Down) {
             var leftSide = Tileset.LeftWall;
             var rightSide = Tileset.RightWall;
-            
-            if (x > 0 && (y+1 >= Tiles[x].Length || !Tileset.IsWall(Tiles[x-1][y+1]))) {
-                GD.Print("Left is bottom left wall");
-                leftSide = Tileset.BottomLeftWall;
-            }
 
-            if (x < Tiles.Length && (y+1 >= Tiles[x].Length || !Tileset.IsWall(Tiles[x+1][y+1]))) {
-                GD.Print("Right is bottom right wall");
-                rightSide = Tileset.BottomRightWall;
-            }
+            var isDoorwayOpen = !Tileset.IsWall(Tiles[x][y-1]);
+            GD.Print($"({x},{y-1}) is doorway open: {isDoorwayOpen} {Tiles[x][y-1]}");
 
-            Tiles[x-1][y] = leftSide;
-            Tiles[x+1][y] = rightSide;
+            if (isDoorwayOpen) {
+                var isLeftBottomWall = !Tileset.IsWall(Tiles[x-1][y-1]) && Tileset.IsWall(Tiles[x-1][y]);
+                var isRightBottomWall = !Tileset.IsWall(Tiles[x+1][y-1]) && Tileset.IsWall(Tiles[x+1][y]);
+                
+                if (isLeftBottomWall) {
+                    GD.Print("Left is bottom wall");
+                    leftSide = Tileset.BottomLeftWall;
+                }
+
+                if (isRightBottomWall) {
+                    GD.Print("Right is bottom wall");
+                    rightSide = Tileset.BottomRightWall;
+                }
+
+                Tiles[x-1][y] = leftSide;
+                Tiles[x+1][y] = rightSide;
+            }
+            else {
+                // TODO: handle doorway not open
+                Tiles[x-1][y] = leftSide;
+                Tiles[x+1][y] = rightSide;
+            }
         }
         else if (direction == Direction.Left) {
 

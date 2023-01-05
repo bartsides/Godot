@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Collections.Generic;
 
 public class Tile {
+    private const bool debug = false;
     public int Id { get; set; }
 
     protected static int TileHeight { get; set; } = 64;
@@ -45,11 +46,15 @@ public class Tile {
 
     public Tile() { }
 
-    public virtual void Setup(TileSet tileset) {
+    public virtual void Setup(TileSet tileset, int? number = null) {
         tileset.TileSetTexture(Id, Texture);
         tileset.TileSetTextureOffset(Id, Offset);
         tileset.TileSetZIndex(Id, ZIndex);
-        tileset.TileSetName(Id, TileName);
+
+        var tilename = TileName;
+        if (number != null) tilename += number.Value;
+        if (debug) GD.Print($"{Id.ToString().PadLeft(2)}: {tilename}");
+        tileset.TileSetName(Id, tilename);
 
         if (CollisionShape != null) {
             tileset.TileAddShape(Id, CollisionShape, CollisionTransform);

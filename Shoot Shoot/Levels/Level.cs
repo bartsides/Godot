@@ -128,13 +128,13 @@ public class Level : Navigation2D
             Door = doorTile.Id
         };
 
-        foreach (var wallbrush in levelTemplate.WallBrushes) {
-            var topWallTile = GenerateTile<TopWallTile>(tileset, wallbrush, levelTemplate.TopBrush);
+        for (var i = 0; i < levelTemplate.WallBrushes.Count; i++) {
+            var topWallTile = GenerateTile<TopWallTile>(tileset, levelTemplate.WallBrushes[i], levelTemplate.TopBrush, i+1);
             Tileset.TopWalls.Add(topWallTile.Id);
         }
 
-        foreach (var floorBrush in levelTemplate.FloorBrushes) {
-            var floorTile = GenerateTile<FloorTile>(tileset, floorBrush);
+        for (var i = 0; i < levelTemplate.FloorBrushes.Count; i++) {
+            var floorTile = GenerateTile<FloorTile>(tileset, levelTemplate.FloorBrushes[i], number: i+1);
             Tileset.Floors.Add(floorTile.Id);
         }
 
@@ -143,7 +143,7 @@ public class Level : Navigation2D
         ResourceSaver.Save("GeneratedTileset.tres", tileset);
     }
 
-    private TTile GenerateTile<TTile>(TileSet tileset, Brush brush = null, Brush secondBrush = null) where TTile : Tile, new() {
+    private TTile GenerateTile<TTile>(TileSet tileset, Brush brush = null, Brush secondBrush = null, int? number = null) where TTile : Tile, new() {
         var id = tileset.GetLastUnusedTileId();
         tileset.CreateTile(id);
         var tile = new TTile() { Id = id };
@@ -154,7 +154,7 @@ public class Level : Navigation2D
         if (secondBrush != null)
             tile.SetSecondBrush(secondBrush);
 
-        tile.Setup(tileset);
+        tile.Setup(tileset, number);
         return tile;
     }
 
