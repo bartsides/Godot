@@ -43,7 +43,6 @@ public class WallTile : Tile
 
     protected override void GenerateTexture()
     {
-        var outline = new Pen(ColorScheme.Outline);
         if (TopBrush == null)
             TopBrush = new SolidBrush(ColorScheme.Light);
         
@@ -69,11 +68,12 @@ public class WallTile : Tile
 
         bitmap.Save(filename, ImageFormat.Png);
 
-        var image = new Godot.Image();
-        image.Load(filename);
+        using (var image = new Godot.Image()) {
+            image.Load(filename);
 
-        var texture = new ImageTexture();
-        texture.CreateFromImage(image);
-        _texture = texture;
+            var texture = new ImageTexture();
+            texture.CreateFromImage(image);
+            _texture = texture;
+        }
     }
 }

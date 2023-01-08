@@ -25,10 +25,11 @@ public class Bullet : Projectile
         return true;
     }
 
-    public void Fire(Vector2 position, Vector2 linearVelocity) {
+    public void Fire(Vector2 position, Vector2 linearVelocity, bool flipV) {
         Position = position;
         LinearVelocity = linearVelocity;
         LookAt(GetGlobalMousePosition());
+        //animatedSprite.FlipV = flipV;
         Visible = true;
         Active = true;
     }

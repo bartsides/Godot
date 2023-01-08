@@ -28,17 +28,18 @@ public class Player : RigidBody2D
 
 		animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
 
-		SetWeapons(new List<PackedScene>{
-			GD.Load<PackedScene>("res://Shoot Shoot/Weapons/Plasma Gun/PlasmaGun.tscn")
+		SetWeapons(new List<Node>{
+			GD.Load<PackedScene>("res://Shoot Shoot/Weapons/Plasma Gun/PlasmaGun.tscn").Instance(),
+			GD.Load<PackedScene>("res://Shoot Shoot/Weapons/Plasma Gun/PlasmaGun.tscn").Instance()
 		});
 
 		GD.Print($"Player location {Position.x},{Position.y}");
 	}
 
-	private void SetWeapons(List<PackedScene> guns) {
+	private void SetWeapons(List<Node> guns) {
 		var weaponsNode = GetNode("Weapons");
 		foreach(var gun in guns) {
-			weaponsNode.AddChild(gun.Instance());
+			weaponsNode.AddChild(gun);
 		}
 
 		foreach(Node2D node in weaponsNode.GetChildren()) {
@@ -51,6 +52,21 @@ public class Player : RigidBody2D
 				}
 			}
 		}
+	}
+
+	public List<Gun> GetWeapons() {
+		var weapons = new List<Gun>();
+
+		if (currentWeapon != null) weapons.Add(currentWeapon);
+
+		var weaponsNode = GetNode("Weapons");
+		foreach (Node2D node in weaponsNode.GetChildren()) {
+			if (node is Gun weapon && weapon != currentWeapon) {
+				weapons.Add(weapon);
+			}
+		}
+
+		return weapons;
 	}
 
 	public override void _IntegrateForces(Physics2DDirectBodyState state)
@@ -72,7 +88,10 @@ public class Player : RigidBody2D
 		if (currentWeapon == null) return;
 
 		currentWeapon.Position = input.AimVector * gunRadius;
-		currentWeapon.LookAt(GetGlobalMousePosition());
+		// TODO: Make sure weapon is facing out
+		var mousePos = GetGlobalMousePosition();
+		currentWeapon.LookAt(mousePos);
+		currentWeapon.SetOrientation(currentWeapon.GlobalPosition.DirectionTo(mousePos));
 	}
 
 	private void ProcessAttack(PlayerInput input, float step) {

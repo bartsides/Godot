@@ -93,4 +93,24 @@ public static class Extensions {
 
         throw new Exception($"Unable to determine neighbor: ({point.X},{point.Y}) => ({neighbor.X},{neighbor.Y})");
     }
+
+    public static Direction GetDirection(this Vector2 velocity) {
+        var movementAngle = Mathf.Rad2Deg(velocity.Angle());
+		if (movementAngle >= -45 && movementAngle <= 45) {
+			return Direction.Right;
+        }
+		else if (movementAngle > 45 && movementAngle < 135) { 
+			return Direction.Down;
+        }
+		else if (movementAngle < -45 && movementAngle > -135) {
+			return Direction.Up;
+        }
+		
+        return Direction.Left;
+    }
+
+    public static bool IsFacingRight(this Vector2 direction) {
+        var directionAngle = Mathf.Rad2Deg(direction.Angle());
+        return directionAngle <= 90 && directionAngle >= -90;
+    }
 }

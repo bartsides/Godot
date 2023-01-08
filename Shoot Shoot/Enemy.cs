@@ -10,7 +10,8 @@ public class Enemy : RigidBody2D
 	private int speed = 100;
 	private int maxVelocity = 500;
 	private float timeSinceLastReassess = 0;
-	private float maxTimeSinceLastReassess = 100;
+	private float maxTimeSinceLastReassess = 1.5f;
+	private Direction lastDirection = Direction.Down;
 
     private bool dying = false;
     private float deathAnimationTime = 0;
@@ -81,6 +82,11 @@ public class Enemy : RigidBody2D
 	private void HandleMovement(float delta) {
 		timeSinceLastReassess += delta;
 
+		if (DistanceToPlayer <= 50) {
+			path = new Vector2[0];
+			return;
+		}
+
 		if (path.Length < 1 || timeSinceLastReassess > maxTimeSinceLastReassess) {
 			timeSinceLastReassess = 0;
 			path = level.GetSimplePath(Position, level.GetNode<Player>("Player").Position);
@@ -88,6 +94,14 @@ public class Enemy : RigidBody2D
 		
 		if (path != null && path.Length > 0) {
 			Move(speed * delta);
+		}
+	}
+
+	private float DistanceToPlayer {
+		get {
+			var player = level.Player;
+			if (player == null) return 0;
+			return GlobalPosition.DistanceTo(player.GlobalPosition);
 		}
 	}
 
@@ -105,17 +119,19 @@ public class Enemy : RigidBody2D
 			animatedSprite.Animation = hit ? "Damage Down" : "Run Down";
 		}
 
-        var movementAngle = Mathf.Rad2Deg(LinearVelocity.Angle());
-		if (movementAngle >= -45 && movementAngle <= 45) {
+		var direction = LinearVelocity.Length() > 1 ? LinearVelocity.GetDirection() : lastDirection;
+		lastDirection = direction;
+
+		if (direction == Direction.Right) {
 			animatedSprite.Animation = hit ? "Damage Right" : "Run Side";
         }
-		else if (movementAngle > 45 && movementAngle < 135) { 
+		else if (direction == Direction.Down) { 
 			animatedSprite.Animation = hit ? "Damage Down" : "Run Down";
         }
-		else if (movementAngle < -45 && movementAngle > -135) {
+		else if (direction == Direction.Up) {
 			animatedSprite.Animation = hit ? "Damage Up" : "Damage Up";
         }
-		else {
+		else if (direction == Direction.Left) {
 			animatedSprite.Animation = hit ? "Damage Right" : "Run Side";
             animatedSprite.FlipH = true;
         }
@@ -130,6 +146,8 @@ public class Enemy : RigidBody2D
 	}
 
 	public void Hit(decimal damage) {
+		if (dead || dying) return;
+
 		Health -= damage;
 		if (Health <= 0)
 			StartDying();

@@ -1,4 +1,4 @@
-[gd_scene load_steps=92 format=2]
+[gd_scene load_steps=93 format=2]
 
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/2GreenKnight.png" type="Texture" id=1]
 [ext_resource path="res://Shoot Shoot/Player.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Shoot Shoot/Levels/Level.cs" type="Script" id=4]
 [ext_resource path="res://animations/Bunny/drive-download-20221009T194612Z-001/2BunnyIdle.png" type="Texture" id=5]
 [ext_resource path="res://animations/Bunny/drive-download-20221009T194612Z-001/1BunnyIdle.png" type="Texture" id=6]
+[ext_resource path="res://Shoot Shoot/HUD.tscn" type="PackedScene" id=7]
 [ext_resource path="res://GeneratedTileset.tres" type="TileSet" id=8]
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/3GreenKnight.png" type="Texture" id=9]
 [ext_resource path="res://animations/Green Knight/drive-download-20221009T195114Z-001/10GreenKnight.png" type="Texture" id=10]
@@ -107,14 +108,14 @@ animations = [ {
 "name": "Run Left",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 25 ), ExtResource( 19 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "Up",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 24 ), ExtResource( 21 ), ExtResource( 24 ) ],
 "loop": true,
 "name": "Idle",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 26 ), ExtResource( 18 ) ],
-"loop": true,
-"name": "Up Idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 22 ), ExtResource( 23 ) ],
@@ -122,9 +123,9 @@ animations = [ {
 "name": "Run Right",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 25 ), ExtResource( 19 ), ExtResource( 25 ) ],
+"frames": [ ExtResource( 26 ), ExtResource( 18 ) ],
 "loop": true,
-"name": "Up",
+"name": "Up Idle",
 "speed": 5.0
 } ]
 
@@ -135,14 +136,14 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 38 ), ExtResource( 36 ), ExtResource( 38 ) ],
-"loop": true,
-"name": "Going to Explode",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 38 ), ExtResource( 31 ), ExtResource( 33 ), ExtResource( 39 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 54 ), ExtResource( 30 ), ExtResource( 47 ), ExtResource( 34 ), ExtResource( 37 ) ],
 "loop": true,
 "name": "Explode",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 38 ), ExtResource( 36 ), ExtResource( 38 ) ],
+"loop": true,
+"name": "Going to Explode",
 "speed": 5.0
 } ]
 
@@ -166,15 +167,15 @@ animations = [ {
 "name": "Idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 49 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 53 ), ExtResource( 55 ) ],
-"loop": true,
-"name": "Shoot Up",
-"speed": 15.0
-}, {
 "frames": [ ExtResource( 32 ), ExtResource( 29 ), ExtResource( 44 ), ExtResource( 42 ), ExtResource( 48 ), ExtResource( 46 ) ],
 "loop": true,
 "name": "Shoot",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 49 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 53 ), ExtResource( 55 ) ],
+"loop": true,
+"name": "Shoot Up",
+"speed": 15.0
 } ]
 
 [sub_resource type="SpriteFrames" id=7]
@@ -194,15 +195,15 @@ animations = [ {
 "name": "Run Right",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 57 ), ExtResource( 62 ), ExtResource( 67 ), ExtResource( 58 ) ],
-"loop": true,
-"name": "Run Down",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 70 ), ExtResource( 69 ), ExtResource( 68 ), ExtResource( 71 ) ],
 "loop": true,
 "name": "Run Up",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 57 ), ExtResource( 62 ), ExtResource( 67 ), ExtResource( 58 ) ],
+"loop": true,
+"name": "Run Down",
+"speed": 5.0
 } ]
 
 [sub_resource type="SpriteFrames" id=8]
@@ -212,14 +213,14 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 75 ), ExtResource( 79 ), ExtResource( 80 ) ],
+"loop": true,
+"name": "Walk Right",
+"speed": 8.0
+}, {
 "frames": [ ExtResource( 72 ), ExtResource( 78 ), ExtResource( 81 ), ExtResource( 74 ) ],
 "loop": true,
 "name": "Walk Front ",
-"speed": 8.0
-}, {
-"frames": [ ExtResource( 73 ), ExtResource( 76 ), ExtResource( 77 ) ],
-"loop": true,
-"name": "Walk Up",
 "speed": 8.0
 }, {
 "frames": [ ExtResource( 84 ), ExtResource( 82 ), ExtResource( 83 ) ],
@@ -227,15 +228,17 @@ animations = [ {
 "name": "Walk Left",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 75 ), ExtResource( 79 ), ExtResource( 80 ) ],
+"frames": [ ExtResource( 73 ), ExtResource( 76 ), ExtResource( 77 ) ],
 "loop": true,
-"name": "Walk Right",
+"name": "Walk Up",
 "speed": 8.0
 } ]
 
 [node name="ShootShoot" type="YSort"]
 sort_enabled = false
 script = ExtResource( 3 )
+
+[node name="HUD" parent="." instance=ExtResource( 7 )]
 
 [node name="Level" type="Navigation2D" parent="."]
 script = ExtResource( 4 )
@@ -246,6 +249,7 @@ show_collision = true
 format = 1
 
 [node name="Player" parent="Level" instance=ExtResource( 2 )]
+position = Vector2( 513, 300 )
 mode = 2
 
 [node name="Rooms" type="Node2D" parent="Level"]
@@ -254,13 +258,14 @@ mode = 2
 visible = false
 position = Vector2( -57, -64 )
 frames = SubResource( 1 )
+frame = 2
 playing = true
 
 [node name="GreenKnight" type="AnimatedSprite" parent="."]
 visible = false
 position = Vector2( 38, -79 )
 frames = SubResource( 2 )
-frame = 6
+frame = 8
 playing = true
 
 [node name="Halo Man" type="AnimatedSprite" parent="."]
@@ -269,6 +274,7 @@ position = Vector2( -8, -24 )
 z_index = 1
 frames = SubResource( 3 )
 animation = "Run Left"
+frame = 2
 playing = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -276,7 +282,7 @@ visible = false
 position = Vector2( -73, -17 )
 frames = SubResource( 4 )
 animation = "Explode"
-frame = 7
+frame = 5
 playing = true
 
 [node name="Plasma Bullet" type="AnimatedSprite" parent="."]
@@ -285,7 +291,7 @@ position = Vector2( -46, -18 )
 rotation = 4.74904
 frames = SubResource( 5 )
 animation = "Hit"
-frame = 1
+frame = 3
 playing = true
 
 [node name="Plasma Gun" type="AnimatedSprite" parent="."]
@@ -293,7 +299,7 @@ visible = false
 position = Vector2( -20, -25 )
 frames = SubResource( 6 )
 animation = "Shoot"
-frame = 3
+frame = 5
 playing = true
 flip_h = true
 
@@ -302,7 +308,6 @@ visible = false
 position = Vector2( 56, -19 )
 frames = SubResource( 7 )
 animation = "Run Down"
-frame = 2
 playing = true
 
 [node name="Monk" type="AnimatedSprite" parent="."]
@@ -310,5 +315,4 @@ visible = false
 position = Vector2( 35, -87 )
 frames = SubResource( 8 )
 animation = "Walk Right"
-frame = 1
 playing = true

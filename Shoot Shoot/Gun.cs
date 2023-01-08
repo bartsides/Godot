@@ -32,7 +32,11 @@ public class Gun : Node2D
 
         var shot = (Bullet)bullet.Duplicate();
         bullets.AddChild(shot);
-        shot.Fire(bulletPosition.Position, direction * Speed);
+        shot.Fire(bulletPosition.Position, direction * Speed, animatedSprite.FlipV);
         return bullet;
+    }
+
+    public void SetOrientation(Vector2 direction) {
+        animatedSprite.FlipV = !direction.IsFacingRight();
     }
 }

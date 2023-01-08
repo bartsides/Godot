@@ -14,12 +14,15 @@ public class Level : Navigation2D
     private PackedScene RoomScene;
     private Node2D RoomsNode { get; set; }
     private List<Room> Rooms { get; set; } = new List<Room>();
+
+    public Player Player { get; private set; }
     
     public override void _Ready()
     {
         FloorTileMap = GetNode<TileMap>("FloorTileMap");
         RoomScene = GD.Load<PackedScene>("res://Shoot Shoot/Room.tscn");
         RoomsNode = GetNode<Node2D>("Rooms");
+        Player = GetNode<Player>("Player");
 
         //FloorTileMap.ShowCollision = true;
     }
