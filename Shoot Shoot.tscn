@@ -103,24 +103,24 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 28 ), ExtResource( 20 ), ExtResource( 27 ) ],
-"loop": true,
-"name": "Run Left",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 25 ), ExtResource( 19 ), ExtResource( 25 ) ],
-"loop": true,
-"name": "Up",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 24 ), ExtResource( 21 ), ExtResource( 24 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 28 ), ExtResource( 20 ), ExtResource( 27 ) ],
+"loop": true,
+"name": "Run Left",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 22 ), ExtResource( 23 ) ],
 "loop": true,
 "name": "Run Right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 25 ), ExtResource( 19 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "Up",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 26 ), ExtResource( 18 ) ],
@@ -131,11 +131,6 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 38 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 38 ), ExtResource( 31 ), ExtResource( 33 ), ExtResource( 39 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 54 ), ExtResource( 30 ), ExtResource( 47 ), ExtResource( 34 ), ExtResource( 37 ) ],
 "loop": true,
 "name": "Explode",
@@ -144,6 +139,11 @@ animations = [ {
 "frames": [ ExtResource( 38 ), ExtResource( 36 ), ExtResource( 38 ) ],
 "loop": true,
 "name": "Going to Explode",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 38 ) ],
+"loop": true,
+"name": "default",
 "speed": 5.0
 } ]
 
@@ -180,9 +180,9 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=7]
 animations = [ {
-"frames": [ ExtResource( 57 ) ],
+"frames": [ ExtResource( 57 ), ExtResource( 62 ), ExtResource( 67 ), ExtResource( 58 ) ],
 "loop": true,
-"name": "default",
+"name": "Run Down",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 56 ), ExtResource( 65 ), ExtResource( 64 ), ExtResource( 66 ) ],
@@ -200,24 +200,14 @@ animations = [ {
 "name": "Run Up",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 57 ), ExtResource( 62 ), ExtResource( 67 ), ExtResource( 58 ) ],
+"frames": [ ExtResource( 57 ) ],
 "loop": true,
-"name": "Run Down",
+"name": "default",
 "speed": 5.0
 } ]
 
 [sub_resource type="SpriteFrames" id=8]
 animations = [ {
-"frames": [ ExtResource( 72 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 75 ), ExtResource( 79 ), ExtResource( 80 ) ],
-"loop": true,
-"name": "Walk Right",
-"speed": 8.0
-}, {
 "frames": [ ExtResource( 72 ), ExtResource( 78 ), ExtResource( 81 ), ExtResource( 74 ) ],
 "loop": true,
 "name": "Walk Front ",
@@ -228,10 +218,20 @@ animations = [ {
 "name": "Walk Left",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 75 ), ExtResource( 79 ), ExtResource( 80 ) ],
+"loop": true,
+"name": "Walk Right",
+"speed": 8.0
+}, {
 "frames": [ ExtResource( 73 ), ExtResource( 76 ), ExtResource( 77 ) ],
 "loop": true,
 "name": "Walk Up",
 "speed": 8.0
+}, {
+"frames": [ ExtResource( 72 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
 } ]
 
 [node name="ShootShoot" type="YSort"]
@@ -246,6 +246,7 @@ script = ExtResource( 4 )
 [node name="FloorTileMap" type="TileMap" parent="Level"]
 tile_set = ExtResource( 8 )
 show_collision = true
+bake_navigation = true
 format = 1
 
 [node name="Player" parent="Level" instance=ExtResource( 2 )]
@@ -258,14 +259,12 @@ mode = 2
 visible = false
 position = Vector2( -57, -64 )
 frames = SubResource( 1 )
-frame = 2
 playing = true
 
 [node name="GreenKnight" type="AnimatedSprite" parent="."]
 visible = false
 position = Vector2( 38, -79 )
 frames = SubResource( 2 )
-frame = 8
 playing = true
 
 [node name="Halo Man" type="AnimatedSprite" parent="."]
@@ -282,7 +281,7 @@ visible = false
 position = Vector2( -73, -17 )
 frames = SubResource( 4 )
 animation = "Explode"
-frame = 5
+frame = 1
 playing = true
 
 [node name="Plasma Bullet" type="AnimatedSprite" parent="."]
@@ -315,4 +314,5 @@ visible = false
 position = Vector2( 35, -87 )
 frames = SubResource( 8 )
 animation = "Walk Right"
+frame = 1
 playing = true

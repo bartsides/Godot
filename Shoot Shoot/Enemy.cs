@@ -13,9 +13,9 @@ public class Enemy : RigidBody2D
 	private float maxTimeSinceLastReassess = 1.5f;
 	private Direction lastDirection = Direction.Down;
 
-    private bool dying = false;
-    private float deathAnimationTime = 0;
-    private float deathAnimationMaxTime = 1;
+	private bool dying = false;
+	private float deathAnimationTime = 0;
+	private float deathAnimationMaxTime = 1;
 
 	private bool dead = false;
 	private float deadBodyTime = 0;
@@ -46,9 +46,9 @@ public class Enemy : RigidBody2D
 			return;
 		}
 
-        if (dying) {
+		if (dying) {
 			HandleDying(delta);
-        }
+		}
 		else {
 			HandleMovement(delta);
 
@@ -105,13 +105,13 @@ public class Enemy : RigidBody2D
 		}
 	}
 
-    private void SetAnimation() {
-        animatedSprite.FlipH = false;
+	private void SetAnimation() {
+		animatedSprite.FlipH = false;
 
-        if (dying) {
-            animatedSprite.Animation = "Die";
-            return;
-        }
+		if (dying) {
+			animatedSprite.Animation = "Die";
+			return;
+		}
 		
 		// TODO: Utilize Damage Right, Damage Up, Damage Down animations
 
@@ -124,18 +124,18 @@ public class Enemy : RigidBody2D
 
 		if (direction == Direction.Right) {
 			animatedSprite.Animation = hit ? "Damage Right" : "Run Side";
-        }
+		}
 		else if (direction == Direction.Down) { 
 			animatedSprite.Animation = hit ? "Damage Down" : "Run Down";
-        }
+		}
 		else if (direction == Direction.Up) {
 			animatedSprite.Animation = hit ? "Damage Up" : "Damage Up";
-        }
+		}
 		else if (direction == Direction.Left) {
 			animatedSprite.Animation = hit ? "Damage Right" : "Run Side";
-            animatedSprite.FlipH = true;
-        }
-    }
+			animatedSprite.FlipH = true;
+		}
+	}
 
 	private void Move(float speed) {
 		var dist = Position.DistanceTo(path[0]);
@@ -158,7 +158,7 @@ public class Enemy : RigidBody2D
 	}
 
 	private void StartDying() {
-        dying = true;
+		dying = true;
 		LinearVelocity = Vector2.Zero;
 	}
 
@@ -167,7 +167,7 @@ public class Enemy : RigidBody2D
 		animatedSprite.Playing = false;
 	}
 
-    private void Remove() {
+	private void Remove() {
 		((Room)GetParent().GetParent()).EnemyKilled(this);
-    }
+	}
 }
