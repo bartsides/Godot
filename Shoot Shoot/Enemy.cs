@@ -48,7 +48,7 @@ public class Enemy : RigidBody2D
 
         if (dyingTimer.Active) {
 			HandleDying(delta);
-        }
+		}
 		else {
 			var reassesMovement = reassessMovementTimer.Process(delta);
 			var canAttack = attackTimer.Process(delta);
@@ -119,8 +119,8 @@ public class Enemy : RigidBody2D
 		}
 	}
 
-    private void SetAnimation() {
-        animatedSprite.FlipH = false;
+	private void SetAnimation() {
+		animatedSprite.FlipH = false;
 
         if (dyingTimer.Active) {
             animatedSprite.Animation = "Die";
@@ -181,7 +181,7 @@ public class Enemy : RigidBody2D
 		animatedSprite.Playing = false;
 	}
 
-    private void Remove() {
+	private void Remove() {
 		((Room)GetParent().GetParent()).EnemyKilled(this);
-    }
+	}
 }
