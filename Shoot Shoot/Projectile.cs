@@ -9,6 +9,11 @@ public abstract class Projectile : RigidBody2D
     public int MaxBounces { get; protected set; } = 20;
     protected bool Active { get; set; } = false;
 
+    public override void _Ready()
+    {
+        CollisionLayer = 4;
+    }
+
     public virtual bool HandleHitEnemy(Enemy node) {
         node.Hit(Damage);
 

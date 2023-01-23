@@ -5,14 +5,10 @@ public class Player : RigidBody2D
 {
 	public int PlayerNumber { get; set; } = 1;
 	public bool UseController = false;
+	private uint ProjectileCollisionMask = Helpers.GenerateCollisionMask(true, false, true, false);
+	private float moveSpeed = 900;
 
-	// TODO: Faster decceleration
-	private float walkMaxVelocity = 200;
-	private float walkAcceleration = 500;
-
-	private bool shooting;
-	private float attackTime;
-	private float minAttackTime = 0.3f;
+	private Timer attackTimer = new Timer(0.3f, active: false);
 
 	private PackedScene gunScene;
 	private Gun currentWeapon;
@@ -23,13 +19,9 @@ public class Player : RigidBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		shooting = false;
-		attackTime = 0;
-
 		animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
 
 		SetWeapons(new List<Node>{
-			GD.Load<PackedScene>("res://Shoot Shoot/Weapons/Plasma Gun/PlasmaGun.tscn").Instance(),
 			GD.Load<PackedScene>("res://Shoot Shoot/Weapons/Plasma Gun/PlasmaGun.tscn").Instance()
 		});
 
@@ -73,15 +65,11 @@ public class Player : RigidBody2D
 	{
 		base._IntegrateForces(state);
 
-		var step = state.Step;
-		var linearVelocity = state.LinearVelocity;
-
 		var input = ListenToPlayerInput();
 
 		ProcessWeaponPosition(input);
-		ProcessAttack(input, step);
-
-		ProcessPlayerMovement(input, state, linearVelocity, step);
+		ProcessAttack(input, state.Step);
+		ProcessPlayerMovement(input, state, state.Step);
 	}
 
 	private void ProcessWeaponPosition(PlayerInput input) {
@@ -95,24 +83,22 @@ public class Player : RigidBody2D
 	}
 
 	private void ProcessAttack(PlayerInput input, float step) {
-		if (attackTime < minAttackTime)
-			attackTime += step;
-		if (input.Shoot && attackTime > minAttackTime)
+		var canAttack = attackTimer.Process(step);
+		if (input.Shoot && canAttack)
 			CallDeferred("Attack", input.AimVector);
-		shooting = input.Shoot;
+		attackTimer.Active = input.Shoot;
 	}
 
 	public void Attack(Vector2 direction) {
-		attackTime = 0f;
+		attackTimer.Reset();
 		if (currentWeapon == null) return;
 
-		var projectile = currentWeapon.Shoot(direction);
-		if (projectile != null)
-			AddCollisionExceptionWith(projectile);
+		GD.Print($"Player layer {CollisionLayer}");
+		currentWeapon.Shoot(direction, ProjectileCollisionMask);
 	}
 
-	private void ProcessPlayerMovement(PlayerInput input, Physics2DDirectBodyState state, Vector2 linearVelocity, float step) {
-		state.LinearVelocity = ProcessPlayerDirectionalMovement(input, linearVelocity, step);
+	private void ProcessPlayerMovement(PlayerInput input, Physics2DDirectBodyState state, float step) {
+		state.LinearVelocity = ProcessPlayerDirectionalMovement(input, state.LinearVelocity, step);
 
 		SetPlayerAnimation(input);
 	}
@@ -135,25 +121,13 @@ public class Player : RigidBody2D
 	}
 
 	private Vector2 ProcessPlayerDirectionalMovement(PlayerInput input, Vector2 linearVelocity, float step) {
-		var stepAcceleration = walkAcceleration * step;
-
-		if (input.MoveLeft && linearVelocity.x > -walkMaxVelocity ||
-			input.MoveRight && linearVelocity.x < walkMaxVelocity) 
-		{
-			var mult = input.MoveLeft && linearVelocity.x > 0 || input.MoveRight && linearVelocity.x < 0
-				? 5 
-				: 1;
-			linearVelocity.x += input.MoveVector.x * stepAcceleration * mult * 2;
+		// Check if stopping
+		if (!input.MoveUp && !input.MoveRight && !input.MoveDown && !input.MoveLeft &&
+			linearVelocity.Length() <= moveSpeed) {
+			return Vector2.Zero;
 		}
 
-		if (input.MoveUp && linearVelocity.y > -walkMaxVelocity ||
-			input.MoveDown && linearVelocity.y < walkMaxVelocity) 
-		{
-			var mult = input.MoveUp && linearVelocity.y > 0 || input.MoveDown && linearVelocity.y < 0 
-				? 5 
-				: 1;
-			linearVelocity.y += input.MoveVector.y * stepAcceleration * mult;
-		}
+		linearVelocity += input.MoveVector * moveSpeed * step;
 
 		return linearVelocity;
 	}

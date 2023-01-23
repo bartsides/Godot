@@ -176,9 +176,8 @@ public class Level : Navigation2D
 
     private void Reset() {
         Rooms.Clear();
-        var rooms = GetNode("Rooms");
-        foreach (Room room in rooms.GetChildren()) {
-            rooms.RemoveChild(room);
+        foreach (Room room in GetNode("Rooms").GetChildren()) {
+            room.QueueFree();
         }
     }
 

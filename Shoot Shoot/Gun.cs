@@ -6,8 +6,8 @@ public class Gun : Node2D
     public float Speed = 800;
     private AnimatedSprite animatedSprite = null;
     private AudioStreamPlayer2D audioStreamPlayer2D = null;
-    private Bullet bullet = null;
-    private Node2D bullets = null;
+    private Bullet bullet;
+    private Node2D bullets;
     private Position2D bulletPosition = null;
 
     // Called when the node enters the scene tree for the first time.
@@ -20,7 +20,7 @@ public class Gun : Node2D
         bulletPosition = GetNode<Position2D>("BulletPosition");
     }
 
-    public Projectile Shoot(Vector2 direction) {
+    public Projectile Shoot(Vector2 direction, uint collisionMask) {
         if (animatedSprite != null) {
             animatedSprite.Play("Shoot");
         }
@@ -32,7 +32,8 @@ public class Gun : Node2D
 
         var shot = (Bullet)bullet.Duplicate();
         bullets.AddChild(shot);
-        shot.Fire(bulletPosition.Position, direction * Speed, animatedSprite.FlipV);
+        var linearVelocity = direction * Speed;
+        shot.Fire(bulletPosition.Position, GetGlobalMousePosition(), linearVelocity, collisionMask);
         return bullet;
     }
 

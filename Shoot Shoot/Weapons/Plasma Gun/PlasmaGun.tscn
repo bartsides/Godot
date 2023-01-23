@@ -30,6 +30,7 @@ playing = true
 visible = false
 position = Vector2( 25, 1 )
 rotation = 1.57079
+sleeping = true
 
 [node name="AudioStreamPlayer2D" parent="." index="6"]
 stream = ExtResource( 4 )

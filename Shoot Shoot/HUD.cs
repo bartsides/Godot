@@ -3,7 +3,7 @@ using System;
 
 public class HUD : CanvasLayer
 {
-    private bool debug = true;
+    private bool debug = false;
 
     private AnimatedSprite gun1;
     private Level level;

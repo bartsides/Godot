@@ -8,7 +8,6 @@ public class Bullet : Projectile
     {
         Damage = 20;
         MaxLifetime = 2f;
-
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
     }
 
@@ -25,12 +24,17 @@ public class Bullet : Projectile
         return true;
     }
 
-    public void Fire(Vector2 position, Vector2 linearVelocity, bool flipV) {
-        Position = position;
+    public void Fire(Vector2? position, Vector2 lookAt, Vector2 linearVelocity, uint collisionMask) {
+        if (position == null)
+            Position = Vector2.Zero;
+        else
+            Position = position.Value;
         LinearVelocity = linearVelocity;
-        LookAt(GetGlobalMousePosition());
-        //animatedSprite.FlipV = flipV;
+        LookAt(lookAt);
+        CollisionMask = collisionMask;
+        GD.Print($"Collision mask of bullet: {CollisionMask}");
         Visible = true;
         Active = true;
+        Sleeping = false;
     }
 }

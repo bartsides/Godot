@@ -10,10 +10,11 @@ friction = 0.0
 radius = 6.0
 
 [node name="Player" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 253
 mass = 18.8776
 physics_material_override = SubResource( 2 )
 gravity_scale = 0.0
-can_sleep = false
 linear_damp = 4.0
 angular_damp = 2.5
 script = ExtResource( 2 )
