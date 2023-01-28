@@ -12,8 +12,8 @@ public class Enemy : RigidBody2D
 
 	private Level level;
 	private AnimatedSprite animatedSprite;
-    private Bullet bullet;
-    private Node2D bullets;
+	private Bullet bullet;
+	private Node2D bullets;
 	private Vector2[] path = new Vector2[]{};
 	private Direction lastDirection = Direction.Down;
 
@@ -29,8 +29,8 @@ public class Enemy : RigidBody2D
 		attackTimer = new Timer(AttackTime);
 		level = GetParent().GetParent().GetParent().GetParent<Level>();
 		animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
-        bullet = GetNode<Bullet>("Bullet");
-        bullets = GetNode<Node2D>("Bullets");
+		bullet = GetNode<Bullet>("Bullet");
+		bullets = GetNode<Node2D>("Bullets");
 		SetProcess(true);
 	}
 
@@ -46,7 +46,7 @@ public class Enemy : RigidBody2D
 			return;
 		}
 
-        if (dyingTimer.Active) {
+		if (dyingTimer.Active) {
 			HandleDying(delta);
 		}
 		else {
@@ -122,10 +122,10 @@ public class Enemy : RigidBody2D
 	private void SetAnimation() {
 		animatedSprite.FlipH = false;
 
-        if (dyingTimer.Active) {
-            animatedSprite.Animation = "Die";
-            return;
-        }
+		if (dyingTimer.Active) {
+			animatedSprite.Animation = "Die";
+			return;
+		}
 		
 		// TODO: Utilize Damage Right, Damage Up, Damage Down animations
 
@@ -138,18 +138,18 @@ public class Enemy : RigidBody2D
 
 		if (direction == Direction.Right) {
 			animatedSprite.Animation = hitTimer.Active ? "Damage Right" : "Run Side";
-        }
+		}
 		else if (direction == Direction.Down) { 
 			animatedSprite.Animation = hitTimer.Active ? "Damage Down" : "Run Down";
-        }
+		}
 		else if (direction == Direction.Up) {
 			animatedSprite.Animation = hitTimer.Active ? "Damage Up" : "Damage Up";
-        }
+		}
 		else if (direction == Direction.Left) {
 			animatedSprite.Animation = hitTimer.Active ? "Damage Right" : "Run Side";
-            animatedSprite.FlipH = true;
-        }
-    }
+			animatedSprite.FlipH = true;
+		}
+	}
 
 	private void Move(float speed) {
 		var dist = Position.DistanceTo(path[0]);
@@ -172,7 +172,7 @@ public class Enemy : RigidBody2D
 	}
 
 	private void StartDying() {
-        dyingTimer.Active = true;
+		dyingTimer.Active = true;
 		LinearVelocity = Vector2.Zero;
 	}
 

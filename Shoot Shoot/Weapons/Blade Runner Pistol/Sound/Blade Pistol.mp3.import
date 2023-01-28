@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Blade Pistol.mp3-73a6cb3b5fd714df2c8944e04997d773.mp3str"
+
+[deps]
+
+source_file="res://Shoot Shoot/Weapons/Blade Runner Pistol/Sound/Blade Pistol.mp3"
+dest_files=[ "res://.import/Blade Pistol.mp3-73a6cb3b5fd714df2c8944e04997d773.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
