@@ -45,7 +45,7 @@ namespace NotRimworld.code
 
             // Create separate material
             var sprite = GetNode<AnimatedSprite>("AnimatedSprite");
-            sprite.Material = sprite.Material.Duplicate() as ShaderMaterial;
+            sprite.Material = sprite.Material.Duplicate<ShaderMaterial>();
 
             ChangeState(PlayerState.Idle);
         }

@@ -3,11 +3,11 @@ using Godot;
 public class ShootShoot : Node2D
 {
 	public int FloorNumber { get; set; } = 0;
-	private Level level;
+	public Level Level { get; private set; }
 
 	public override void _Ready()
 	{
-		level = GetNode<Level>("Level");
+		Level = GetNode<Level>("Level");
 		NextLevel();
 	}
 
@@ -18,12 +18,13 @@ public class ShootShoot : Node2D
 		var player = GetNode("Level").GetNode<Player>("Player");
 		player.Position = Vector2.Zero;
 		
-		var nextLevel = Levels.LevelTemplates[FloorNumber];
-
 		FloorNumber++;
+		
+		var nextLevel = GetNode("Levels").GetNode<LevelTemplate>($"Level{FloorNumber}");
 
-		level.FloorNumber = FloorNumber;
-		level.GenerateLevel(nextLevel);
+
+		Level.FloorNumber = FloorNumber;
+		Level.GenerateLevel(nextLevel);
 	}
 
 	public void LevelCompleted() {

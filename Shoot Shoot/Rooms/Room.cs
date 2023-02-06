@@ -27,8 +27,6 @@ public class Room : Node2D {
     private const int maxShapes = 8;
     private const int minShapeWidth = 4;
 
-    private PackedScene EnemyScene;
-
     private static IShape[] Shapes = new IShape[] {
         new RectangleShape(),
         //new EllipseShape(),
@@ -47,11 +45,10 @@ public class Room : Node2D {
     public Room() {
         Width = 10;
         Height = 10;
-        EnemyScene = GD.Load<PackedScene>("res://Shoot Shoot/Enemy.tscn");
         Rand.Seed = (ulong) DateTime.UtcNow.Ticks;
     }
 
-    public virtual void AddEnemies()
+    public virtual void AddEnemies(Node spawnableEnemies)
     {
         var numEnemies = Rand.RandiRange(1, 1);
         if (numEnemies == 0) return;
@@ -60,14 +57,19 @@ public class Room : Node2D {
 
         for (var i = 0; i < numEnemies; i++) {
             if (SpawnableTiles.Count < 1) {
-                GD.Print($"No spawnable points. Skipping spawning {numEnemies - i}");
+                if (debug) GD.Print($"No spawnable points. Skipping spawning {numEnemies - i}");
                 return;
             }
-            var enemy = EnemyScene.Instance<Enemy>();
+            
+            var nextEnemyIndex = Rand.RandiRange(0, spawnableEnemies.GetChildCount() - 1);
+            if (debug) GD.Print($"Next enemy {nextEnemyIndex} of {spawnableEnemies.GetChildCount()}");
+            var enemy = spawnableEnemies.GetChild<Enemy>(nextEnemyIndex).Duplicate<Enemy>();
             var spawnableTile = SpawnableTiles[Rand.RandiRange(0, SpawnableTiles.Count-1)];
             enemy.Position = Level.FloorTileMap.MapToWorld(TopLeft + spawnableTile);
-            GD.Print($"Spawned enemy ({enemy.Position.x},{enemy.Position.y})");
+            if (debug) GD.Print($"Spawned enemy ({enemy.Position.x},{enemy.Position.y})");
             enemies.AddChild(enemy);
+            enemy.Owner = enemies;
+            spawnableEnemies.RemoveChild(enemy);
         }
     }
 
@@ -76,16 +78,16 @@ public class Room : Node2D {
         enemies.RemoveChild(enemy);
 
         if (EnemiesAlive < 1) {
-            GD.Print("All enemies killed");
+            if (debug) GD.Print("All enemies killed");
             var level = (Level) GetParent().GetParent();
             level.RoomCleared();
         } else {
-            GD.Print($"Remaining enemies in room: {EnemiesAlive}");
+            if (debug) GD.Print($"Remaining enemies in room: {EnemiesAlive}");
         }
     }
 
     public virtual int?[][] GenerateTiles() {
-        GD.Print("Generating room tiles");
+        if (debug) GD.Print("Generating room tiles");
         Tiles = new int?[Width][];
         for (var x = 0; x < Width; x++)
             Tiles[x] = new int?[Height];
@@ -122,7 +124,7 @@ public class Room : Node2D {
                 width = Math.Min(center.X, maxWidth - center.X);
                 height = Math.Min(center.Y, maxHeight - center.Y);
 
-                //GD.Print($"({center.X},{center.Y}) {width}x{height}");
+                //if (_debug) GD.Print($"({center.X},{center.Y}) {width}x{height}");
                 
                 if (width <= minShapeWidth || height <= minShapeWidth)
                     break;
@@ -152,7 +154,7 @@ public class Room : Node2D {
         while (true)
         {
             if (startProcessedNum > 1){
-                GD.Print("Setting exit to true.");
+                if (debug) GD.Print("Setting exit to true.");
                 exit = true;
             }
 
@@ -168,7 +170,7 @@ public class Room : Node2D {
                     if (CornerDirections.Contains(neighbor)) {
                         neighbor = neighbor.Prev();
                         corner = current.GetNeighbor(neighbor);
-                        GD.Print($"Corner hit: ({corner.Value.X},{corner.Value.Y}) {neighbor}");
+                        if (debug) GD.Print($"Corner hit: ({corner.Value.X},{corner.Value.Y}) {neighbor}");
                     }
 
                     if (corner.HasValue) {
@@ -193,7 +195,7 @@ public class Room : Node2D {
 
                 if (current == start) {
                     startProcessedNum++;
-                    GD.Print($"Reached beginning. Incrementing startProcessedNum to {startProcessedNum}.");
+                    if (debug) GD.Print($"Reached beginning. Incrementing startProcessedNum to {startProcessedNum}.");
                 }
 
                 if (debug) GD.Print($"Next ({next.X},{next.Y}) {neighbor}");
@@ -208,7 +210,7 @@ public class Room : Node2D {
             }
 
             if (exit) {
-                GD.Print("Exiting");
+                if (debug) GD.Print("Exiting");
                 break;
             }
         }
@@ -245,13 +247,13 @@ public class Room : Node2D {
         Tiles[x][y] = Tileset.Door;
         SetDoorWalls(x, y, direction);
 
-        //GD.Print($"Door local pos {location.x},{location.y}  global pos {door.Position.x},{door.Position.y}   center of room {Center.x},{Center.y}");
+        //if (_debug) GD.Print($"Door local pos {location.x},{location.y}  global pos {door.Position.x},{door.Position.y}   center of room {Center.x},{Center.y}");
 
         return door;
     }
 
     private void SetDoorWalls(int x, int y, Direction direction) {
-        GD.Print($"Set door wall: {x},{y} {direction} [{Tiles.Length}, {Tiles[x].Length}]");
+        if (debug) GD.Print($"Set door wall: {x},{y} {direction} [{Tiles.Length}, {Tiles[x].Length}]");
 
         if (direction == Direction.Up) {
             var leftSide = Tileset.LeftWall;
@@ -260,19 +262,19 @@ public class Room : Node2D {
             var isDoorwayOpen = !Tileset.IsWall(Tiles[x][y+1]);
             
             if (isDoorwayOpen) {
-                GD.Print("Doorway is open");
+                if (debug) GD.Print("Doorway is open");
 
                 var isLeftTopWall = !Tileset.IsWall(Tiles[x-1][y+1]) && Tileset.IsWall(Tiles[x-1][y]);
                 var isRightTopWall = !Tileset.IsWall(Tiles[x+1][y+1]) && Tileset.IsWall(Tiles[x+1][y]);
 
                 if (isLeftTopWall)
                 {
-                    GD.Print("Left is top wall");
+                    if (debug) GD.Print("Left is top wall");
                     leftSide = Tileset.GetTopWall();
                 }
 
                 if (isRightTopWall) {
-                    GD.Print("Right is top wall");
+                    if (debug) GD.Print("Right is top wall");
                     rightSide = Tileset.GetTopWall();
                 }
 
@@ -290,19 +292,19 @@ public class Room : Node2D {
             var rightSide = Tileset.RightWall;
 
             var isDoorwayOpen = !Tileset.IsWall(Tiles[x][y-1]);
-            GD.Print($"({x},{y-1}) is doorway open: {isDoorwayOpen} {Tiles[x][y-1]}");
+            if (debug) GD.Print($"({x},{y-1}) is doorway open: {isDoorwayOpen} {Tiles[x][y-1]}");
 
             if (isDoorwayOpen) {
                 var isLeftBottomWall = !Tileset.IsWall(Tiles[x-1][y-1]) && Tileset.IsWall(Tiles[x-1][y]);
                 var isRightBottomWall = !Tileset.IsWall(Tiles[x+1][y-1]) && Tileset.IsWall(Tiles[x+1][y]);
                 
                 if (isLeftBottomWall) {
-                    GD.Print("Left is bottom wall");
+                    if (debug) GD.Print("Left is bottom wall");
                     leftSide = Tileset.BottomLeftWall;
                 }
 
                 if (isRightBottomWall) {
-                    GD.Print("Right is bottom wall");
+                    if (debug) GD.Print("Right is bottom wall");
                     rightSide = Tileset.BottomRightWall;
                 }
 

@@ -42,7 +42,7 @@ public class HUD : CanvasLayer
         if (debug) GD.Print($"Weapons: {weapons.Count}");
         foreach (var weapon in weapons) {
 
-            var animatedSprite = (AnimatedSprite) weapon.GetNode<AnimatedSprite>("AnimatedSprite")?.Duplicate();
+            var animatedSprite = weapon.GetNode<AnimatedSprite>("AnimatedSprite")?.Duplicate<AnimatedSprite>();
             if (animatedSprite == null) continue;
             
             if (debug) GD.Print($"Weapon {i}");

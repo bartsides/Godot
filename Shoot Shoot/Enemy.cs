@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Linq;
 
 public class Enemy : RigidBody2D
@@ -10,7 +11,28 @@ public class Enemy : RigidBody2D
 	public virtual float BulletSpeed { get; set; } = 100;
 	public virtual uint ProjectileCollisionMask { get; set; } = 251;
 
-	private Level level;
+	private Level level { 
+		get {
+			try {
+				var shootShoot = FindShootShoot();
+				if (shootShoot?.Level == null) throw new Exception();
+				return shootShoot.Level;
+			} catch (Exception) {
+				GD.Print("Enemy couldn't find level");
+				return null;
+			}
+		} 
+	}
+
+	private ShootShoot FindShootShoot(Node node = null, int i = 0) {
+		GD.Print($"FindShootShoot {i}");
+		var parent = node != null ? node.GetParent() : this.GetParent();
+		if (parent is ShootShoot shootShoot) {
+			return shootShoot;
+		}
+		return FindShootShoot(parent, i++);
+	}
+
 	private AnimatedSprite animatedSprite;
 	private Bullet bullet;
 	private Node2D bullets;
@@ -27,7 +49,6 @@ public class Enemy : RigidBody2D
 	public override void _Ready()
 	{
 		attackTimer = new Timer(AttackTime);
-		level = GetParent().GetParent().GetParent().GetParent<Level>();
 		animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		bullet = GetNode<Bullet>("Bullet");
 		bullets = GetNode<Node2D>("Bullets");
@@ -90,7 +111,7 @@ public class Enemy : RigidBody2D
 
 		if (path.Length < 1 || reassess) {
 			reassessMovementTimer.Reset();
-			path = level.GetSimplePath(Position, level.GetNode<Player>("Player").Position);
+			path = level?.GetSimplePath(Position, level.GetNode<Player>("Player").Position) ?? new Vector2[0];
 		}
 		
 		if (path != null && path.Length > 0) {
@@ -100,9 +121,11 @@ public class Enemy : RigidBody2D
 
 	private void HandleAttack() {
 		attackTimer.Reset();
-		if (level.Player == null) return;
+		if (level?.Player == null) return;
 
-		var shot = (Bullet)bullet.Duplicate();
+		return; // TODO: Enable enemy attack again after fixing layer masking
+
+		var shot = bullet.Duplicate<Bullet>();
 		bullets.AddChild(shot);
 
 		GD.Print($"Enemy attack: {Position} | {GlobalPosition}");
@@ -113,7 +136,7 @@ public class Enemy : RigidBody2D
 
 	private float DistanceToPlayer {
 		get {
-			var player = level.Player;
+			var player = level?.Player;
 			if (player == null) return 0;
 			return GlobalPosition.DistanceTo(player.GlobalPosition);
 		}

@@ -14,6 +14,7 @@ public class Level : Navigation2D
     private PackedScene RoomScene;
     private Node2D RoomsNode { get; set; }
     private List<Room> Rooms { get; set; } = new List<Room>();
+    private LevelTemplate currentLevelTemplate;
 
     public Player Player { get; private set; }
     
@@ -30,10 +31,12 @@ public class Level : Navigation2D
     public void GenerateLevel(LevelTemplate levelTemplate) {
         Reset();
 
-        GenerateTileSet(levelTemplate);
+        currentLevelTemplate = levelTemplate;
+
+        GenerateTileSet(currentLevelTemplate);
 
         var room = GetNextRoom();
-        room.AddEnemies();
+        room.AddEnemies(currentLevelTemplate.GetNode("SpawnableEnemies"));
         Direction direction = Direction.Up;
 
         for (var i = 0; i < NumberOfRooms; i++) {
@@ -69,7 +72,7 @@ public class Level : Navigation2D
 
         AddHallway(door, nextDoor);
 
-        room.AddEnemies();
+        room.AddEnemies(currentLevelTemplate.GetNode("SpawnableEnemies"));
         return room;
     }
 

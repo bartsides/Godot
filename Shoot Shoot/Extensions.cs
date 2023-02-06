@@ -113,4 +113,12 @@ public static class Extensions {
         var directionAngle = Mathf.Rad2Deg(direction.Angle());
         return directionAngle <= 90 && directionAngle >= -90;
     }
+
+    public static T Duplicate<T>(this Resource resource) where T : Resource {
+        return (T) resource.Duplicate();
+    }
+
+    public static T Duplicate<T>(this Node node) where T : Node {
+        return (T) node.Duplicate();
+    }
 }
