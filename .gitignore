@@ -1,6 +1,2 @@
-.mono/
-.vs/
-.import/
-temp.png
-temp.png.import
-GeneratedTileset.tres
+# Godot 4+ specific ignores
+.godot/
