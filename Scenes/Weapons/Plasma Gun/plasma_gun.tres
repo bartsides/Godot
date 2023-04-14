@@ -1,0 +1,51 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://da7n183gt6q8m"]
+
+[ext_resource type="Texture2D" uid="uid://36xg8fu0w36w" path="res://Animations/Plasma Gun/Pg1.png" id="1_s4hyi"]
+[ext_resource type="Texture2D" uid="uid://d1unlr333ft3j" path="res://Animations/Plasma Gun/Pg2.png" id="2_c7d1r"]
+[ext_resource type="Texture2D" uid="uid://vxu5mjlo3e8q" path="res://Animations/Plasma Gun/Pg3.png" id="3_yd7mh"]
+[ext_resource type="Texture2D" uid="uid://c3au8pustssgj" path="res://Animations/Plasma Gun/Pg4.png" id="4_ubafv"]
+[ext_resource type="Texture2D" uid="uid://rhr876o4ua1h" path="res://Animations/Plasma Gun/Pg5.png" id="5_cq8v8"]
+[ext_resource type="Texture2D" uid="uid://cevqiiwvuge15" path="res://Animations/Plasma Gun/Pg6.png" id="6_tuxnm"]
+[ext_resource type="Texture2D" uid="uid://cosom6fcfq078" path="res://Animations/Plasma Gun/Pg7.png" id="7_eexop"]
+[ext_resource type="Texture2D" uid="uid://mil3etid4sxd" path="res://Animations/Plasma Gun/Pg8.png" id="8_vuin1"]
+[ext_resource type="Texture2D" uid="uid://hmj16csbaws3" path="res://Animations/Plasma Gun/Pg9.png" id="9_e7tce"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_s4hyi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_c7d1r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_yd7mh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ubafv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_cq8v8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_tuxnm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_eexop")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_vuin1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_e7tce")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
+}]

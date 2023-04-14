@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://7dymfhj8xoby"]
+
+[ext_resource type="PackedScene" uid="uid://dp7if8a73gfqs" path="res://Scenes/Weapons/weapon.tscn" id="1_7up7t"]
+[ext_resource type="SpriteFrames" uid="uid://da7n183gt6q8m" path="res://Scenes/Weapons/Plasma Gun/plasma_gun.tres" id="2_cvbnh"]
+
+[node name="Weapon" instance=ExtResource("1_7up7t")]
+
+[node name="AnimatedSprite2D" parent="." index="4"]
+sprite_frames = ExtResource("2_cvbnh")

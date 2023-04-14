@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dp7if8a73gfqs"]
+
+[ext_resource type="Script" path="res://Code/Weapons/weapon.cs" id="1_yjs6c"]
+[ext_resource type="Script" path="res://Code/Weapons/weapon_animation.cs" id="2_u36yo"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_itvhw"]
+
+[node name="Weapon" type="Node2D"]
+script = ExtResource("1_yjs6c")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="ProjectileStartingPosition" type="Marker2D" parent="."]
+
+[node name="Projectiles" type="Node" parent="."]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_itvhw")
+script = ExtResource("2_u36yo")

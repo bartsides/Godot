@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0s07ckp3d747"]
+
+[ext_resource type="Script" path="res://Code/projectile.cs" id="1_mlyhj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3wj8l"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bvqam"]
+
+[node name="Projectile" type="RigidBody2D"]
+script = ExtResource("1_mlyhj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3wj8l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_bvqam")
