@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c5yhb73a0ewpr"]
 
 [ext_resource type="PackedScene" uid="uid://d0s07ckp3d747" path="res://Scenes/Projectiles/projectile.tscn" id="1_vq3es"]
-[ext_resource type="Script" path="res://Code/Projectiles/Bullets/bullet.cs" id="2_2cth7"]
+[ext_resource type="Script" path="res://Scenes/Projectiles/bullet.cs" id="2_6dhn3"]
 
 [node name="Bullet" instance=ExtResource("1_vq3es")]
-script = ExtResource("2_2cth7")
+script = ExtResource("2_6dhn3")

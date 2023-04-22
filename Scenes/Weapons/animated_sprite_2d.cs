@@ -1,6 +1,7 @@
 using Godot;
+using System;
 
-public partial class weapon_animation : AnimatedSprite2D
+public partial class animated_sprite_2d : AnimatedSprite2D
 {
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)

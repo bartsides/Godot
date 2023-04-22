@@ -7,3 +7,5 @@
 
 [node name="AnimatedSprite2D" parent="." index="4"]
 sprite_frames = ExtResource("2_cvbnh")
+animation = &"shoot"
+frame_progress = 0.400417

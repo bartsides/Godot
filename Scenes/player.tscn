@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://w35xr2j4w3bn"]
 
-[ext_resource type="Script" path="res://Code/player.cs" id="1_cv5q3"]
+[ext_resource type="Script" path="res://Scenes/player.cs" id="1_auegw"]
 [ext_resource type="Texture2D" uid="uid://cc4ms6e18vufd" path="res://Animations/Player Direction/down.png" id="2_tyrh7"]
 [ext_resource type="Texture2D" uid="uid://dc1v1b6c8u6ow" path="res://Animations/Player Direction/idle.png" id="3_dmlvv"]
 [ext_resource type="Texture2D" uid="uid://bffmefae25i1" path="res://Animations/Player Direction/left.png" id="4_hceh5"]
@@ -53,7 +53,7 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vqdyb"]
 
 [node name="Player" type="RigidBody2D"]
-script = ExtResource("1_cv5q3")
+script = ExtResource("1_auegw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7aud0")
@@ -62,7 +62,7 @@ animation = &"idle"
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
-[node name="Weapons" type="Node" parent="."]
+[node name="Weapons" type="Node2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_vqdyb")

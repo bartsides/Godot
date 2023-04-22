@@ -29,7 +29,7 @@ public partial class player : RigidBody2D
 	}
 
 	private void SetWeapons(List<Node> weapons) {
-		var weaponsNode = GetNode("Weapons");
+		var weaponsNode = GetNode<Node2D>("Weapons");
 		foreach(var weapon in weapons) {
 			weaponsNode.AddChild(weapon);
 		}
