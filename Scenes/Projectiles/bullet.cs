@@ -7,6 +7,8 @@ public partial class bullet : projectile
 
     public override void _Ready()
     {
+        CollisionLayer = Helpers.GenerateCollisionMask(false, false, false, true, false);
+        CollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, false);
         Damage = 20;
         MaxLifetime = 2f;
         animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -25,11 +27,7 @@ public partial class bullet : projectile
     //     return true;
     // }
 
-    public void Fire(Vector2? position, Vector2 lookAt, Vector2 linearVelocity, uint collisionMask) {
-        if (position == null)
-            Position = Vector2.Zero;
-        else
-            Position = position.Value;
+    public void Fire(Vector2 lookAt, Vector2 linearVelocity, uint collisionMask) {
         LinearVelocity = linearVelocity;
         LookAt(lookAt);
         CollisionMask = collisionMask;

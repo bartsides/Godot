@@ -5,7 +5,7 @@ public partial class player : RigidBody2D
 {
 	public int PlayerNumber { get; set; } = 1;
 	public bool UseController = false;
-	private uint ProjectileCollisionMask = Helpers.GenerateCollisionMask(true, false, true, false);
+	private uint ProjectileCollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, false);
 	private float moveSpeed = 900;
 
 	private Timer attackTimer = new Timer(0.3f, active: false);
@@ -19,6 +19,8 @@ public partial class player : RigidBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		CollisionLayer = Helpers.GenerateCollisionMask(false, true, false, false, false);
+		CollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, true);
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		SetWeapons(new List<Node>{
@@ -79,10 +81,8 @@ public partial class player : RigidBody2D
 		}
 
 		currentWeapon.Position = input.AimVector * gunRadius;
-		// TODO: Make sure weapon is facing out
-		var mousePos = GetGlobalMousePosition();
-		currentWeapon.LookAt(mousePos);
-		currentWeapon.SetOrientation(currentWeapon.GlobalPosition.DirectionTo(mousePos));
+		currentWeapon.LookAt(currentWeapon.Position * 2);
+		currentWeapon.SetOrientation();
 	}
 
 	private void ProcessAttack(player_input input, float step) {
@@ -96,7 +96,6 @@ public partial class player : RigidBody2D
 		attackTimer.Reset();
 		if (currentWeapon == null) return;
 
-		GD.Print($"Player layer {CollisionLayer}");
 		currentWeapon.Shoot(direction, ProjectileCollisionMask);
 	}
 

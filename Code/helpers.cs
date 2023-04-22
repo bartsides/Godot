@@ -1,7 +1,8 @@
 using Godot;
 
 public static class Helpers {
-    public static uint GenerateCollisionMask(bool walls, bool player, bool enemies, bool bullets) {
+    public static uint GenerateCollisionMask(bool walls, bool player, bool enemies, 
+        bool playerProjectiles, bool enemyProjectiles) {
         uint mask = 0;
 
         if (walls)
@@ -13,10 +14,11 @@ public static class Helpers {
         if (enemies)
             mask |= 1 << 2;
 
-        if (bullets)
+        if (playerProjectiles)
             mask |= 1 << 3;
 
-        //GD.Print($"{walls}, {player}, {enemies}, {bullets}: {mask}");
+        if (enemyProjectiles)
+            mask |= 1 << 4;
 
         return mask;
     }

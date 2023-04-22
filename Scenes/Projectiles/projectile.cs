@@ -8,10 +8,12 @@ public partial class projectile : RigidBody2D
     public int MaxEnemiesHit { get; protected set; } = 1;
     public int MaxBounces { get; protected set; } = 20;
     protected bool Active { get; set; } = false;
+    private uint collision = Helpers.GenerateCollisionMask(true, true, false, false, false);
 
     public override void _Ready()
     {
-        CollisionLayer = 4;
+        CollisionLayer = collision;
+        CollisionMask = collision;
     }
 
     // public virtual bool HandleHitEnemy(Enemy node) {
