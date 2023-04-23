@@ -81,7 +81,7 @@ public partial class player : RigidBody2D
 		}
 
 		currentWeapon.Position = input.AimVector * gunRadius;
-		currentWeapon.LookAt(currentWeapon.Position * 2);
+		currentWeapon.LookAt(GlobalPosition + (input.AimVector * gunRadius * 2));
 		currentWeapon.SetOrientation();
 	}
 

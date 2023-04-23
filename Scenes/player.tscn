@@ -51,12 +51,17 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vqdyb"]
+radius = 12.0
+height = 24.0
 
 [node name="Player" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 21
 lock_rotation = true
 script = ExtResource("1_auegw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
 sprite_frames = SubResource("SpriteFrames_7aud0")
 animation = &"idle"
 
