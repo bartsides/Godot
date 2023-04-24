@@ -14,6 +14,7 @@ public partial class enemy : CharacterBody2D
 		tileMap = GetParent().GetParent().GetNodeOrNull<TileMap>("TileMap");
 		navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		navAgent.SetNavigationMap(tileMap.GetNavigationMap(0));
+		navAgent.TargetDesiredDistance = DistanceToTarget;
 
 		MoveTowardsPlayer();
 	}
@@ -28,7 +29,7 @@ public partial class enemy : CharacterBody2D
 	private void MoveTowardsPlayer() {
 		var player = GetParent().GetParent().GetNode<player>("Player");
 		navAgent.TargetPosition = player.GlobalPosition;
-		navAgent.TargetDesiredDistance = DistanceToTarget;
+		
 		GD.Print("moving towards player");
 	}
 }

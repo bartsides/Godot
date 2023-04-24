@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://Scenes/Enemies/enemy.cs" id="1_quugo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jp8fr"]
+radius = 16.44
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 4
@@ -11,6 +12,8 @@ collision_mask = 11
 script = ExtResource("1_quugo")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+radius = 64.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_jp8fr")
