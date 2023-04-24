@@ -22,6 +22,7 @@ animations = [{
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 position = Vector2(-4.76837e-07, 0)
+rotation = -1.57079
 scale = Vector2(0.59375, 0.59375)
 sprite_frames = SubResource("SpriteFrames_ynud2")
 frame_progress = 0.429825

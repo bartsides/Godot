@@ -3,6 +3,8 @@ using System;
 
 public partial class bullet : projectile
 {
+    private const bool debug = false;
+
     private AnimatedSprite2D animatedSprite;
 
     public override void _Ready()
@@ -27,11 +29,11 @@ public partial class bullet : projectile
     //     return true;
     // }
 
-    public void Fire(Vector2 lookAt, Vector2 linearVelocity, uint collisionMask) {
+    public void Fire(Vector2 linearVelocity, uint collisionMask) {
         LinearVelocity = linearVelocity;
-        LookAt(lookAt);
+        LookAt(GlobalPosition + linearVelocity);
         CollisionMask = collisionMask;
-        GD.Print($"Collision mask of bullet: {CollisionMask}");
+        if (debug) GD.Print($"Collision mask of bullet: {CollisionMask}");
         Visible = true;
         Active = true;
         Sleeping = false;

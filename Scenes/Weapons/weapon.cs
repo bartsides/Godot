@@ -36,7 +36,7 @@ public partial class weapon : Node2D
 		shot.GlobalPosition = projectileStartingPosition.GlobalPosition;
 		projectiles.AddChild(shot);
 		var linearVelocity = direction * Speed;
-		shot.Fire(GetLocalMousePosition(), linearVelocity, collisionMask);
+		shot.Fire(linearVelocity, collisionMask);
 		return projectile;
 	}
 
