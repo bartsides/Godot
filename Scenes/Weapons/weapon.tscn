@@ -19,3 +19,7 @@ script = ExtResource("1_ieygc")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_itvhw")
 script = ExtResource("2_iltbc")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

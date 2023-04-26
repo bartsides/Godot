@@ -3,39 +3,39 @@ using System;
 
 public partial class bullet : projectile
 {
-    private const bool debug = false;
+	private const bool debug = false;
 
-    private AnimatedSprite2D animatedSprite;
+	private AnimatedSprite2D animatedSprite;
 
-    public override void _Ready()
-    {
-        CollisionLayer = Helpers.GenerateCollisionMask(false, false, false, true, false);
-        CollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, false);
-        Damage = 20;
-        MaxLifetime = 2f;
-        animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-    }
+	public override void _Ready()
+	{
+		CollisionLayer = Helpers.GenerateCollisionMask(false, false, false, true, false);
+		CollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, false);
+		Damage = 20;
+		MaxLifetime = 2f;
+		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+	}
 
-    // public override bool HandleHitEnemy(Enemy node)
-    // {
-    //     if (!Active) return false;
+	// public override bool HandleHitEnemy(Enemy node)
+	// {
+	//     if (!Active) return false;
 
-    //     if (!base.HandleHitEnemy(node))
-    //         return false;
+	//     if (!base.HandleHitEnemy(node))
+	//         return false;
 
-    //     if (animatedSprite != null)
-    //         animatedSprite.Play("Hit");
+	//     if (animatedSprite != null)
+	//         animatedSprite.Play("Hit");
 
-    //     return true;
-    // }
+	//     return true;
+	// }
 
-    public void Fire(Vector2 linearVelocity, uint collisionMask) {
-        LinearVelocity = linearVelocity;
-        LookAt(GlobalPosition + linearVelocity);
-        CollisionMask = collisionMask;
-        if (debug) GD.Print($"Collision mask of bullet: {CollisionMask}");
-        Visible = true;
-        Active = true;
-        Sleeping = false;
-    }
+	public void Fire(Vector2 linearVelocity, uint collisionMask) {
+		LinearVelocity = linearVelocity;
+		LookAt(GlobalPosition + linearVelocity);
+		CollisionMask = collisionMask;
+		if (debug) GD.Print($"Collision mask of bullet: {CollisionMask}");
+		Visible = true;
+		Active = true;
+		Sleeping = false;
+	}
 }
