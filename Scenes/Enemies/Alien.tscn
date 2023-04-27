@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbdmu5modvcm5"]
+[gd_scene load_steps=10 format=3 uid="uid://cbdmu5modvcm5"]
 
 [ext_resource type="PackedScene" uid="uid://i04hag831hh5" path="res://Scenes/Enemies/enemy.tscn" id="1_ha5ek"]
 [ext_resource type="Texture2D" uid="uid://dokgsibb6cxqv" path="res://Art/SVG Sheets/RedNeck Alien.svg" id="2_scer5"]
@@ -504,6 +504,30 @@ tracks/21/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("Polygon2D2/Left Eye:scale")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("Polygon2D2/Right Eye:scale")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_knd3c"]
 resource_name = "Run"
@@ -624,7 +648,7 @@ tracks/9/path = NodePath("Polygon2D2/Mouth:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.7, 0.9, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.7, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-2.24676, -16.1277), Vector2(12.9574, -14.1696), Vector2(8.19102, -14.719), Vector2(-14.7308, -16.6227), Vector2(-14.1867, -17.694)]
@@ -636,7 +660,7 @@ tracks/10/path = NodePath("Polygon2D2/Mouth:rotation")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.7, 0.9, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.7, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [0.0760554, -0.138966, 0.0760554, 0.0760554, 0.0760554]
@@ -648,7 +672,7 @@ tracks/11/path = NodePath("Polygon2D2/Left Eye:position")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.9),
+"times": PackedFloat32Array(0, 0.3, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(-25.4828, -54.2552), Vector2(-6.87906, -49.2918), Vector2(-30.077, -54.7912)]
@@ -660,7 +684,7 @@ tracks/12/path = NodePath("Polygon2D2/Left Eye:rotation")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.9),
+"times": PackedFloat32Array(0, 0.3, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [0.150265, -0.0488709, 0.0649213]
@@ -785,10 +809,10 @@ tracks/3/path = NodePath("Polygon2D:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(0, -1), Vector2(2, -19), Vector2(0.8, -8.2), Vector2(0.2, -2.8)]
+"values": [Vector2(0, -1), Vector2(1, -35), Vector2(2, -19), Vector2(0.8, -8.2), Vector2(0.2, -2.8)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -797,10 +821,10 @@ tracks/4/path = NodePath("Polygon2D:rotation")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, -0.210221, -0.0840886, 0.15643]
+"values": [0.0, 0.211582, -0.210221, -0.0840886, 0.15643]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -857,10 +881,10 @@ tracks/9/path = NodePath("Polygon2D2:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(1, -50), Vector2(1, -50), Vector2(1, -50), Vector2(1, -50)]
+"values": [Vector2(1, -50), Vector2(14, -77), Vector2(1, -50), Vector2(1, -50), Vector2(1, -50)]
 }
 tracks/10/type = "value"
 tracks/10/imported = false
@@ -869,10 +893,10 @@ tracks/10/path = NodePath("Polygon2D2:rotation")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [-0.0469298, -0.253649, 0.195512, 0.109845]
+"values": [-0.0469298, 0.31864, -0.253649, 0.195512, 0.109845]
 }
 tracks/11/type = "value"
 tracks/11/imported = false
@@ -881,10 +905,10 @@ tracks/11/path = NodePath("Polygon2D2/Mouth:position")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-2.24676, -16.1277), Vector2(-2.24676, -16.1277), Vector2(-2.24676, -16.1277), Vector2(-2.24676, -16.1277)]
+"values": [Vector2(-2.24676, -16.1277), Vector2(-2.24676, -16.1277), Vector2(-2.24676, -16.1277), Vector2(-2.24676, -16.1277), Vector2(-2.24676, -16.1277)]
 }
 tracks/12/type = "value"
 tracks/12/imported = false
@@ -893,10 +917,10 @@ tracks/12/path = NodePath("Polygon2D2/Mouth:rotation")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0760554, 0.0760554, 0.0760554, 0.0760554]
+"values": [0.0760554, 0.0760554, 0.0760554, 0.0760554, 0.0760554]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
@@ -905,10 +929,10 @@ tracks/13/path = NodePath("Polygon2D2/Left Eye:position")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-25.4828, -54.2552), Vector2(-25.4828, -54.2552), Vector2(-25.4828, -54.2552), Vector2(-25.4828, -54.2552)]
+"values": [Vector2(-25.4828, -54.2552), Vector2(-25.4828, -54.2552), Vector2(-25.4828, -54.2552), Vector2(-25.4828, -54.2552), Vector2(-25.4828, -54.2552)]
 }
 tracks/14/type = "value"
 tracks/14/imported = false
@@ -917,10 +941,10 @@ tracks/14/path = NodePath("Polygon2D2/Left Eye:rotation")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.150265, 0.150265, 0.150265, 0.150265]
+"values": [0.150265, 0.150265, 0.150265, 0.150265, 0.150265]
 }
 tracks/15/type = "value"
 tracks/15/imported = false
@@ -929,10 +953,10 @@ tracks/15/path = NodePath("Polygon2D2/Right Eye:position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(24.0399, -42.9195), Vector2(24.0399, -42.9195), Vector2(24.0399, -42.9195), Vector2(24.0399, -42.9195)]
+"values": [Vector2(24.0399, -42.9195), Vector2(24.0399, -42.9195), Vector2(24.0399, -42.9195), Vector2(24.0399, -42.9195), Vector2(24.0399, -42.9195)]
 }
 tracks/16/type = "value"
 tracks/16/imported = false
@@ -941,10 +965,10 @@ tracks/16/path = NodePath("Polygon2D2/Right Eye:rotation")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [-0.0198992, -0.0198992, -0.0198992, -0.0198992]
+"values": [-0.0198992, -0.0198992, -0.0198992, -0.0198992, -0.0198992]
 }
 tracks/17/type = "value"
 tracks/17/imported = false
@@ -983,12 +1007,257 @@ tracks/19/keys = {
 "values": [0, -1]
 }
 
+[sub_resource type="Animation" id="Animation_w262b"]
+resource_name = "Shoot"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Polygon2D2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, -50), Vector2(-17, -71), Vector2(-8, -56), Vector2(1, -50)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Polygon2D2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [-0.0469298, -0.404467, -0.230255, -0.166928]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Polygon2D2/Mouth:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-2.24676, -16.1277), Vector2(9.93613, -21.4611), Vector2(9.55103, -16.0353), Vector2(2.98866, -17.7737)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Polygon2D2/Mouth:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0760554, 0.0760554, 0.139012, 0.327883]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Polygon2D2/Left Eye:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-25.4828, -54.2552), Vector2(-14.4337, -58.1064), Vector2(-10.0213, -46.0077), Vector2(-16.7372, -51.5977)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Polygon2D2/Left Eye:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.150265, 0.348757, 0.272011, 0.041775]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Polygon2D2/Right Eye:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(24.0399, -42.9195), Vector2(32.441, -47.5207), Vector2(30.8382, -39.8684), Vector2(23.6966, -44.8062)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Polygon2D2/Right Eye:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [-0.0198992, 0.0222547, 0.0222547, 0.0222547]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Polygon2D2/Mouth:z_index")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Polygon2D2/Left Eye:z_index")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Polygon2D2/Right Eye:z_index")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Polygon2D2/Left Eye:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.934044, 0.875462)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Polygon2D2/Right Eye:scale")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.925332, 0.859764)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Polygon2D/LHand:z_index")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Polygon2D/LHand:position")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.5, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-58, 0.999999), Vector2(-14, -18), Vector2(-15.25, -19.75), Vector2(6.80256, -30.6549), Vector2(-19, -25)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Polygon2D/LHand:rotation")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.5, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [-0.172211, -1.5891, -1.75812, -3.12864, -2.26519]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Polygon2D/RHand:position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(57, 3), Vector2(50.3333, -1.44444), Vector2(49, -2.33333), Vector2(45, -5)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Polygon2D/RHand:rotation")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [-0.805572, -1.04342, -1.09099, -1.2337]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Polygon2D:position")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-21, -15), Vector2(-8, -4), Vector2(0, -1)]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Polygon2D:rotation")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0.5, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.0584556, -0.0524166, -0.0946893]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a1xde"]
 _data = {
 "Idle": SubResource("Animation_y1xbd"),
 "RESET": SubResource("Animation_kx8aj"),
 "Run": SubResource("Animation_knd3c"),
-"RunUp": SubResource("Animation_hrt81")
+"RunUp": SubResource("Animation_hrt81"),
+"Shoot": SubResource("Animation_w262b")
 }
 
 [node name="Enemy" instance=ExtResource("1_ha5ek")]
