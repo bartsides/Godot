@@ -6,7 +6,3 @@
 [node name="Bullet" instance=ExtResource("1_vq3es")]
 lock_rotation = true
 script = ExtResource("2_6dhn3")
-
-[node name="Polygon2D" type="Polygon2D" parent="CollisionShape2D" index="0"]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]

@@ -24,7 +24,8 @@ public partial class player : RigidBody2D
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		SetWeapons(new List<Node>{
-			GD.Load<PackedScene>("res://Scenes/Weapons/Plasma Gun/plasma_gun.tscn").Instantiate()
+			//GD.Load<PackedScene>("res://Scenes/Weapons/Plasma Gun/plasma_gun.tscn").Instantiate()
+			GD.Load<PackedScene>("res://Scenes/Weapons/BigPistol.tscn").Instantiate()
 		});
 
 		GD.Print($"Player location {Position.X},{Position.Y}");

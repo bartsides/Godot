@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dp7if8a73gfqs"]
+[gd_scene load_steps=5 format=3 uid="uid://dp7if8a73gfqs"]
 
 [ext_resource type="Script" path="res://Scenes/Weapons/weapon.cs" id="1_ieygc"]
 [ext_resource type="Script" path="res://Scenes/Weapons/weapon_animation.cs" id="2_iltbc"]
+[ext_resource type="Script" path="res://Scenes/Weapons/AnimationPlayer.cs" id="3_sqswk"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_itvhw"]
 
@@ -23,3 +24,6 @@ script = ExtResource("2_iltbc")
 [node name="Polygon2D" type="Polygon2D" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+script = ExtResource("3_sqswk")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="_on_animation_finished"]

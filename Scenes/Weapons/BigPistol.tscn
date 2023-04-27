@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://demv1q6eqb6j2"]
+[gd_scene load_steps=8 format=3 uid="uid://cwe66u0s6v7nh"]
 
 [ext_resource type="PackedScene" uid="uid://dp7if8a73gfqs" path="res://Scenes/Weapons/weapon.tscn" id="1_ipupm"]
 [ext_resource type="Texture2D" uid="uid://cai7k85ixvs03" path="res://Art/SVG Sheets/Big Pistol.svg" id="2_jsyww"]
@@ -365,7 +365,6 @@ tracks/12/keys = {
 
 [sub_resource type="Animation" id="Animation_p3p24"]
 resource_name = "Shoot"
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -495,7 +494,8 @@ _data = {
 "Shoot": SubResource("Animation_p3p24")
 }
 
-[node name="Weapon" instance=ExtResource("1_ipupm")]
+[node name="Weapon2" instance=ExtResource("1_ipupm")]
+scale = Vector2(0.0968389, 0.0968389)
 
 [node name="ProjectileStartingPosition" parent="." index="1"]
 position = Vector2(275, -6)
