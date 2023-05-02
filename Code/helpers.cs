@@ -1,8 +1,9 @@
 using Godot;
 
 public static class Helpers {
-    public static uint GenerateCollisionMask(bool walls, bool player, bool enemies, 
-        bool playerProjectiles, bool enemyProjectiles) {
+    public static uint GenerateCollisionMask(bool walls = false, bool player = false, 
+        bool enemies = false, bool playerProjectiles = false, bool enemyProjectiles = false) 
+    {
         uint mask = 0;
 
         if (walls)

@@ -9,8 +9,6 @@ public partial class bullet : projectile
 
 	public override void _Ready()
 	{
-		CollisionLayer = Helpers.GenerateCollisionMask(false, false, false, true, false);
-		CollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, false);
 		Damage = 20;
 		MaxLifetime = 2f;
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -29,9 +27,10 @@ public partial class bullet : projectile
 	//     return true;
 	// }
 
-	public void Fire(Vector2 linearVelocity, uint collisionMask) {
+	public void Fire(Vector2 linearVelocity, uint collisionLayer, uint collisionMask) {
 		LinearVelocity = linearVelocity;
 		LookAt(GlobalPosition + linearVelocity);
+		CollisionLayer = collisionLayer;
 		CollisionMask = collisionMask;
 		if (debug) GD.Print($"Collision mask of bullet: {CollisionMask}");
 		Visible = true;

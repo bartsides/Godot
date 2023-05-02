@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cwe66u0s6v7nh"]
+[gd_scene load_steps=9 format=3 uid="uid://cwe66u0s6v7nh"]
 
 [ext_resource type="PackedScene" uid="uid://dp7if8a73gfqs" path="res://Scenes/Weapons/weapon.tscn" id="1_ipupm"]
 [ext_resource type="Texture2D" uid="uid://cai7k85ixvs03" path="res://Art/SVG Sheets/Big Pistol.svg" id="2_jsyww"]
+[ext_resource type="PackedScene" uid="uid://bfe3cwqqg0gnc" path="res://Scenes/Projectiles/plasma_bullet.tscn" id="3_oplqp"]
 
 [sub_resource type="Animation" id="Animation_xh4w2"]
 resource_name = "Heat"
@@ -494,7 +495,7 @@ _data = {
 "Shoot": SubResource("Animation_p3p24")
 }
 
-[node name="Weapon2" instance=ExtResource("1_ipupm")]
+[node name="BigPistol" instance=ExtResource("1_ipupm")]
 scale = Vector2(0.0968389, 0.0968389)
 
 [node name="ProjectileStartingPosition" parent="." index="1"]
@@ -542,3 +543,6 @@ uv = PackedVector2Array(646, 462, 649, 505, 728, 508, 740, 483, 729, 452)
 libraries = {
 "": SubResource("AnimationLibrary_0tnab")
 }
+
+[node name="Projectile" parent="." index="7" instance=ExtResource("3_oplqp")]
+visible = false

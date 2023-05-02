@@ -5,7 +5,8 @@ public partial class player : RigidBody2D
 {
 	public int PlayerNumber { get; set; } = 1;
 	public bool UseController = false;
-	private uint ProjectileCollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, false);
+	private uint ProjectileCollisionLayer = Helpers.GenerateCollisionMask(playerProjectiles: true);
+	private uint ProjectileCollisionMask = Helpers.GenerateCollisionMask(walls: true, enemies: true);
 	private float moveSpeed = 900;
 
 	private Timer attackTimer = new Timer(0.3f, active: false);
@@ -97,7 +98,7 @@ public partial class player : RigidBody2D
 		attackTimer.Reset();
 		if (currentWeapon == null) return;
 
-		currentWeapon.Shoot(direction, ProjectileCollisionMask);
+		currentWeapon.Shoot(direction, ProjectileCollisionLayer, ProjectileCollisionMask);
 	}
 
 	private void ProcessPlayerMovement(player_input input, PhysicsDirectBodyState2D state, float step) {

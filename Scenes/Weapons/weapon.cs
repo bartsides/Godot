@@ -24,10 +24,10 @@ public partial class weapon : Node2D
 		projectileStartingPosition = GetNodeOrNull<Marker2D>("ProjectileStartingPosition");
 	}
 
-	public projectile Shoot(Vector2 direction, uint collisionMask) {
-		if (animatedSprite != null) {
-			animatedSprite.Play("shoot");
-		}
+	public projectile Shoot(Vector2 direction, uint collisionLayer, uint collisionMask) {
+		// if (animatedSprite != null) {
+		// 	animatedSprite.Play("shoot");
+		// }
 
 		if (animationPlayer != null) {
 			animationPlayer.Play("Shoot");
@@ -45,7 +45,7 @@ public partial class weapon : Node2D
 		projectiles.AddChild(shot);
 
 		var linearVelocity = direction * Speed;
-		shot.Fire(linearVelocity, collisionMask);
+		shot.Fire(linearVelocity, collisionLayer, collisionMask);
 
 		return projectile;
 	}
