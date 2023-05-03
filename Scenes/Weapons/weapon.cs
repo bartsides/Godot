@@ -29,9 +29,7 @@ public partial class weapon : Node2D
 		// 	animatedSprite.Play("shoot");
 		// }
 
-		if (animationPlayer != null) {
-			animationPlayer.Play("Shoot");
-		}
+		animationPlayer?.Play("Shoot");
 
 		if (audioStreamPlayer2D != null) {
 			if (debug) GD.Print("Gun sound");

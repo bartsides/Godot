@@ -10,12 +10,12 @@ public partial class player : RigidBody2D
 	private uint ProjectileCollisionMask = Helpers.GenerateCollisionMask(walls: true, enemies: true);
 	private float moveSpeed = 900;
 
-	private Timer attackTimer = new Timer(0.3f, active: false);
+	private readonly Timer attackTimer = new(0.3f, active: false);
 
 	private PackedScene gunScene;
 	private weapon currentWeapon;
 	private float gunRadius = 20;
-	private Vector2 lastAimDirection = new Vector2(1, 0);
+	private Vector2 lastAimDirection = new(1, 0);
 	private AnimatedSprite2D animatedSprite;
 
 	// Called when the node enters the scene tree for the first time.
@@ -115,11 +115,11 @@ public partial class player : RigidBody2D
 		}
 
 		var movementAngle = Mathf.RadToDeg(input.MoveVector.Angle());
-		if (movementAngle >= -45 && movementAngle <= 45)
+		if (movementAngle is >= (-45) and <= 45)
 			animatedSprite.Animation = "right";
-		else if (movementAngle > 45 && movementAngle < 135)
+		else if (movementAngle is > 45 and < 135)
 			animatedSprite.Animation = "down";
-		else if (movementAngle < -45 && movementAngle > -135)
+		else if (movementAngle is < (-45) and > (-135))
 			animatedSprite.Animation = "up";
 		else
 			animatedSprite.Animation = "left";

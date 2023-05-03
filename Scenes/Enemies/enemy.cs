@@ -2,11 +2,12 @@ namespace MyGodotGame;
 
 public partial class enemy : CharacterBody2D
 {
-	private TileMap tileMap;
-	private NavigationAgent2D navAgent;
 	protected virtual int Speed { get; set; } = 200;
 	protected virtual int DistanceToTarget { get; set; } = 100;
-	private Timer FindPlayerTimer = new Timer(1, active: true);
+
+	private TileMap tileMap;
+	private NavigationAgent2D navAgent;
+	private readonly Timer FindPlayerTimer = new(1, active: true);
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
