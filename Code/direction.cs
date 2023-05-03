@@ -1,4 +1,4 @@
-public enum direction
+public enum Direction
 {
     UpLeft,
     Up,
