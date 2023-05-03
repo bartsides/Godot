@@ -1,3 +1,5 @@
+namespace MyGodotGame;
+
 public enum Direction
 {
     UpLeft,

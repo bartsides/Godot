@@ -1,5 +1,6 @@
+namespace MyGodotGame;
+
 using System.Collections.Generic;
-using Godot;
 
 public partial class player : RigidBody2D
 {

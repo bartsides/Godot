@@ -2,6 +2,8 @@
 global using Godot;
 global using System;
 
+namespace MyGodotGame;
+
 public static class Helpers {
     public static uint GenerateCollisionMask(bool walls = false, bool player = false, 
         bool enemies = false, bool playerProjectiles = false, bool enemyProjectiles = false) 

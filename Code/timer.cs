@@ -1,3 +1,5 @@
+namespace MyGodotGame;
+
 public partial class Timer {
     public bool Active { get; set; }
     public double Amount { get; set; }

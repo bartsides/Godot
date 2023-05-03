@@ -1,4 +1,4 @@
-using Godot;
+namespace MyGodotGame;
 
 public partial class weapon : Node2D
 {

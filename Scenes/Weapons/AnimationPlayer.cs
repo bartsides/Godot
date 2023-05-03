@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace MyGodotGame;
 
 public partial class AnimationPlayer : Godot.AnimationPlayer
 {

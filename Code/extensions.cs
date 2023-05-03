@@ -1,3 +1,5 @@
+namespace MyGodotGame;
+
 using System.Drawing;
 
 public static class extensions {

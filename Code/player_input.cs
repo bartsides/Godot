@@ -1,3 +1,5 @@
+namespace MyGodotGame;
+
 public class player_input
 {
     public bool MoveLeft { get; set; }

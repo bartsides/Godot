@@ -1,4 +1,4 @@
-using Godot;
+namespace MyGodotGame;
 
 public partial class projectile : RigidBody2D
 {

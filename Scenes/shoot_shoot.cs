@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace MyGodotGame;
 
 public partial class shoot_shoot : Node2D
 {

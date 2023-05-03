@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace MyGodotGame;
 
 public partial class weapon_animation : AnimatedSprite2D
 {
