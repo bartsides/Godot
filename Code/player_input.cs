@@ -1,6 +1,4 @@
-using Godot;
-
-public partial class player_input
+public class player_input
 {
     public bool MoveLeft { get; set; }
     public bool MoveRight {get;set;}

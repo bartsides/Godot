@@ -1,5 +1,3 @@
-using Godot;
-using System;
 using System.Drawing;
 
 public static class extensions {
@@ -18,8 +16,8 @@ public static class extensions {
     }
     public static Direction Opposite(this Direction neighbor) => (Direction)(((int)neighbor + 4) % 8);
 
-    public static Point AddY(this Point point, int y) => new Point(point.X, point.Y + y);
-    public static Vector2 ToVector2(this Point point) => new Vector2(point.X, point.Y);
+    public static Point AddY(this Point point, int y) => new(point.X, point.Y + y);
+    public static Vector2 ToVector2(this Point point) => new(point.X, point.Y);
 
     public static Point GetNeighbor(this Point point, Direction neighbor)
     {
@@ -96,29 +94,25 @@ public static class extensions {
 
     public static Direction Getdirection(this Vector2 velocity) {
         var movementAngle = Mathf.RadToDeg(velocity.Angle());
-		if (movementAngle >= -45 && movementAngle <= 45) {
+
+		if (movementAngle is >= -45 and <= 45)
 			return Direction.Right;
-        }
-		else if (movementAngle > 45 && movementAngle < 135) { 
+
+		else if (movementAngle is > 45 and < 135)
 			return Direction.Down;
-        }
-		else if (movementAngle < -45 && movementAngle > -135) {
+
+		else if (movementAngle is < -45 and > -135)
 			return Direction.Up;
-        }
 		
         return Direction.Left;
     }
 
-    public static bool IsFacingRight(this Vector2 direction) {
-        var directionAngle = Mathf.RadToDeg(direction.Angle());
-        return directionAngle <= 90 && directionAngle >= -90;
-    }
+    public static bool IsFacingRight(this Vector2 direction) =>
+		Mathf.RadToDeg(direction.Angle()) is <= 90 and >= -90;
 
-    public static T Duplicate<T>(this Resource resource) where T : Resource {
-        return (T) resource.Duplicate();
-    }
+	public static T Duplicate<T>(this Resource resource) where T : Resource => 
+        (T)resource.Duplicate();
 
-    public static T Duplicate<T>(this Node node) where T : Node {
-        return (T) node.Duplicate();
-    }
+	public static T Duplicate<T>(this Node node) where T : Node =>
+		(T)node.Duplicate();
 }

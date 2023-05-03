@@ -16,7 +16,5 @@ public partial class Timer {
         return Amount >= Min && Amount > Max;
     }
 
-    public void Reset() {
-        Amount = 0;
-    }
+    public void Reset() => Amount = 0;
 }

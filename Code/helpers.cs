@@ -1,4 +1,6 @@
-using Godot;
+// Feel free to move these global usings to something like GameMaster.cs or Globals.cs
+global using Godot;
+global using System;
 
 public static class Helpers {
     public static uint GenerateCollisionMask(bool walls = false, bool player = false, 
