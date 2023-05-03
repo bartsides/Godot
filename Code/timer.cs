@@ -1,3 +1,5 @@
+namespace MyGodotGame;
+
 public partial class Timer {
     public bool Active { get; set; }
     public double Amount { get; set; }
@@ -16,7 +18,5 @@ public partial class Timer {
         return Amount >= Min && Amount > Max;
     }
 
-    public void Reset() {
-        Amount = 0;
-    }
+    public void Reset() => Amount = 0;
 }

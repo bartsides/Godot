@@ -1,5 +1,5 @@
-using Godot;
-using System;
+namespace MyGodotGame;
+
 using System.Drawing;
 
 public static class extensions {
@@ -9,50 +9,50 @@ public static class extensions {
 
     public static bool Between(this int value, int min, int max) => value >= min && value <= max;
 
-    public static direction Next(this direction neighbor) => (direction)(((int)neighbor + 1) % 8);
-    public static direction Prev(this direction neighbor) {
+    public static Direction Next(this Direction neighbor) => (Direction)(((int)neighbor + 1) % 8);
+    public static Direction Prev(this Direction neighbor) {
         var i = (int)neighbor - 1;
         if (i < 0)
             i = 7;
-        return (direction)(i % 8);
+        return (Direction)(i % 8);
     }
-    public static direction Opposite(this direction neighbor) => (direction)(((int)neighbor + 4) % 8);
+    public static Direction Opposite(this Direction neighbor) => (Direction)(((int)neighbor + 4) % 8);
 
-    public static Point AddY(this Point point, int y) => new Point(point.X, point.Y + y);
-    public static Vector2 ToVector2(this Point point) => new Vector2(point.X, point.Y);
+    public static Point AddY(this Point point, int y) => new(point.X, point.Y + y);
+    public static Vector2 ToVector2(this Point point) => new(point.X, point.Y);
 
-    public static Point GetNeighbor(this Point point, direction neighbor)
+    public static Point GetNeighbor(this Point point, Direction neighbor)
     {
         var x = 0;
         var y = 0;
         switch (neighbor)
         {
-            case direction.UpLeft:
+            case Direction.UpLeft:
                 x = -1;
                 y = -1;
                 break;
-            case direction.Up:
+            case Direction.Up:
                 y = -1;
                 break;
-            case direction.UpRight:
+            case Direction.UpRight:
                 x = 1;
                 y = -1;
                 break;
-            case direction.Right:
+            case Direction.Right:
                 x = 1;
                 break;
-            case direction.DownRight:
+            case Direction.DownRight:
                 x = 1;
                 y = 1;
                 break;
-            case direction.Down:
+            case Direction.Down:
                 y = 1;
                 break;
-            case direction.DownLeft:
+            case Direction.DownLeft:
                 x = -1;
                 y = 1;
                 break;
-            case direction.Left:
+            case Direction.Left:
                 x = -1;
                 break;
         }
@@ -60,7 +60,7 @@ public static class extensions {
         return new Point(point.X + x, point.Y + y);
     }
 
-    public static direction DetermineNeighbor(this Point point, Point neighbor)
+    public static Direction DetermineNeighbor(this Point point, Point neighbor)
     {
         var x = neighbor.X - point.X;
         var y = neighbor.Y - point.Y;
@@ -68,57 +68,53 @@ public static class extensions {
         if (x == -1)
         {
             if (y == -1)
-                return direction.UpLeft;
+                return Direction.UpLeft;
             if (y == 0)
-                return direction.Left;
+                return Direction.Left;
             if (y == 1)
-                return direction.DownLeft;
+                return Direction.DownLeft;
         }
         else if (x == 0)
         {
             if (y == -1)
-                return direction.Up;
+                return Direction.Up;
             if (y == 1)
-                return direction.Down;
+                return Direction.Down;
         }
         else if (x == 1)
         {
             if (y == -1)
-                return direction.UpRight;
+                return Direction.UpRight;
             if (y == 0)
-                return direction.Right;
+                return Direction.Right;
             if (y == 1)
-                return direction.DownRight;
+                return Direction.DownRight;
         }
 
         throw new Exception($"Unable to determine neighbor: ({point.X},{point.Y}) => ({neighbor.X},{neighbor.Y})");
     }
 
-    public static direction Getdirection(this Vector2 velocity) {
+    public static Direction Getdirection(this Vector2 velocity) {
         var movementAngle = Mathf.RadToDeg(velocity.Angle());
-		if (movementAngle >= -45 && movementAngle <= 45) {
-			return direction.Right;
-        }
-		else if (movementAngle > 45 && movementAngle < 135) { 
-			return direction.Down;
-        }
-		else if (movementAngle < -45 && movementAngle > -135) {
-			return direction.Up;
-        }
+
+		if (movementAngle is >= -45 and <= 45)
+			return Direction.Right;
+
+		else if (movementAngle is > 45 and < 135)
+			return Direction.Down;
+
+		else if (movementAngle is < -45 and > -135)
+			return Direction.Up;
 		
-        return direction.Left;
+        return Direction.Left;
     }
 
-    public static bool IsFacingRight(this Vector2 direction) {
-        var directionAngle = Mathf.RadToDeg(direction.Angle());
-        return directionAngle <= 90 && directionAngle >= -90;
-    }
+    public static bool IsFacingRight(this Vector2 direction) =>
+		Mathf.RadToDeg(direction.Angle()) is <= 90 and >= -90;
 
-    public static T Duplicate<T>(this Resource resource) where T : Resource {
-        return (T) resource.Duplicate();
-    }
+	public static T Duplicate<T>(this Resource resource) where T : Resource => 
+        (T)resource.Duplicate();
 
-    public static T Duplicate<T>(this Node node) where T : Node {
-        return (T) node.Duplicate();
-    }
+	public static T Duplicate<T>(this Node node) where T : Node =>
+		(T)node.Duplicate();
 }
