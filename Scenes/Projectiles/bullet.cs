@@ -9,6 +9,7 @@ public partial class bullet : projectile
 
 	public override void _Ready()
 	{
+		base._Ready();
 		Damage = 20;
 		MaxLifetime = 2f;
 		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -32,9 +33,10 @@ public partial class bullet : projectile
 		LookAt(GlobalPosition + linearVelocity);
 		CollisionLayer = collisionLayer;
 		CollisionMask = collisionMask;
-		if (debug) GD.Print($"Collision mask of bullet: {CollisionMask}");
 		Visible = true;
 		Active = true;
 		Sleeping = false;
+
+		if (debug) GD.Print($"Collision mask of bullet: {CollisionMask}");
 	}
 }

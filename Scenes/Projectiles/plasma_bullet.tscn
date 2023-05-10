@@ -19,6 +19,7 @@ animations = [{
 }]
 
 [node name="Bullet" instance=ExtResource("1_qufdg")]
+sleeping = false
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 position = Vector2(-4.76837e-07, 0)

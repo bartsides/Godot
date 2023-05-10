@@ -546,3 +546,5 @@ libraries = {
 
 [node name="Projectile" parent="." index="7" instance=ExtResource("3_oplqp")]
 visible = false
+scale = Vector2(5.955, 5.955)
+sleeping = false

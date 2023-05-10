@@ -1,10 +1,11 @@
 using Godot;
+using System;
 
 public partial class weapon : Node2D
 {
+	[Export]
+	public float Speed { get; set; } = 800;
 	private bool debug = false;
-	public float Speed = 800;
-	private AnimatedSprite2D animatedSprite = null;
 	private AnimationPlayer animationPlayer = null;
 	private Polygon2D polygon2D = null;
 	private AudioStreamPlayer2D audioStreamPlayer2D = null;
@@ -15,7 +16,6 @@ public partial class weapon : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		polygon2D = GetNode<Polygon2D>("Polygon2D");
 		audioStreamPlayer2D = GetNodeOrNull<AudioStreamPlayer2D>("AudioStreamPlayer2D");
@@ -25,10 +25,6 @@ public partial class weapon : Node2D
 	}
 
 	public projectile Shoot(Vector2 direction, uint collisionLayer, uint collisionMask) {
-		// if (animatedSprite != null) {
-		// 	animatedSprite.Play("shoot");
-		// }
-
 		if (animationPlayer != null) {
 			animationPlayer.Play("Shoot");
 		}
@@ -50,9 +46,8 @@ public partial class weapon : Node2D
 		return projectile;
 	}
 
-	public void SetOrientation() {
-		var facingRight = !Position.IsFacingRight();
-		animatedSprite.FlipV = facingRight;
-		//polygon2D.ApplyScale(new Vector2(1, facingRight ? 1 : -1)); // TODO fix this
+	public void SetOrientation(bool firstTime = false) {
+		var facingRight = Position.IsFacingRight();
+		Scale = new Vector2(Scale.X, Math.Abs(Scale.Y) * (facingRight ? 1 : -1));
 	}
 }

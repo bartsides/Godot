@@ -8,6 +8,7 @@ radius = 7.0
 [sub_resource type="SpriteFrames" id="SpriteFrames_bvqam"]
 
 [node name="Projectile" type="RigidBody2D"]
+sleeping = true
 script = ExtResource("1_0x5t8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
