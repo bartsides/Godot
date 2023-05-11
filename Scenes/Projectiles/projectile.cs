@@ -2,18 +2,21 @@ using Godot;
 
 public partial class projectile : RigidBody2D
 {
-    public double MaxLifetime { get; protected set; }
-    public double Lifetime { get; protected set; }
-    public decimal Damage { get;  protected set; }
-    public int MaxEnemiesHit { get; protected set; } = 1;
-    public int MaxBounces { get; protected set; } = 20;
+    [Export]
+    public virtual double MaxLifetime { get; set; } = 5;
+    [Export]
+    public virtual double Damage { get;  set; } = 20;
+    [Export]
+    public virtual int MaxEnemiesHit { get; set; } = 1;
+    [Export]
+    public virtual int MaxBounces { get; set; } = 1;
+
     protected bool Active { get; set; } = false;
-    private uint collision = Helpers.GenerateCollisionMask(true, true, false, false, false);
+    private Timer lifetimeTimer;
 
     public override void _Ready()
     {
-        CollisionLayer = collision;
-        CollisionMask = collision;
+        lifetimeTimer = new Timer(MaxLifetime, active: true);
     }
 
     // public virtual bool HandleHitEnemy(Enemy node) {
@@ -52,13 +55,13 @@ public partial class projectile : RigidBody2D
 
     public override void _Process(double delta)
     {
-        base._Process(delta);
-        Lifetime += delta;
-        if (Lifetime >= MaxLifetime)
+        if (lifetimeTimer.Process(delta)) {
             Die();
+        }
     }
 
     protected void Die() {
+        GD.Print("Bullet dying");
         GetParent().RemoveChild(this);
     }
 }
