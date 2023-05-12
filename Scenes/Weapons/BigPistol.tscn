@@ -366,6 +366,7 @@ tracks/12/keys = {
 
 [sub_resource type="Animation" id="Animation_p3p24"]
 resource_name = "Shoot"
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -547,4 +548,3 @@ libraries = {
 [node name="Projectile" parent="." index="7" instance=ExtResource("3_oplqp")]
 visible = false
 scale = Vector2(5.955, 5.955)
-sleeping = false
