@@ -19,6 +19,7 @@ animations = [{
 }]
 
 [node name="Bullet" instance=ExtResource("1_qufdg")]
+max_contacts_reported = 0
 sleeping = false
 
 [node name="AnimatedSprite2D" parent="." index="1"]

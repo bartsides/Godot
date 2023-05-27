@@ -8,6 +8,8 @@ radius = 7.0
 [sub_resource type="SpriteFrames" id="SpriteFrames_bvqam"]
 
 [node name="Projectile" type="RigidBody2D"]
+max_contacts_reported = 10
+contact_monitor = true
 sleeping = true
 script = ExtResource("1_0x5t8")
 

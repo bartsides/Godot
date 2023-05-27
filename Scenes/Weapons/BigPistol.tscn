@@ -500,7 +500,7 @@ _data = {
 scale = Vector2(0.0968389, 0.0968389)
 
 [node name="ProjectileStartingPosition" parent="." index="1"]
-position = Vector2(275, -6)
+position = Vector2(72.2849, 0)
 rotation = 0.00872665
 
 [node name="Polygon2D" parent="." index="5"]

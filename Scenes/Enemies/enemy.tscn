@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://i04hag831hh5"]
+[gd_scene load_steps=5 format=3 uid="uid://i04hag831hh5"]
 
 [ext_resource type="Texture2D" uid="uid://dc1v1b6c8u6ow" path="res://Animations/Player Direction/idle.png" id="1_j4c7y"]
 [ext_resource type="Script" path="res://Scenes/Enemies/enemy.cs" id="1_quugo"]
+[ext_resource type="PackedScene" uid="uid://dpcdf1sfdqbor" path="res://Scenes/healthbar.tscn" id="3_ruhrr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jp8fr"]
 radius = 16.44
@@ -9,6 +10,7 @@ radius = 16.44
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 11
+input_pickable = true
 motion_mode = 1
 script = ExtResource("1_quugo")
 Speed = 50
@@ -26,3 +28,11 @@ texture = ExtResource("1_j4c7y")
 [node name="Polygon2D" type="Polygon2D" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Healthbar" parent="." instance=ExtResource("3_ruhrr")]
+offset_left = -19.0
+offset_top = -20.0
+offset_right = 216.0
+offset_bottom = -16.0
+scale = Vector2(0.159507, 0.526338)
+value = 0.0

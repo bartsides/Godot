@@ -7,7 +7,7 @@ public partial class player : RigidBody2D
 	public bool UseController = false;
 	private uint ProjectileCollisionLayer = Helpers.GenerateCollisionMask(playerProjectiles: true);
 	private uint ProjectileCollisionMask = Helpers.GenerateCollisionMask(walls: true, enemies: true);
-	private float moveSpeed = 900;
+	private float moveSpeed = 500;
 
 	private Timer attackTimer = new Timer(0.3f, active: false);
 
@@ -15,14 +15,14 @@ public partial class player : RigidBody2D
 	private weapon currentWeapon;
 	private float gunRadius = 20;
 	private Vector2 lastAimDirection = new Vector2(1, 0);
-	private AnimatedSprite2D animatedSprite;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GD.Print("Scale", Scale);
+		
 		CollisionLayer = Helpers.GenerateCollisionMask(false, true, false, false, false);
 		CollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, true);
-		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		SetWeapons(new List<Node>{
 			//GD.Load<PackedScene>("res://Scenes/Weapons/Plasma Gun/plasma_gun.tscn").Instantiate()
@@ -104,24 +104,24 @@ public partial class player : RigidBody2D
 	private void ProcessPlayerMovement(player_input input, PhysicsDirectBodyState2D state, float step) {
 		state.LinearVelocity = ProcessPlayerDirectionalMovement(input, state.LinearVelocity, step);
 
-		SetPlayerAnimation(input);
+		//SetPlayerAnimation(input);
 	}
 
 	private void SetPlayerAnimation(player_input input) {
 		if (input.MoveVector.IsZero()) {
-			animatedSprite.Animation = "idle";
+			//animatedSprite.Animation = "idle";
 			return;
 		}
 
-		var movementAngle = Mathf.RadToDeg(input.MoveVector.Angle());
-		if (movementAngle >= -45 && movementAngle <= 45)
-			animatedSprite.Animation = "right";
-		else if (movementAngle > 45 && movementAngle < 135)
-			animatedSprite.Animation = "down";
-		else if (movementAngle < -45 && movementAngle > -135)
-			animatedSprite.Animation = "up";
-		else
-			animatedSprite.Animation = "left";
+		// var movementAngle = Mathf.RadToDeg(input.MoveVector.Angle());
+		// if (movementAngle >= -45 && movementAngle <= 45)
+		// 	animatedSprite.Animation = "right";
+		// else if (movementAngle > 45 && movementAngle < 135)
+		// 	animatedSprite.Animation = "down";
+		// else if (movementAngle < -45 && movementAngle > -135)
+		// 	animatedSprite.Animation = "up";
+		// else
+		// 	animatedSprite.Animation = "left";
 	}
 
 	private Vector2 ProcessPlayerDirectionalMovement(player_input input, Vector2 linearVelocity, float step) {
