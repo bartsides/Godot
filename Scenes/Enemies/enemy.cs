@@ -3,18 +3,13 @@ using System;
 
 public partial class enemy : CharacterBody2D, IDamagable
 {
-	private bool dumbMovement = true;
-
-	[Signal]
-	public delegate void HealthChangedEventHandler(double health);
-
 	[Export]
 	protected virtual int Speed { get; set; } = 200;
 	[Export]
 	protected virtual int DistanceToTarget { get; set; } = 100;
 	[Export]
 	public virtual double Health { get; set; } = 100;
-
+	[Export]
 	public virtual double TotalHealth { get; set; } = 100;
 
 	private TileMap tileMap;
@@ -43,13 +38,13 @@ public partial class enemy : CharacterBody2D, IDamagable
 			findPlayerTimer.Reset();
 		}
 
-		if (navAgent.DistanceToTarget() <= DistanceToTarget) {
-			//MoveAndSlide();
-			return;
+		var atTarget = navAgent.DistanceToTarget() <= DistanceToTarget;
+		if (!atTarget) {
+			Velocity = (navAgent.GetNextPathPosition() - GlobalPosition).Normalized() * Speed;
+			MoveAndSlide();
 		}
 
-		Velocity =  (navAgent.GetNextPathPosition() - GlobalPosition).Normalized() * Speed;
-		MoveAndSlide();
+		UpdateHealthbar();
 	}
 
 	private void MoveTowardsPlayer() {
@@ -58,10 +53,15 @@ public partial class enemy : CharacterBody2D, IDamagable
 
 	public virtual void Damage(double amount) {
 		Health -= amount;
+		if (Health <= 0) Die();
 	}
 
 	protected virtual void UpdateHealthbar() {
 		healthBar.MaxValue = TotalHealth;
 		healthBar.Value = Math.Max(Health, 0);
+	}
+
+	protected virtual void Die() {
+		GetParent().RemoveChild(this);
 	}
 }

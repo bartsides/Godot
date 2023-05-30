@@ -1,4 +1,10 @@
-[gd_scene format=3 uid="uid://dpcdf1sfdqbor"]
+[gd_scene load_steps=3 format=3 uid="uid://dpcdf1sfdqbor"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g06gq"]
+bg_color = Color(0.517647, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_g8v2t"]
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_g06gq")
 
 [node name="ProgressBar" type="ProgressBar"]
 offset_left = -20.0
@@ -6,5 +12,6 @@ offset_top = -2.0
 offset_right = 215.0
 offset_bottom = 25.0
 scale = Vector2(0.169808, 0.169808)
-value = 50.0
+theme = SubResource("Theme_g8v2t")
+value = 100.0
 show_percentage = false

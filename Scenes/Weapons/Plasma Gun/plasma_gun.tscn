@@ -17,4 +17,5 @@ frame_progress = 0.322747
 [node name="Projectile" parent="." index="5" instance=ExtResource("3_3h0ol")]
 visible = false
 gravity_scale = 0.0
+contact_monitor = true
 lock_rotation = false

@@ -1246,7 +1246,7 @@ tracks/39/keys = {
 }
 tracks/40/type = "value"
 tracks/40/imported = false
-tracks/40/enabled = false
+tracks/40/enabled = true
 tracks/40/path = NodePath("Body/LFoot:scale")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
@@ -2212,7 +2212,7 @@ shape = SubResource("CapsuleShape2D_vqdyb")
 [node name="Body" type="Polygon2D" parent="."]
 position = Vector2(2.38419e-07, 0.999996)
 rotation = 0.0134333
-scale = Vector2(0.109947, 0.109947)
+scale = Vector2(0.177994, 0.177994)
 offset = Vector2(-231, -242)
 antialiased = true
 texture = ExtResource("2_2w0ui")
@@ -2364,3 +2364,9 @@ uv = PackedVector2Array(7.98318, 250, 13.0252, 365.546, 69.3277, 402.521, 101.26
 libraries = {
 "": SubResource("AnimationLibrary_mf46l")
 }
+
+[node name="WeaponLeftPosition" type="Marker2D" parent="."]
+position = Vector2(-19, -3)
+
+[node name="WeaponRightPosition" type="Marker2D" parent="."]
+position = Vector2(19, -3)

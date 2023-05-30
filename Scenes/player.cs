@@ -1,8 +1,12 @@
 using System.Collections.Generic;
+using System;
 using Godot;
 
 public partial class player : RigidBody2D
 {
+	[Export]
+	public float Friction { get; set; } = .9f;
+
 	public int PlayerNumber { get; set; } = 1;
 	public bool UseController = false;
 	private uint ProjectileCollisionLayer = Helpers.GenerateCollisionMask(playerProjectiles: true);
@@ -13,6 +17,8 @@ public partial class player : RigidBody2D
 
 	private PackedScene gunScene;
 	private weapon currentWeapon;
+	private Marker2D weaponLeftPosition;
+	private Marker2D weaponRightPosition;
 	private float gunRadius = 20;
 	private Vector2 lastAimDirection = new Vector2(1, 0);
 
@@ -23,6 +29,8 @@ public partial class player : RigidBody2D
 		
 		CollisionLayer = Helpers.GenerateCollisionMask(false, true, false, false, false);
 		CollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, true);
+		weaponLeftPosition = GetNode<Marker2D>("WeaponLeftPosition");
+		weaponRightPosition = GetNode<Marker2D>("WeaponRightPosition");
 
 		SetWeapons(new List<Node>{
 			//GD.Load<PackedScene>("res://Scenes/Weapons/Plasma Gun/plasma_gun.tscn").Instantiate()
@@ -81,24 +89,23 @@ public partial class player : RigidBody2D
 			GD.Print("No current weapon");
 			return;
 		}
-
-		currentWeapon.Position = input.AimVector * gunRadius;
-		currentWeapon.LookAt(GlobalPosition + (input.AimVector * gunRadius * 2));
+		var weaponMarker = input.AimVector.IsFacingRight() ? weaponRightPosition : weaponLeftPosition;
+		currentWeapon.Position = weaponMarker.Position;
+		currentWeapon.LookAt(GetGlobalMousePosition());
 		currentWeapon.SetOrientation();
 	}
 
 	private void ProcessAttack(player_input input, float step) {
 		var canAttack = attackTimer.Process(step);
 		if (input.Shoot && canAttack)
-			CallDeferred("Attack", input.AimVector);
+			CallDeferred("Attack");
 		attackTimer.Active = input.Shoot;
 	}
 
-	public void Attack(Vector2 direction) {
+	public void Attack() {
 		attackTimer.Reset();
 		if (currentWeapon == null) return;
-
-		currentWeapon.Shoot(direction, ProjectileCollisionLayer, ProjectileCollisionMask);
+		currentWeapon.Shoot(ProjectileCollisionLayer, ProjectileCollisionMask);
 	}
 
 	private void ProcessPlayerMovement(player_input input, PhysicsDirectBodyState2D state, float step) {
@@ -133,7 +140,14 @@ public partial class player : RigidBody2D
 
 		linearVelocity += input.MoveVector * moveSpeed * step;
 
+		linearVelocity = ProcessPlayerFriction(linearVelocity, step);
+
 		return linearVelocity;
+	}
+
+	private Vector2 ProcessPlayerFriction(Vector2 linearVelocity, float step) {
+		var amount = linearVelocity * Math.Max(Friction, 1);
+		return linearVelocity + (amount * step);
 	}
 
 	private player_input ListenToPlayerInput() {
@@ -143,7 +157,7 @@ public partial class player : RigidBody2D
 		if (UseController) {
 			aimVector = Input.GetVector("aim_left", "aim_right", "aim_up", "aim_down");
 		} else {
-			aimVector = Position.DirectionTo(GetGlobalMousePosition());
+			aimVector = GlobalPosition.DirectionTo(GetGlobalMousePosition());
 		}
 		aimVector = aimVector.Normalized();
 		

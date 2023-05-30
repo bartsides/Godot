@@ -497,10 +497,11 @@ _data = {
 }
 
 [node name="BigPistol" instance=ExtResource("1_ipupm")]
+z_index = 2
 scale = Vector2(0.0968389, 0.0968389)
 
 [node name="ProjectileStartingPosition" parent="." index="1"]
-position = Vector2(72.2849, 0)
+position = Vector2(258.161, 0)
 rotation = 0.00872665
 
 [node name="Polygon2D" parent="." index="5"]
@@ -546,5 +547,3 @@ libraries = {
 }
 
 [node name="Projectile" parent="." index="7" instance=ExtResource("3_oplqp")]
-visible = false
-scale = Vector2(5.955, 5.955)

@@ -4,5 +4,4 @@
 [ext_resource type="Script" path="res://Scenes/Projectiles/bullet.cs" id="2_6dhn3"]
 
 [node name="Bullet" instance=ExtResource("1_vq3es")]
-lock_rotation = true
 script = ExtResource("2_6dhn3")

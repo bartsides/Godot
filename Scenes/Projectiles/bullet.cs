@@ -28,14 +28,13 @@ public partial class bullet : projectile
 	//     return true;
 	// }
 
-	public void Fire(Vector2 linearVelocity, uint collisionLayer, uint collisionMask) {
-		LinearVelocity = linearVelocity;
-		LookAt(GlobalPosition + linearVelocity);
+	public void Fire(Vector2 velocity, uint collisionLayer, uint collisionMask) {
+		Velocity = velocity;
+		LookAt(GlobalPosition + velocity);
 		CollisionLayer = collisionLayer;
 		CollisionMask = collisionMask;
 		Visible = true;
 		Active = true;
-		Sleeping = false;
 
 		if (debug) GD.Print($"Collision mask of bullet: {CollisionMask}");
 	}

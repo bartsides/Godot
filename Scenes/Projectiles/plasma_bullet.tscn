@@ -19,8 +19,7 @@ animations = [{
 }]
 
 [node name="Bullet" instance=ExtResource("1_qufdg")]
-max_contacts_reported = 0
-sleeping = false
+contact_monitor = true
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 position = Vector2(-4.76837e-07, 0)

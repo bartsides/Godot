@@ -30,9 +30,8 @@ texture = ExtResource("1_j4c7y")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="Healthbar" parent="." instance=ExtResource("3_ruhrr")]
-offset_left = -19.0
+offset_left = -16.0
 offset_top = -20.0
-offset_right = 216.0
+offset_right = 185.0
 offset_bottom = -16.0
 scale = Vector2(0.159507, 0.526338)
-value = 0.0
