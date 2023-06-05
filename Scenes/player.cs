@@ -2,16 +2,19 @@ using System.Collections.Generic;
 using System;
 using Godot;
 
-public partial class player : RigidBody2D
+public partial class player : CharacterBody2D
 {
 	[Export]
-	public float Friction { get; set; } = .9f;
+	public float Friction { get; set; } = 50;
+	[Export]
+	public float Acceleration { get; set; } = 20;
+	[Export]
+	public float Speed { get; set; } = 200;
 
 	public int PlayerNumber { get; set; } = 1;
 	public bool UseController = false;
 	private uint ProjectileCollisionLayer = Helpers.GenerateCollisionMask(playerProjectiles: true);
 	private uint ProjectileCollisionMask = Helpers.GenerateCollisionMask(walls: true, enemies: true);
-	private float moveSpeed = 500;
 
 	private Timer attackTimer = new Timer(0.3f, active: false);
 
@@ -19,14 +22,11 @@ public partial class player : RigidBody2D
 	private weapon currentWeapon;
 	private Marker2D weaponLeftPosition;
 	private Marker2D weaponRightPosition;
-	private float gunRadius = 20;
 	private Vector2 lastAimDirection = new Vector2(1, 0);
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print("Scale", Scale);
-		
 		CollisionLayer = Helpers.GenerateCollisionMask(false, true, false, false, false);
 		CollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, true);
 		weaponLeftPosition = GetNode<Marker2D>("WeaponLeftPosition");
@@ -36,8 +36,6 @@ public partial class player : RigidBody2D
 			//GD.Load<PackedScene>("res://Scenes/Weapons/Plasma Gun/plasma_gun.tscn").Instantiate()
 			GD.Load<PackedScene>("res://Scenes/Weapons/BigPistol.tscn").Instantiate()
 		});
-
-		GD.Print($"Player location {Position.X},{Position.Y}");
 	}
 
 	private void SetWeapons(List<Node> weapons) {
@@ -73,15 +71,15 @@ public partial class player : RigidBody2D
 		return weapons;
 	}
 
-	public override void _IntegrateForces(PhysicsDirectBodyState2D state)
-	{
-		base._IntegrateForces(state);
+	public override void _PhysicsProcess(double delta) {
+		base._PhysicsProcess(delta);
+		var step = (float) delta;
 
 		var input = ListenToPlayerInput();
 
 		ProcessWeaponPosition(input);
-		ProcessAttack(input, state.Step);
-		ProcessPlayerMovement(input, state, state.Step);
+		ProcessAttack(input, step);
+		ProcessPlayerMovement(input, step);
 	}
 
 	private void ProcessWeaponPosition(player_input input) {
@@ -108,9 +106,9 @@ public partial class player : RigidBody2D
 		currentWeapon.Shoot(ProjectileCollisionLayer, ProjectileCollisionMask);
 	}
 
-	private void ProcessPlayerMovement(player_input input, PhysicsDirectBodyState2D state, float step) {
-		state.LinearVelocity = ProcessPlayerDirectionalMovement(input, state.LinearVelocity, step);
-
+	private void ProcessPlayerMovement(player_input input, float step) {
+		ProcessPlayerDirectionalMovement(input, step);
+		MoveAndSlide();
 		//SetPlayerAnimation(input);
 	}
 
@@ -131,23 +129,17 @@ public partial class player : RigidBody2D
 		// 	animatedSprite.Animation = "left";
 	}
 
-	private Vector2 ProcessPlayerDirectionalMovement(player_input input, Vector2 linearVelocity, float step) {
+	private void ProcessPlayerDirectionalMovement(player_input input, float step) {
 		// Check if stopping
-		if (!input.MoveUp && !input.MoveRight && !input.MoveDown && !input.MoveLeft &&
-			linearVelocity.Length() <= moveSpeed) {
-			return Vector2.Zero;
+		if (!input.MoveUp && !input.MoveRight && !input.MoveDown && !input.MoveLeft) {
+			GD.Print("slowing down");
+			// Apply friction
+			Velocity = Velocity.MoveToward(Vector2.Zero, Friction);
+			return;
 		}
 
-		linearVelocity += input.MoveVector * moveSpeed * step;
-
-		linearVelocity = ProcessPlayerFriction(linearVelocity, step);
-
-		return linearVelocity;
-	}
-
-	private Vector2 ProcessPlayerFriction(Vector2 linearVelocity, float step) {
-		var amount = linearVelocity * Math.Max(Friction, 1);
-		return linearVelocity + (amount * step);
+		GD.Print("moving");
+		Velocity = Velocity.MoveToward(input.MoveVector * Speed, Acceleration);
 	}
 
 	private player_input ListenToPlayerInput() {
