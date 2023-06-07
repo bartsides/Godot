@@ -1527,7 +1527,7 @@ tracks/20/keys = {
 
 [sub_resource type="Animation" id="Animation_artt7"]
 resource_name = "Run"
-length = 0.8
+length = 0.9
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1536,7 +1536,7 @@ tracks/0/path = NodePath("Body/Head:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.5, 0.6),
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(1.00578, -74.0202), Vector2(-0.487375, -73.5001), Vector2(-1.98053, -72.98), Vector2(-7.04865, -73.4069), Vector2(-0.985094, -73.3267)]
@@ -1548,7 +1548,7 @@ tracks/1/path = NodePath("Body/Head:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.5, 0.6),
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [-0.0348383, -0.112889, -0.19094, -0.147151, 0.0318595]
@@ -1608,7 +1608,7 @@ tracks/6/path = NodePath("Body/RFoot:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(25.0519, 77.6337), Vector2(32.3559, 76.6362), Vector2(35.5517, 56.5765), Vector2(31.6019, 79.4896)]
@@ -1620,7 +1620,7 @@ tracks/7/path = NodePath("Body/RFoot:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.189248, -0.278936, -0.74712, 0.105038]
@@ -1632,7 +1632,7 @@ tracks/8/path = NodePath("Body/RArm:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(33.5833, -31.4585), Vector2(29.1038, -29.8881), Vector2(24.6243, -28.3178), Vector2(27.6106, -29.3647)]
@@ -1644,7 +1644,7 @@ tracks/9/path = NodePath("Body/RArm:rotation")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [-1.50711, -1.30238, -1.09766, -2.12926]
@@ -1656,7 +1656,7 @@ tracks/10/path = NodePath("Body/LArm:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-36.6911, -28.9818), Vector2(-31.5017, -25.8179), Vector2(-26.3122, -22.654), Vector2(-29.7719, -24.7633)]
@@ -1824,7 +1824,7 @@ tracks/24/path = NodePath("Body:position")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(1.00002, -20), Vector2(3.48038, -28.0337), Vector2(1.00002, -20), Vector2(1, -9)]
@@ -1836,7 +1836,7 @@ tracks/25/path = NodePath("Body:rotation")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.0134333, 0.180472, -0.0297999, 0.0583518]
@@ -2363,7 +2363,13 @@ libraries = {
 }
 
 [node name="WeaponLeftPosition" type="Marker2D" parent="."]
-position = Vector2(-19, -3)
+position = Vector2(-13, -2)
 
 [node name="WeaponRightPosition" type="Marker2D" parent="."]
-position = Vector2(19, -3)
+position = Vector2(13, -2)
+
+[node name="WeaponBottomPosition" type="Marker2D" parent="."]
+position = Vector2(0, 15)
+
+[node name="WeaponTopPosition" type="Marker2D" parent="."]
+position = Vector2(0, -22)
