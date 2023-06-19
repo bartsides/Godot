@@ -20,8 +20,10 @@ public partial class player : CharacterBody2D
 
 	private PackedScene gunScene;
 	private weapon currentWeapon;
-	private Marker2D weaponLeftPosition;
 	private Marker2D weaponRightPosition;
+	private Marker2D weaponBottomPosition;
+	private Marker2D weaponLeftPosition;
+	private Marker2D weaponTopPosition;
 	private Vector2 lastAimDirection = new Vector2(1, 0);
 
 	// Called when the node enters the scene tree for the first time.
@@ -29,8 +31,11 @@ public partial class player : CharacterBody2D
 	{
 		CollisionLayer = Helpers.GenerateCollisionMask(false, true, false, false, false);
 		CollisionMask = Helpers.GenerateCollisionMask(true, false, true, false, true);
-		weaponLeftPosition = GetNode<Marker2D>("WeaponLeftPosition");
+
 		weaponRightPosition = GetNode<Marker2D>("WeaponRightPosition");
+		weaponBottomPosition = GetNode<Marker2D>("WeaponBottomPosition");
+		weaponLeftPosition = GetNode<Marker2D>("WeaponLeftPosition");
+		weaponTopPosition = GetNode<Marker2D>("WeaponTopPosition");
 
 		SetWeapons(new List<Node>{
 			//GD.Load<PackedScene>("res://Scenes/Weapons/Plasma Gun/plasma_gun.tscn").Instantiate()
@@ -87,10 +92,18 @@ public partial class player : CharacterBody2D
 			GD.Print("No current weapon");
 			return;
 		}
-		var weaponMarker = input.AimVector.IsFacingRight() ? weaponRightPosition : weaponLeftPosition;
+
+		var weaponMarker = input.AimVector.GetDirection() switch {
+			direction.Right => weaponRightPosition,
+			direction.Down => weaponBottomPosition,
+			direction.Left => weaponLeftPosition,
+			_ => weaponTopPosition
+		};
+
+		var aimDir = GetGlobalMousePosition();
 		currentWeapon.Position = weaponMarker.Position;
-		currentWeapon.LookAt(GetGlobalMousePosition());
-		currentWeapon.SetOrientation();
+		currentWeapon.LookAt(aimDir);
+		currentWeapon.SetOrientation(aimDir);
 	}
 
 	private void ProcessAttack(player_input input, float step) {
@@ -118,27 +131,25 @@ public partial class player : CharacterBody2D
 			return;
 		}
 
-		// var movementAngle = Mathf.RadToDeg(input.MoveVector.Angle());
-		// if (movementAngle >= -45 && movementAngle <= 45)
-		// 	animatedSprite.Animation = "right";
-		// else if (movementAngle > 45 && movementAngle < 135)
-		// 	animatedSprite.Animation = "down";
-		// else if (movementAngle < -45 && movementAngle > -135)
-		// 	animatedSprite.Animation = "up";
-		// else
-		// 	animatedSprite.Animation = "left";
+		var dir = input.MoveVector.GetDirection();
+		if (dir == direction.Right)
+			;
+		if (dir == direction.Down)
+			;
+		if (dir == direction.Left)
+			;
+		if (dir == direction.Up)
+			;
 	}
 
 	private void ProcessPlayerDirectionalMovement(player_input input, float step) {
 		// Check if stopping
 		if (!input.MoveUp && !input.MoveRight && !input.MoveDown && !input.MoveLeft) {
-			GD.Print("slowing down");
 			// Apply friction
 			Velocity = Velocity.MoveToward(Vector2.Zero, Friction);
 			return;
 		}
 
-		GD.Print("moving");
 		Velocity = Velocity.MoveToward(input.MoveVector * Speed, Acceleration);
 	}
 

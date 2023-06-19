@@ -94,24 +94,28 @@ public static class extensions {
         throw new Exception($"Unable to determine neighbor: ({point.X},{point.Y}) => ({neighbor.X},{neighbor.Y})");
     }
 
-    public static direction Getdirection(this Vector2 velocity) {
+    public static direction GetDirection(this Vector2 velocity) {
         var movementAngle = Mathf.RadToDeg(velocity.Angle());
 		if (movementAngle >= -45 && movementAngle <= 45) {
 			return direction.Right;
         }
+        else if (movementAngle >= -180 && movementAngle <= -135 ||
+                 movementAngle >= 135 && movementAngle <= 180) {
+            return direction.Left;
+        }
 		else if (movementAngle > 45 && movementAngle < 135) { 
 			return direction.Down;
         }
-		else if (movementAngle < -45 && movementAngle > -135) {
-			return direction.Up;
-        }
 		
-        return direction.Left;
+        // -45 -135
+        return direction.Up;
     }
 
-    public static bool IsFacingRight(this Vector2 direction) {
-        var directionAngle = Mathf.RadToDeg(direction.Angle());
-        return directionAngle <= 90 && directionAngle >= -90;
+    public static bool IsFacingRight(this Vector2 dir) => IsAngleBetween(dir, -90, 90);
+
+    private static bool IsAngleBetween(Vector2 direction, float min, float max) {
+        var angle = Mathf.RadToDeg(direction.Angle());
+        return angle >= min && angle <= max;
     }
 
     public static T Duplicate<T>(this Resource resource) where T : Resource {

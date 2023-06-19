@@ -46,8 +46,7 @@ public partial class weapon : Node2D
 		return projectile;
 	}
 
-	public void SetOrientation(bool firstTime = false) {
-		var facingRight = Position.IsFacingRight();
-		Scale = new Vector2(Scale.X, Math.Abs(Scale.Y) * (facingRight ? 1 : -1));
+	public void SetOrientation(Vector2 aimDir) {
+		Scale = new Vector2(Scale.X, Math.Abs(Scale.Y) * (aimDir.IsFacingRight() ? 1 : -1));
 	}
 }
